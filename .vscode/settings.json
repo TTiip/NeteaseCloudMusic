@@ -1,0 +1,11 @@
+{
+  "editor.fontSize": 14,
+  "editor.tabSize": 2,
+  "emmet.triggerExpansionOnTab": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.associations": {
+    "*.json": "jsonc"
+  }
+}

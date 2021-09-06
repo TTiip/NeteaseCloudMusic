@@ -22,6 +22,8 @@ module.exports = {
     'dot-notation': 'off',
     // 关闭函数必须声明返回值
     // '@typescript-eslint/explicit-module-boundary-types': 'off'
+    // require引入报错解决
+    '@typescript-eslint/no-var-requires': ['off'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
   }
