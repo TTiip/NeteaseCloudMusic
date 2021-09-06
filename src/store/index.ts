@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    isLoading: false
+    isLoading: false,
+    isLogin: false
   },
   mutations: {
     setLoading (state, loading) {

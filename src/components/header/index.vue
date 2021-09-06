@@ -10,13 +10,80 @@
         <el-col :span="12">
           <ul class="nav">
             <li
-              class="is-active"
+              :class="[menuActive.indexOf(item.path) === 0 ? 'is-active' : '']"
               v-for="item in menuList"
               :key="item.path"
+              @click="selectMenu(item.path)"
             >
               <span>{{ item.name }}</span>
             </li>
           </ul>
+        </el-col>
+        <el-col :span="6">
+          <span class="search">
+            <!-- v-clickoutside="search.handleClose" -->
+            <el-popover
+              ref="popover"
+              width="200"
+              placement="bottom-end"
+              trigger="manual"
+              v-model="search.isShowSearch"
+            >
+              <template #reference>
+                <el-input
+                  class="keyVal"
+                  placeholder="请输入歌名、歌词、歌手或专辑"
+                  v-model="search.keyVal"
+                  @focus="search.handleFocus"
+                  @input="search.handleInput"
+                  clearable
+                ></el-input>
+              </template>
+              <!-- <template>
+                <div class="hot-search" v-if="!keyVal">
+                  <h5>热门搜索</h5>
+                  <div class="hot-search-list">
+                    <div
+                      class="hot-item"
+                      v-for="(item, index) in serachHot"
+                      :key="index"
+                      @click="jumpSearch(item)"
+                    >
+                      <span :class="[index < 3 ? 'top-' + index : '']">{{ (index + 1) + '.' }}</span>
+                      {{ item.first }}
+                    </div>
+                  </div>
+                </div>
+                <div class="search-key-list" v-else>
+                  <div class="search-item" v-for="(item, index) in suggestInfo.order" :key="index">
+                    <h6>{{ listType[item] }}</h6>
+                    <div class="item-main">
+                      <div
+                        class="list"
+                        v-for="(val, k) in suggestInfo[item]"
+                        :key="k"
+                        @click="jumpPage(val, item)"
+                      >
+                        {{ val.name }}
+                        <template v-if="item === 'songs'">
+                          -
+                          <span
+                            v-for="(a, i) in val.artists"
+                            :key="i"
+                          >{{ a.name + (i !== 0 ? ' / ' : '') }}</span>
+                        </template>
+                        <template v-else-if="item === 'albums'">
+                          -
+                          <span>{{ val.artist.name }}</span>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template> -->
+            </el-popover>
+            <!-- <i class="iconfont icon-search" slot="suffix" @click="search"></i> -->
+          </span>
         </el-col>
       </el-row>
     </div>
@@ -24,8 +91,13 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
-const menuList = reactive([
+import { ref, computed, reactive } from 'vue'
+import router from '@/router'
+import store from '@/store'
+// 菜单相关
+const menuActive = computed(() => router.currentRoute.value.path)
+const isLogin = computed(() => store.state.isLogin)
+const menuList = ref([
   {
     name: '首页',
     path: '/index'
@@ -46,6 +118,31 @@ const menuList = reactive([
     path: '/my'
   }
 ])
+// search相关
+const search = reactive({
+  isShowSearch: false,
+  keyVal: '',
+  handleClose: (event: Event) => {
+    console.log(event, 'handleClose')
+  },
+  handleFocus: (event: FocusEvent) => {
+    console.log(event, 'handleFocus')
+  },
+  handleInput: (event: Event) => {
+    console.log(event, 'handleInput')
+  }
+})
+
+const selectMenu = (path: string): void => {
+  if (isLogin.value || !path.includes('/my')) {
+    router.push({
+      path
+    })
+  } else {
+    // this.loginDialog()
+    console.log('aaaa')
+  }
+}
 // curIndex: '0',
 // keyVal: '',
 // logined: true,
@@ -253,5 +350,5 @@ const menuList = reactive([
 // }
 </script>
 <style scoped lang="less">
-@import './index.less';
+@import "./index.less";
 </style>
