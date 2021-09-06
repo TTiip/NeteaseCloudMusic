@@ -1,0 +1,64 @@
+@grey: rgba(0, 0, 0, .5);
+@blue: rgba(0, 0, 255, .5);
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	50% {
+		transform: rotate(180deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.loaderDivMixin {
+	border-radius: 50%;
+	padding: 8px;
+	border: 2px solid transparent;
+	animation: rotate linear 3.5s infinite;
+}
+
+.loading-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, .4);
+	.loader {
+		position: relative;
+		margin: 75px auto;
+		width: 150px;
+		height: 150px;
+		display: block;
+		overflow: hidden;
+		div {
+			height: 100%;
+		}
+	}
+	.loader div {
+		.loaderDivMixin();
+		border-top-color: @grey;
+		border-left-color: @blue;
+		animation-timing-function: cubic-bezier(.55, .38, .21, .88);
+		animation-duration: 3s;
+	}
+
+	// 暂停loading动画
+	// div:hover {
+	// 	animation-play-state: paused;
+	// }
+
+	.loader, .loader * {
+		will-change: transform;
+	}
+}

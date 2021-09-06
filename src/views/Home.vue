@@ -1,18 +1,13 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
+<script lang="ts" setup>
+import axios from '@/axios'
 
-export default defineComponent({
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-})
+axios.get('/api/search/hot')
+  .then((res: any) => console.log(res))
+
 </script>
