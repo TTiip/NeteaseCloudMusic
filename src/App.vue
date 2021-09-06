@@ -4,7 +4,9 @@
     <router-link to="/about">About</router-link>
   </div>
   <router-view/>
-  <Loading v-if="isLoading"/>
+  <teleport to="#loading">
+    <Loading v-if="isLoading"/>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
