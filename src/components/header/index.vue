@@ -20,14 +20,13 @@
           </ul>
         </el-col>
         <el-col :span="6">
-          <span class="search">
-            <!-- v-clickoutside="search.handleClose" -->
+          <div class="search" v-clickoutside="search.handleClose">
             <el-popover
+              :width='200'
               ref="popover"
-              width="200"
               placement="bottom-end"
               trigger="manual"
-              v-model="search.isShowSearch"
+              v-model:visible="search.isShowSearch"
             >
               <template #reference>
                 <el-input
@@ -39,22 +38,21 @@
                   clearable
                 ></el-input>
               </template>
-              <!-- <template>
-                <div class="hot-search" v-if="!keyVal">
+              <div>
+                <div class="hot-search">
                   <h5>热门搜索</h5>
-                  <div class="hot-search-list">
+                  <div class="hot-search-list" v-if="!search.keyVal">
                     <div
                       class="hot-item"
-                      v-for="(item, index) in serachHot"
+                      v-for="(item, index) in search.searchHotList"
                       :key="index"
-                      @click="jumpSearch(item)"
                     >
                       <span :class="[index < 3 ? 'top-' + index : '']">{{ (index + 1) + '.' }}</span>
                       {{ item.first }}
                     </div>
                   </div>
                 </div>
-                <div class="search-key-list" v-else>
+                <!-- <div class="search-key-list" v-else>
                   <div class="search-item" v-for="(item, index) in suggestInfo.order" :key="index">
                     <h6>{{ listType[item] }}</h6>
                     <div class="item-main">
@@ -79,11 +77,11 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </template> -->
+                </div> -->
+              </div>
             </el-popover>
             <!-- <i class="iconfont icon-search" slot="suffix" @click="search"></i> -->
-          </span>
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -92,6 +90,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, reactive } from 'vue'
+import * as https from '@/https'
 import router from '@/router'
 import store from '@/store'
 // 菜单相关
@@ -122,11 +121,19 @@ const menuList = ref([
 const search = reactive({
   isShowSearch: false,
   keyVal: '',
-  handleClose: (event: Event) => {
-    console.log(event, 'handleClose')
+  searchHotList: [] as https.SearchHotItemProps[],
+  handleClose: () => {
+    search.isShowSearch = false
   },
-  handleFocus: (event: FocusEvent) => {
-    console.log(event, 'handleFocus')
+  handleFocus: async () => {
+    if (!search.searchHotList.length) {
+      const res = (await https.getSearchHot())
+      search.searchHotList = res.result.hots
+      search.isShowSearch = true
+    } else {
+      search.isShowSearch = true
+    }
+    // console.log(searchHotList.result.hots)
   },
   handleInput: (event: Event) => {
     console.log(event, 'handleInput')
@@ -350,5 +357,5 @@ const selectMenu = (path: string): void => {
 // }
 </script>
 <style scoped lang="less">
-@import "./index.less";
+  @import "./index.less";
 </style>
