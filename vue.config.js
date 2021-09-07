@@ -24,9 +24,11 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://www.uniquemo.cn',
+        target: 'http://localhost:3000',
         changeOrigin: true,
-        pathRewrite: {}
+        pathRewrite: {
+          '/api': ''
+        }
       }
     }
   }

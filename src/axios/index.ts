@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, Method } from 'axios'
+import axios, { AxiosRequestConfig, Method, AxiosResponse } from 'axios'
 import store from '@/store'
 // import useCreateMessage from '../hooks/useCreateMessage'
 
@@ -16,6 +16,7 @@ const pending: Array<PendingType> = []
 const CancelToken = axios.CancelToken
 // axios 实例
 const instance = axios.create({
+  baseURL: '/api',
   timeout: 10000,
   responseType: 'json'
 })
@@ -125,5 +126,11 @@ instance.interceptors.response.use(
     return Promise.reject(response || { message: error.message })
   }
 )
+
+export {
+  AxiosRequestConfig,
+  Method,
+  AxiosResponse
+}
 
 export default instance
