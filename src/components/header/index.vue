@@ -39,9 +39,9 @@
                 ></el-input>
               </template>
               <div>
-                <div class="hot-search">
+                <div v-if="!search.keyVal" class="hot-search">
                   <h5>热门搜索</h5>
-                  <div class="hot-search-list" v-if="!search.keyVal">
+                  <div class="hot-search-list">
                     <div
                       class="hot-item"
                       v-for="(item, index) in search.searchHotList"
@@ -52,16 +52,16 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="search-key-list" v-else>
-                  <div class="search-item" v-for="(item, index) in suggestInfo.order" :key="index">
+                <div class="search-key-list" v-else>
+                  <div class="search-item" v-for="(item, index) in search.suggestInfo.order" :key="index">
                     <h6>{{ listType[item] }}</h6>
                     <div class="item-main">
                       <div
                         class="list"
-                        v-for="(val, k) in suggestInfo[item]"
+                        v-for="(val, k) in search.suggestInfo[item]"
                         :key="k"
-                        @click="jumpPage(val, item)"
                       >
+                        <!-- @click="jumpPage(val, item)" -->
                         {{ val.name }}
                         <template v-if="item === 'songs'">
                           -
@@ -77,10 +77,10 @@
                       </div>
                     </div>
                   </div>
-                </div> -->
+                </div>
               </div>
             </el-popover>
-            <!-- <i class="iconfont icon-search" slot="suffix" @click="search"></i> -->
+            <i class="iconfont icon-search"></i>
           </div>
         </el-col>
       </el-row>
@@ -118,9 +118,16 @@ const menuList = ref([
   }
 ])
 // search相关
+const listType = reactive({
+  songs: '单曲',
+  artists: '歌手',
+  albums: '专辑',
+  playlists: '歌单'
+})
 const search = reactive({
   isShowSearch: false,
   keyVal: '',
+  suggestInfo: {} as any,
   searchHotList: [] as https.SearchHotItemProps[],
   handleClose: () => {
     search.isShowSearch = false
@@ -135,8 +142,12 @@ const search = reactive({
     }
     // console.log(searchHotList.result.hots)
   },
-  handleInput: (event: Event) => {
-    console.log(event, 'handleInput')
+  handleInput: async (event: Event) => {
+    const params = {
+      keywords: event
+    }
+    const res = (await https.getSearchSuggest(params)).result
+    search.suggestInfo = res
   }
 })
 

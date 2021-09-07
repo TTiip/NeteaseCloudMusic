@@ -14,7 +14,9 @@ interface SearchHotProps {
   }
 }
 
-const getSearchHot = (): Promise<SearchHotProps> => axios.get('/search/hot')
+const getSearchHot = (params: any = {}): Promise<SearchHotProps> => axios.get('/search/hot', { params })
+const getSearchSuggest = (params: any = {}): any => axios.get('/search/suggest', { params })
+
 // interface
 export {
   SearchHotItemProps,
@@ -23,5 +25,6 @@ export {
 
 // 接口
 export {
-  getSearchHot
+  getSearchHot,
+  getSearchSuggest
 }
