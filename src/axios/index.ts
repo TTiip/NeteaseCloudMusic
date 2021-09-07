@@ -16,7 +16,7 @@ const pending: Array<PendingType> = []
 const CancelToken = axios.CancelToken
 // axios 实例
 const instance = axios.create({
-  baseURL: '/api',
+  // baseURL: '/api',
   timeout: 10000,
   responseType: 'json'
 })
