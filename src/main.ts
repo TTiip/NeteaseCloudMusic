@@ -16,7 +16,12 @@ import {
   ElRow,
   ElCol,
   ElPopover,
-  ElInput
+  ElInput,
+  ElImage,
+  ElMenu,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem
 } from 'element-plus'
 
 // 创建实例
@@ -30,7 +35,12 @@ useDirective(app)
   ElRow,
   ElCol,
   ElPopover,
-  ElInput
+  ElInput,
+  ElImage,
+  ElMenu,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem
 ].map(item => app.component(item.name, item))
 
 app.use(store).use(router).mount('#app')
