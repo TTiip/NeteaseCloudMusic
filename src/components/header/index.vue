@@ -22,7 +22,7 @@
         <el-col :span="6">
           <div class="search" v-clickoutside="search.handleClose">
             <el-popover
-              :width="200"
+              :width="226"
               ref="popover"
               placement="bottom-end"
               trigger="manual"
@@ -119,17 +119,15 @@
     </div>
   </div>
   <Login v-if="qrUrl" :qrUrl='qrUrl' />
-  <!-- qrUrl -->
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, reactive } from 'vue'
-import { getQR } from '@/https/login'
-import { SearchHotItemProps } from '@/interface'
+import { SearchHotItemProps, suggestInfoResult } from '@/interface'
 import Login from '@/components/login/index.vue'
 import router from '@/router'
 import store from '@/store'
-// import axios from '@/https'
+import http from '@/http'
 // 菜单相关
 const menuActive = computed(() => router.currentRoute.value.path)
 const isLogin = computed(() => store.state.isLogin)
@@ -166,38 +164,38 @@ const listType = reactive({
 const search = reactive({
   isShowSearch: false,
   keyVal: '',
-  suggestInfo: {} as any,
+  suggestInfo: {} as suggestInfoResult,
   searchHotList: [] as SearchHotItemProps[],
   handleClose: () => {
     search.isShowSearch = false
   },
   handleFocus: async () => {
-    // axios({
-    //   url: 'getData',
-    //   params: {}
-    // }).then(res => {
-    //   res.data.
-    // })
-    // if (!search.searchHotList.length) {
-    //   const res = await getSearchHot()
-    //   search.searchHotList = res.result.hots
-    //   search.isShowSearch = true
-    // } else {
-    //   search.isShowSearch = true
-    // }
+    if (!search.searchHotList.length) {
+      const res = await http({
+        url: 'getSearchHot',
+        method: 'GET'
+      })
+      search.searchHotList = res.result.hots
+      search.isShowSearch = true
+    } else {
+      search.isShowSearch = true
+    }
   },
-  handleInput: async () => {
-    // const params = {
-    //   keywords: event
-    // }
-    // const res = await getSearchSuggest(params)
-    // search.suggestInfo = res.result
+  handleInput: async (event: Event) => {
+    const res = await http({
+      url: 'getSearchSuggest',
+      method: 'GET',
+      params: {
+        keywords: event
+      }
+    })
+    search.suggestInfo = res.result
   }
 })
 // login
 const loginClick = async () => {
-  const res: any = await getQR()
-  qrUrl.value = res.data.qrurl
+  // const res: any = await getQR()
+  // qrUrl.value = res.data.qrurl
   // console.log(res.data.qrurl, 'resssss')
   // qrimg
   // qrurl

@@ -1,21 +1,19 @@
+import { SearchHotProps, suggestInfoProps } from '@/interface'
+
 const apiList = {
-  'getData': '/getData',
-  'othersData': '/othersData'
+  getSearchHot: '/search/hot',
+  getSearchSuggest: '/search/suggest',
+  getLoginKey: '/login/qr/key',
+  getQR: '/login/qr/create',
+  getQRRefresh: '/login/refresh'
 }
 
 export interface apiKeyDataType {
-  'getData': {
-    code: number;
-    data: {
-      name: string;
-      age: number;
-      work: string[]
-    }
-  },
-  'othersData': {
-    code: number;
-    data: string[]
-  }
+  getSearchHot: Promise<SearchHotProps>,
+  getSearchSuggest: Promise<suggestInfoProps>,
+  getLoginKey: any,
+  getQR: any,
+  getQRRefresh: any
 }
 
 export type apiKeyType = keyof typeof apiList

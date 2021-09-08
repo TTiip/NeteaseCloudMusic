@@ -1,11 +1,11 @@
 import axios, { AxiosRequestConfig } from '@/axios'
-import { apiKeyType, apiKeyDataType } from '@/api'
+import apiList, { apiKeyType, apiKeyDataType } from '@/api'
 
 /*
 限制泛型T必须是接口列表（apiKeyType）中的key
 限制obj中的url必须是接口列表中key的某一格
 */
-export default <T extends apiKeyType>(obj: AxiosRequestConfig & { url: T }) => {
+export default <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }) => {
   /*
   限制最终的返回数据类型
   */
@@ -14,14 +14,15 @@ export default <T extends apiKeyType>(obj: AxiosRequestConfig & { url: T }) => {
     传递泛型给http中的拦截器
     */
     axios<apiKeyDataType[T]>({
-      url: obj.url,
-      data: obj.data || {},
-      method: obj.method || 'GET',
-      responseType: obj.responseType || 'json'
+      url: apiList[options.url],
+      params: options.params || {},
+      data: options.params || {},
+      method: options.method || 'GET',
+      responseType: options.responseType || 'json'
     }).then(res => {
-      resolve(res.data);
+      resolve(res)
     }).catch(error => {
-      reject(error);
+      reject(error)
     })
   })
 }

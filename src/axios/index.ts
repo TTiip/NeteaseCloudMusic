@@ -3,6 +3,12 @@ import { apiKeyType, apiKeyDataType } from '@/api'
 import store from '@/store'
 
 type ResultDataType = apiKeyDataType[apiKeyType]
+/*
+  NewAxiosInstance接口得根据自己情况来定
+  interceptors属性是必须要有，因为后续要用到拦截器
+  至于<T = any>(config: AxiosRequestConfig): AxiosPromise<T>这一段代码，因为我后续二次封装axios时采用的是此类型，所以我这里
+  声明的是这种数据类型
+*/
 
 interface NewAxiosInstance extends AxiosInstance {
   /*
@@ -77,14 +83,14 @@ instance.interceptors.response.use(
     store.commit('setLoading', false)
     removePending(response.config)
 
-    // const errorCode = response?.data?.errorCode
-    // switch (errorCode) {
-    //   case '401':
-    //     // 根据errorCode，对业务做异常处理(和后端约定)
-    //     break
-    //   default:
-    //     break
-    // }
+    const errorCode = response?.data?.errorCode
+    switch (errorCode) {
+      case '401':
+        // 根据errorCode，对业务做异常处理(和后端约定)
+        break
+      default:
+        break
+    }
 
     return response.data
   },
