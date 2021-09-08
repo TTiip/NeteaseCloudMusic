@@ -45,8 +45,8 @@ const removePending = (config: AxiosRequestConfig) => {
 instance.interceptors.request.use(
   request => {
     store.commit('setLoading', true)
-
     removePending(request)
+    request.params.time = +new Date()
     request.cancelToken = new CancelToken((c) => {
       pending.push({ url: request.url, method: request.method, params: request.params, data: request.data, cancel: c })
     })

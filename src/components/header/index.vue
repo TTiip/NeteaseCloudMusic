@@ -185,8 +185,8 @@ const search = reactive({
 })
 // login
 const loginClick = async () => {
-  const res = await getQR()
-  console.log(res, 'resssss')
+  const res: any = await getQR()
+  console.log(res.data.qrimg, 'resssss')
   // qrimg
   // qrurl
 }
