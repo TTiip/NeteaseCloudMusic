@@ -46,6 +46,7 @@ instance.interceptors.request.use(
   request => {
     store.commit('setLoading', true)
     removePending(request)
+    // 如果是get请求则添加时间戳，避免缓存
     request.params && (request.params.time = +new Date())
     request.cancelToken = new CancelToken((c) => {
       pending.push({ url: request.url, method: request.method, params: request.params, data: request.data, cancel: c })
