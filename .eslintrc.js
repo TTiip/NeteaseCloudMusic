@@ -21,7 +21,7 @@ module.exports = {
     // 关闭对象属性取用是必须是.的形式调用
     'dot-notation': 'off',
     // 关闭函数必须声明返回值
-    // '@typescript-eslint/explicit-module-boundary-types': 'off'
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     // require引入报错解决
     '@typescript-eslint/no-var-requires': ['off'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

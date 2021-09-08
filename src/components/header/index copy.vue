@@ -129,7 +129,7 @@ import { SearchHotItemProps } from '@/interface'
 import Login from '@/components/login/index.vue'
 import router from '@/router'
 import store from '@/store'
-// import axios from '@/https'
+import SERVE from '@/https/search'
 // 菜单相关
 const menuActive = computed(() => router.currentRoute.value.path)
 const isLogin = computed(() => store.state.isLogin)
@@ -163,6 +163,8 @@ const listType = reactive({
   albums: '专辑',
   playlists: '歌单'
 })
+
+console.log(SERVE, 'SERVE')
 const search = reactive({
   isShowSearch: false,
   keyVal: '',
@@ -172,26 +174,20 @@ const search = reactive({
     search.isShowSearch = false
   },
   handleFocus: async () => {
-    // axios({
-    //   url: 'getData',
-    //   params: {}
-    // }).then(res => {
-    //   res.data.
-    // })
-    // if (!search.searchHotList.length) {
-    //   const res = await getSearchHot()
-    //   search.searchHotList = res.result.hots
-    //   search.isShowSearch = true
-    // } else {
-    //   search.isShowSearch = true
-    // }
+    if (!search.searchHotList.length) {
+      const res = await SERVE.getSearchHot()
+      search.searchHotList = res.result.hots
+      search.isShowSearch = true
+    } else {
+      search.isShowSearch = true
+    }
   },
-  handleInput: async () => {
-    // const params = {
-    //   keywords: event
-    // }
-    // const res = await getSearchSuggest(params)
-    // search.suggestInfo = res.result
+  handleInput: async (event: Event) => {
+    const params = {
+      keywords: event
+    }
+    const res = await SERVE.getSearchSuggest(params)
+    search.suggestInfo = res.result
   }
 })
 // login

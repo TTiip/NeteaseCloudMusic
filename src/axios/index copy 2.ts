@@ -1,19 +1,5 @@
-import axios, { Method, AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosInterceptorManager, AxiosResponse } from 'axios'
-import { apiKeyType, apiKeyDataType } from '@/api'
+import axios, { AxiosRequestConfig, Method, AxiosResponse } from 'axios'
 import store from '@/store'
-
-type ResultDataType = apiKeyDataType[apiKeyType]
-
-interface NewAxiosInstance extends AxiosInstance {
-  /*
-  设置泛型T，默认为any，将请求后的结果返回变成AxiosPromise<T>
-  */
-  <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
-  interceptors: {
-    request: AxiosInterceptorManager<AxiosRequestConfig>
-    response: AxiosInterceptorManager<AxiosResponse<ResultDataType>>
-  }
-}
 
 // 定义接口
 interface PendingType {
@@ -28,7 +14,7 @@ interface PendingType {
 const pending: Array<PendingType> = []
 const CancelToken = axios.CancelToken
 // axios 实例
-const instance: NewAxiosInstance = axios.create({
+const instance = axios.create({
   baseURL: '/api',
   timeout: 10000,
   responseType: 'json'
@@ -77,14 +63,14 @@ instance.interceptors.response.use(
     store.commit('setLoading', false)
     removePending(response.config)
 
-    // const errorCode = response?.data?.errorCode
-    // switch (errorCode) {
-    //   case '401':
-    //     // 根据errorCode，对业务做异常处理(和后端约定)
-    //     break
-    //   default:
-    //     break
-    // }
+    const errorCode = response?.data?.errorCode
+    switch (errorCode) {
+      case '401':
+        // 根据errorCode，对业务做异常处理(和后端约定)
+        break
+      default:
+        break
+    }
 
     return response.data
   },
