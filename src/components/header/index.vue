@@ -201,7 +201,6 @@ const search = reactive({
 const showLogin = ref(false)
 const loginClick = async () => {
   showLogin.value = true
-  // store.commit('setLogin', true)
 }
 const closeDialog = () => {
   showLogin.value = false
