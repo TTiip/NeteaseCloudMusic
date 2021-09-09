@@ -113,20 +113,14 @@
               </template>
             </el-dropdown>
           </div>
-          <el-popover
-            v-else
-            placement="bottom"
-            :width="200"
-            trigger="manual"
-            v-model:visible="isLoginClick"
-          >
-            <Login v-if="qrUrl" :qrUrl='qrUrl' />
-            <template #reference>
-              <span class="login-btn" v-clickoutside="closeLogin" @click="loginClick">登录</span>
-            </template>
-          </el-popover>
+          <span class="login-btn" @click="loginClick">登录</span>
         </el-col>
       </el-row>
+    </div>
+    <div>
+      <teleport to='#login'>
+        <Login :isLoginClick='isLoginClick' @submitForm='submitForm'/>
+      </teleport>
     </div>
   </div>
 </template>
@@ -134,6 +128,8 @@
 <script lang="ts" setup>
 import { ref, computed, reactive } from 'vue'
 import { SearchHotItemProps, SuggestInfoResult } from '@/interface'
+//
+// import useLogin from '@/hooks/useLogin'
 import Login from '@/components/login/index.vue'
 //
 import router from '@/router'
@@ -203,20 +199,17 @@ const search = reactive({
   }
 })
 // login
-const qrUrl = ref('')
-const isLoginClick = ref(false)
-const closeLogin = () => {
-  isLoginClick.value = false
-}
+const isLoginClick = ref(true)
+// 点击打开登录dialog
 const loginClick = async () => {
-  const res = await http({
-    url: 'getQR',
-    method: 'GET'
-  })
-  if (res.data.qrurl) {
-    isLoginClick.value = true
-    qrUrl.value = res.data.qrurl
-  }
+  isLoginClick.value = true
+}
+
+const submitForm = (params: {
+  email: string
+  password: string
+}) => {
+  console.log(params)
 }
 
 const selectMenu = (path: string): void => {

@@ -21,7 +21,10 @@ import {
   ElMenu,
   ElDropdown,
   ElDropdownMenu,
-  ElDropdownItem
+  ElDropdownItem,
+  ElDialog,
+  ElForm,
+  ElFormItem
 } from 'element-plus'
 
 // 创建实例
@@ -40,7 +43,10 @@ useDirective(app)
   ElMenu,
   ElDropdown,
   ElDropdownMenu,
-  ElDropdownItem
+  ElDropdownItem,
+  ElDialog,
+  ElForm,
+  ElFormItem
 ].map(item => app.component(item.name, item))
 
 app.use(store).use(router).mount('#app')

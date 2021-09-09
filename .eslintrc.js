@@ -24,6 +24,8 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     // require引入报错解决
     '@typescript-eslint/no-var-requires': ['off'],
+    // 子组件修改父组件的值时报错提示
+    'vue/no-mutating-props': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
   }
