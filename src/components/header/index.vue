@@ -119,7 +119,7 @@
     </div>
     <div>
       <teleport to='#login'>
-        <Login :isLoginClick='isLoginClick' @submitForm='submitForm'/>
+        <Login v-if="showLogin" @closeDialog='closeDialog' />
       </teleport>
     </div>
   </div>
@@ -129,7 +129,6 @@
 import { ref, computed, reactive } from 'vue'
 import { SearchHotItemProps, SuggestInfoResult } from '@/interface'
 //
-// import useLogin from '@/hooks/useLogin'
 import Login from '@/components/login/index.vue'
 //
 import router from '@/router'
@@ -199,17 +198,13 @@ const search = reactive({
   }
 })
 // login
-const isLoginClick = ref(true)
-// 点击打开登录dialog
+const showLogin = ref(false)
 const loginClick = async () => {
-  isLoginClick.value = true
+  showLogin.value = true
+  // store.commit('setLogin', true)
 }
-
-const submitForm = (params: {
-  email: string
-  password: string
-}) => {
-  console.log(params)
+const closeDialog = () => {
+  showLogin.value = false
 }
 
 const selectMenu = (path: string): void => {

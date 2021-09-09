@@ -1,4 +1,10 @@
-
+interface StoreProps {
+  isLoading: boolean,
+  isLogin: boolean,
+  userInfo: {
+    avatarUrl: string
+  }
+}
 interface Commom {
   code: number
   result: any
@@ -46,6 +52,7 @@ interface LoginQR extends Commom {
 
 // interface
 export {
+  StoreProps,
   SearchHotItemProps,
   SearchHotProps,
   SuggestInfoProps,
