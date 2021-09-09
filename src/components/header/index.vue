@@ -113,18 +113,29 @@
               </template>
             </el-dropdown>
           </div>
-          <span class="login-btn" v-else @click="loginClick">登录</span>
+          <el-popover
+            v-else
+            placement="bottom"
+            :width="200"
+            trigger="manual"
+            v-model:visible="isLoginClick"
+          >
+            <Login v-if="qrUrl" :qrUrl='qrUrl' />
+            <template #reference>
+              <span class="login-btn" v-clickoutside="closeLogin" @click="loginClick">登录</span>
+            </template>
+          </el-popover>
         </el-col>
       </el-row>
     </div>
   </div>
-  <Login v-if="qrUrl" :qrUrl='qrUrl' />
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, reactive } from 'vue'
-import { SearchHotItemProps, suggestInfoResult } from '@/interface'
+import { SearchHotItemProps, SuggestInfoResult } from '@/interface'
 import Login from '@/components/login/index.vue'
+//
 import router from '@/router'
 import store from '@/store'
 import http from '@/http'
@@ -132,7 +143,6 @@ import http from '@/http'
 const menuActive = computed(() => router.currentRoute.value.path)
 const isLogin = computed(() => store.state.isLogin)
 const userInfo = computed(() => store.state.userInfo)
-const qrUrl = ref('')
 const menuList = ref([
   {
     name: '首页',
@@ -164,7 +174,7 @@ const listType = reactive({
 const search = reactive({
   isShowSearch: false,
   keyVal: '',
-  suggestInfo: {} as suggestInfoResult,
+  suggestInfo: {} as SuggestInfoResult,
   searchHotList: [] as SearchHotItemProps[],
   handleClose: () => {
     search.isShowSearch = false
@@ -193,12 +203,20 @@ const search = reactive({
   }
 })
 // login
+const qrUrl = ref('')
+const isLoginClick = ref(false)
+const closeLogin = () => {
+  isLoginClick.value = false
+}
 const loginClick = async () => {
-  // const res: any = await getQR()
-  // qrUrl.value = res.data.qrurl
-  // console.log(res.data.qrurl, 'resssss')
-  // qrimg
-  // qrurl
+  const res = await http({
+    url: 'getQR',
+    method: 'GET'
+  })
+  if (res.data.qrurl) {
+    isLoginClick.value = true
+    qrUrl.value = res.data.qrurl
+  }
 }
 
 const selectMenu = (path: string): void => {

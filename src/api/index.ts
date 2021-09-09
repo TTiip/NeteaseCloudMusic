@@ -1,4 +1,4 @@
-import { SearchHotProps, suggestInfoProps } from '@/interface'
+import { SearchHotProps, SuggestInfoProps, LoginQR } from '@/interface'
 
 const apiList = {
   getSearchHot: '/search/hot',
@@ -10,9 +10,9 @@ const apiList = {
 
 export interface apiKeyDataType {
   getSearchHot: Promise<SearchHotProps>,
-  getSearchSuggest: Promise<suggestInfoProps>,
-  getLoginKey: any,
-  getQR: any,
+  getSearchSuggest: Promise<SuggestInfoProps>,
+  getLoginKey: string,
+  getQR: LoginQR,
   getQRRefresh: any
 }
 

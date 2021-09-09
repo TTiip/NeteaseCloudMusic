@@ -15,7 +15,7 @@ interface SearchHotProps extends Commom {
     hots: SearchHotItemProps[]
   }
 }
-interface album {
+interface Album {
   id: number,
   name: string,
   artist: {},
@@ -26,21 +26,29 @@ interface album {
   picId: number,
   mark: number
 }
-interface suggestInfoResult {
-  albums: album[]
+interface SuggestInfoResult {
+  albums: Album[]
   artists: any[]
   songs: any[]
   playlists: any[]
   order: any[]
 }
-interface suggestInfoProps extends Commom {
-  result: suggestInfoResult
+interface SuggestInfoProps extends Commom {
+  result: SuggestInfoResult
+}
+
+interface LoginQR extends Commom {
+  data: {
+    qrimg: string
+    qrurl: string
+  }
 }
 
 // interface
 export {
   SearchHotItemProps,
   SearchHotProps,
-  suggestInfoProps,
-  suggestInfoResult
+  SuggestInfoProps,
+  SuggestInfoResult,
+  LoginQR
 }
