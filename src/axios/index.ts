@@ -33,6 +33,10 @@ interface PendingType {
 // 取消重复请求
 const pending: Array<PendingType> = []
 const CancelToken = axios.CancelToken
+// 判断是否需要转化参数
+const HAS_QS_METHOD: Method[] = ['POST', 'post', 'PUT', 'put']
+const NOT_QS_METHOD: Method[] = ['GET', 'get', 'DELETE', 'delete']
+
 // axios 实例
 const instance: NewAxiosInstance = axios.create({
   baseURL: '/api',
@@ -65,8 +69,13 @@ instance.interceptors.request.use(
   request => {
     store.commit('setLoading', true)
     removePending(request)
-    // 如果是get请求则添加时间戳，避免缓存
-    request.params && (request.params.time = +new Date())
+    if (request.method && HAS_QS_METHOD.includes(request.method)) {
+      // 这里只处理post请求，根据自己情况修改
+      request.data.time = +new Date()
+    } else if (request.method && NOT_QS_METHOD.includes(request.method)) {
+      // 如果是get请求则添加时间戳，避免缓存
+      request.params.time = +new Date()
+    }
     request.cancelToken = new CancelToken((c) => {
       pending.push({ url: request.url, method: request.method, params: request.params, data: request.data, cancel: c })
     })
@@ -167,7 +176,7 @@ const httpFunc = <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }
     instance<apiKeyDataType[T]>({
       url: apiList[options.url],
       params: options.params || {},
-      data: options.params || {},
+      data: options.data || {},
       method: options.method || 'GET',
       responseType: options.responseType || 'json'
     }).then(res => {
