@@ -1,7 +1,5 @@
 <template>
   <div id="nav">
-    <!-- <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> -->
     <Header />
   </div>
   <router-view/>
@@ -15,6 +13,13 @@ import { computed } from 'vue'
 import Loading from '@/components/loading/index.vue'
 import Header from '@/components/header/index.vue'
 import store from '@/store'
+import { getSessionStorage } from '@/hooks/useSessionStorage'
+
+const isLogin = getSessionStorage('isLogin') || false
+const userInfo = getSessionStorage('userInfo') || '{}'
+// 获取是否登录等相关信息
+store.commit('setLogin', isLogin)
+store.commit('setUserInfo', JSON.parse(userInfo))
 
 const isLoading = computed(() => store.state.isLoading)
 </script>

@@ -36,7 +36,8 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, defineEmits } from 'vue'
 import useMessage from '@/hooks/useMessage'
-import cryptoJs from 'crypto-js'
+import { setSessionStorage } from '@/hooks/useSessionStorage'
+// import cryptoJs from 'crypto-js'
 import store from '@/store'
 import axios from '@/axios'
 
@@ -67,11 +68,28 @@ const submitClick = () => {
         method: 'POST',
         data: {
           phone: loginForm.phone,
-          md5_password: cryptoJs.MD5(loginForm.password).toString()
+          // 加密调用后台后台有时候会报错，所以现在先使用不加密。
+          // md5_password: cryptoJs.MD5(loginForm.password).toString()
+          password: loginForm.password
         }
       })
       if (res.code === 200) {
         useMessage('success', '登录成功')
+        const userDetail = await axios({
+          url: 'getuserDetail',
+          method: 'GET',
+          params: {
+            uid: res.account.id
+          }
+        })
+        // 设置登录相关信息
+        store.commit('setLogin', true)
+        store.commit('setUserInfo', userDetail.profile)
+        // 存储session
+        setSessionStorage('token', res.token)
+        setSessionStorage('cookie', res.cookie)
+        setSessionStorage('isLogin', true)
+        setSessionStorage('userInfo', JSON.stringify(userDetail.profile))
       }
     } else {
       console.log('error submit!!')

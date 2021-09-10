@@ -85,14 +85,15 @@
         </el-col>
         <el-col :span="2" :class="isLogin ? 'user-avatar' : 'login'">
           <div class="logined" v-if="isLogin">
-            <el-dropdown placement="bottom">
-              <el-image :src="userInfo.avatarUrl" class="avatar">
+            <el-dropdown placement="bottom" @command='dropDownItemClick'>
+              <img :src="userInfo.avatarUrl" class="avatar">
+              <!-- <el-image :src="userInfo.avatarUrl" class="avatar">
                 <template #placeholder>
                   <div class="image-slot">
                     <i class="iconfont icon-placeholder"></i>
                   </div>
                 </template>
-              </el-image>
+              </el-image> -->
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item command="user">
@@ -128,6 +129,8 @@
 <script lang="ts" setup>
 import { ref, computed, reactive } from 'vue'
 import { SearchHotItemProps, SuggestInfoResult } from '@/interface'
+import useMessage from '@/hooks/useMessage'
+import { removeSessionStorage } from '@/hooks/useSessionStorage'
 //
 import Login from '@/components/login/index.vue'
 //
@@ -159,6 +162,42 @@ const menuList = ref([
     path: '/my'
   }
 ])
+const getLoginOut = async () => {
+  const res = await axios({ url: 'getLogout', method: 'GET' })
+  if (res.code !== 200) {
+    useMessage('error', '退出操作出现错误，稍后再试！~')
+    return false
+  }
+  useMessage('success', '退出成功!~')
+  // 存储session
+  removeSessionStorage('isLogin')
+  removeSessionStorage('token')
+  removeSessionStorage('cookie')
+  removeSessionStorage('userInfo')
+  // 设置登录相关信息
+  store.commit('setLogin', false)
+  store.commit('setUserInfo', {})
+
+  // if (this.$route.path.indexOf('/my') >= 0) {
+  //   this.$router.push({ path: '/' })
+  // }
+}
+const dropDownItemClick = (command: string) => {
+  switch (command) {
+    case 'home' :
+      console.log('home')
+      break
+    case 'grade' :
+      console.log('home')
+      break
+    case 'set':
+      console.log('home')
+      break
+    case 'quit':
+      getLoginOut()
+      break
+  }
+}
 // search相关
 const listType = reactive({
   songs: '单曲',
