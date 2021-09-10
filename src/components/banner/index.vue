@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container w1200">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <img src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg" alt="" />
@@ -37,6 +37,7 @@ onMounted(() => {
     // 每张播放时长3秒，自动播放
     spaceBetween: 25,
     effect: 'coverflow',
+    // 鼠标覆盖Swiper时指针会变成手掌形状，拖动时指针会变成抓手形状。
     grabCursor: true,
     centeredSlides: true,
     slidesPerView: 1.32,
