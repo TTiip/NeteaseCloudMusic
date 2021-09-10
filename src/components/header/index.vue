@@ -133,7 +133,7 @@ import Login from '@/components/login/index.vue'
 //
 import router from '@/router'
 import store from '@/store'
-import http from '@/http'
+import axios from '@/axios'
 // 菜单相关
 const menuActive = computed(() => router.currentRoute.value.path)
 const isLogin = computed(() => store.state.isLogin)
@@ -176,7 +176,7 @@ const search = reactive({
   },
   handleFocus: async () => {
     if (!search.searchHotList.length) {
-      const res = await http({
+      const res = await axios({
         url: 'getSearchHot',
         method: 'GET'
       })
@@ -187,7 +187,7 @@ const search = reactive({
     }
   },
   handleInput: async (event: Event) => {
-    const res = await http({
+    const res = await axios({
       url: 'getSearchSuggest',
       method: 'GET',
       params: {

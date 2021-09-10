@@ -9,8 +9,8 @@
       <div class="login-wrapper">
         <img src="@/assets/logo.jpg" alt="" class="login-logo">
         <el-form ref="FormRef" :model="loginForm" :rules="loginFormRules">
-          <el-form-item prop="email">
-            <el-input v-model="loginForm.email" placeholder="请输入网易云帐号登录">
+          <el-form-item prop="phone">
+            <el-input v-model="loginForm.phone" placeholder="请输入手机帐号登录">
               <template #prefix>
                 <i class="iconfont icon-phone"></i>
               </template>
@@ -41,12 +41,12 @@ import store from '@/store'
 const showForm = computed(() => !store.state.isLogin)
 //
 const loginForm = reactive({
-  email: '',
+  phone: '',
   password: ''
 })
 
 const loginFormRules = {
-  email: [{ required: true, message: '请输入网易帐号', trigger: 'blur' }],
+  phone: [{ required: true, message: '请输入网易帐号', trigger: 'blur' }],
   password: [{ required: true, message: '请输入网易密码', trigger: 'blur' }]
 }
 
