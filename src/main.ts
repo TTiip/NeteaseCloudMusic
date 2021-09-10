@@ -48,5 +48,7 @@ useDirective(app)
   ElForm,
   ElFormItem
 ].map(item => app.component(item.name, item))
+// 全局设置尺寸。
+app.config.globalProperties.$ELEMENT = { size: 'small' }
 
 app.use(store).use(router).mount('#app')
