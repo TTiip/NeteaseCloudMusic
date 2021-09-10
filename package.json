@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.21.3",
+    "crypto-js": "^4.1.1",
     "element-plus": "^1.1.0-beta.9",
     "qrcode": "^1.4.4",
     "vue": "^3.0.0",
@@ -16,6 +17,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.0.2",
     "@types/qrcode": "^1.4.1",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",

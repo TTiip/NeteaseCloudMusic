@@ -1,5 +1,6 @@
 import axios, { Method, AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosInterceptorManager, AxiosResponse } from 'axios'
 import apiList, { apiKeyType, apiKeyDataType } from '@/api'
+import useMessage from '@/hooks/useMessage'
 import store from '@/store'
 
 type ResultDataType = apiKeyDataType[apiKeyType]
@@ -92,39 +93,16 @@ instance.interceptors.response.use(
     store.commit('setLoading', false)
     removePending(response.config)
 
-    const errorCode = response?.data?.errorCode
-    switch (errorCode) {
-      case '401':
-        // 根据errorCode，对业务做异常处理(和后端约定)
-        break
-      default:
-        break
+    const code = response.data.code
+    if (code !== 200) {
+      useMessage('error', response.data)
     }
-
     return response.data
   },
   error => {
+    useMessage('error', error)
     const response = error.response
     store.commit('setLoading', false)
-    // store.commit('setError', { status: true, message: error.response.data.error })
-    // 根据返回的http状态码做不同的处理
-    switch (response?.status) {
-      case 401:
-        // token失效
-        break
-      case 403:
-        // 没有权限
-        break
-      case 500:
-        // 服务端错误
-        break
-      case 503:
-        // 服务端错误
-        break
-      default:
-        break
-    }
-
     // 超时重新请求
     const config = error.config
     // 全局的请求次数,请求的间隙
@@ -182,6 +160,7 @@ const httpFunc = <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }
     }).then(res => {
       resolve(res)
     }).catch(error => {
+      useMessage('error', error)
       reject(error)
     })
   })

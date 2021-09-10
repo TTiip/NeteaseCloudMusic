@@ -5,7 +5,6 @@
       width="30%"
       @close='closeDialog'
     >
-      {{ loginForm }}
       <div class="login-wrapper">
         <img src="@/assets/logo.jpg" alt="" class="login-logo">
         <el-form ref="FormRef" :model="loginForm" :rules="loginFormRules">
@@ -36,7 +35,10 @@
 
 <script lang="ts" setup>
 import { ref, reactive, computed, defineEmits } from 'vue'
+import useMessage from '@/hooks/useMessage'
+import cryptoJs from 'crypto-js'
 import store from '@/store'
+import axios from '@/axios'
 
 const showForm = computed(() => !store.state.isLogin)
 //
@@ -58,44 +60,25 @@ const closeDialog = () => {
 
 const FormRef = ref<any>(null)
 const submitClick = () => {
-  FormRef.value.validate((valid: boolean) => {
+  FormRef.value.validate(async (valid: boolean) => {
     if (valid) {
-      alert('submit!')
+      const res = await axios({
+        url: 'cellPhoneLogin',
+        method: 'POST',
+        data: {
+          phone: loginForm.phone,
+          md5_password: cryptoJs.MD5(loginForm.password).toString()
+        }
+      })
+      if (res.code === 200) {
+        useMessage('success', '登录成功')
+      }
     } else {
       console.log('error submit!!')
       return false
     }
   })
 }
-
-// refs[formName].validate((valid) => {
-//   if (valid) {
-//     alert('submit!')
-//   } else {
-//     console.log('error submit!!')
-//     return false
-//   }
-// })
-
-// export default {
-//   components: {},
-//   data () {
-//     // 这里存放数据
-//     return {
-//       loginDialogVisible: true,
-//       loginForm: {
-//         phone: '',
-//         pwd: ''
-//       },
-//       loginFormRules: {
-//         phone: [{ required: true, message: '请输入网易帐号', trigger: 'blur' }],
-//         pwd: [{ required: true, message: '请输入网易密码', trigger: 'blur' }]
-//       }
-//     }
-//   },
-//   // 方法集合
-//   methods: {}
-// }
 </script>
 <style scoped lang="less">
 @import './index.less';
