@@ -40,6 +40,8 @@ onMounted(() => {
     // 鼠标覆盖Swiper时指针会变成手掌形状，拖动时指针会变成抓手形状。
     grabCursor: true,
     centeredSlides: true,
+    // 添加点击左右两个跳转至对应的banner图
+    slideToClickedSlide: true,
     slidesPerView: 1.32,
     autoplay: {
       delay: 3000,
