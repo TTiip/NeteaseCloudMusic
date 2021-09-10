@@ -156,7 +156,7 @@ export {
 限制泛型T必须是接口列表（apiKeyType）中的key
 限制obj中的url必须是接口列表中key的某一格
 */
-export default <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }) => {
+const httpFunc = <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }) => {
   /*
   限制最终的返回数据类型
   */
@@ -177,3 +177,6 @@ export default <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }) 
     })
   })
 }
+
+// 这里直接把封装以后的方法传出去外部直接调用。
+export default httpFunc
