@@ -3,16 +3,22 @@
     <div class="w1200">
       <el-row class="wrapper">
         <el-col :span="4">
-          <router-link to="/" class="logo">
-            <img src="../../assets/logo.jpg" alt />
+          <router-link
+            to="/"
+            class="logo"
+          >
+            <img
+              src="../../assets/logo.jpg"
+              alt
+            >
           </router-link>
         </el-col>
         <el-col :span="12">
           <ul class="nav">
             <li
-              :class="[menuActive.indexOf(item.path) === 0 ? 'is-active' : '']"
               v-for="item in menuList"
               :key="item.path"
+              :class="[menuActive.indexOf(item.path) === 0 ? 'is-active' : '']"
               @click="selectMenu(item.path)"
             >
               <span>{{ item.name }}</span>
@@ -20,47 +26,60 @@
           </ul>
         </el-col>
         <el-col :span="6">
-          <div class="search" v-clickoutside="search.handleClose">
+          <div
+            v-clickoutside="search.handleClose"
+            class="search"
+          >
             <el-popover
-              :width="226"
               ref="popover"
+              v-model:visible="search.isShowSearch"
+              :width="226"
               placement="bottom-end"
               trigger="manual"
-              v-model:visible="search.isShowSearch"
             >
               <template #reference>
                 <el-input
+                  v-model="search.keyVal"
                   class="keyVal"
                   placeholder="请输入歌名、歌词、歌手或专辑"
-                  v-model="search.keyVal"
+                  clearable
                   @focus="search.handleFocus"
                   @input="search.handleInput"
-                  clearable
-                ></el-input>
+                />
               </template>
               <div>
-                <div v-if="!search.keyVal" class="hot-search">
+                <div
+                  v-if="!search.keyVal"
+                  class="hot-search"
+                >
                   <h5>热门搜索</h5>
                   <div class="hot-search-list">
                     <div
-                      class="hot-item"
                       v-for="(item, index) in search.searchHotList"
                       :key="index"
+                      class="hot-item"
                     >
                       <span :class="[index < 3 ? 'top-' + index : '']">{{ (index + 1) + '.' }}</span>
                       {{ item.first }}
                     </div>
                   </div>
                 </div>
-                <div class="search-key-list" v-else>
+                <div
+                  v-else
+                  class="search-key-list"
+                >
                   <div
-                    class="search-item"
                     v-for="(item, index) in search.suggestInfo.order"
                     :key="index"
+                    class="search-item"
                   >
                     <h6>{{ listType[item] }}</h6>
                     <div class="item-main">
-                      <div class="list" v-for="(val, k) in search.suggestInfo[item]" :key="k">
+                      <div
+                        v-for="(val, k) in search.suggestInfo[item]"
+                        :key="k"
+                        class="list"
+                      >
                         <!-- @click="jumpPage(val, item)" -->
                         {{ val.name }}
                         <template v-if="item === 'songs'">
@@ -83,10 +102,22 @@
             <!-- <i class="iconfont icon-search"></i> -->
           </div>
         </el-col>
-        <el-col :span="2" :class="isLogin ? 'user-avatar' : 'login'">
-          <div class="logined" v-if="isLogin">
-            <el-dropdown placement="bottom" @command='dropDownItemClick'>
-              <img :src="userInfo.avatarUrl" class="avatar">
+        <el-col
+          :span="2"
+          :class="isLogin ? 'user-avatar' : 'login'"
+        >
+          <div
+            v-if="isLogin"
+            class="logined"
+          >
+            <el-dropdown
+              placement="bottom"
+              @command="dropDownItemClick"
+            >
+              <img
+                :src="userInfo.avatarUrl"
+                class="avatar"
+              >
               <!-- <el-image :src="userInfo.avatarUrl" class="avatar">
                 <template #placeholder>
                   <div class="image-slot">
@@ -98,29 +129,35 @@
                 <el-dropdown-menu>
                   <el-dropdown-item command="user">
                     <router-link to="/">
-                      <i class="iconfont icon-home"></i>我的主页
+                      <i class="iconfont icon-home" />我的主页
                     </router-link>
                   </el-dropdown-item>
                   <el-dropdown-item command="grade">
-                    <i class="iconfont icon-grade"></i>我的等级
+                    <i class="iconfont icon-grade" />我的等级
                   </el-dropdown-item>
                   <el-dropdown-item command="set">
-                    <i class="iconfont icon-set"></i>设置
+                    <i class="iconfont icon-set" />设置
                   </el-dropdown-item>
                   <el-dropdown-item command="quit">
-                    <i class="iconfont icon-quit"></i>退出
+                    <i class="iconfont icon-quit" />退出
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
           </div>
-          <span class="login-btn" @click="loginClick">登录</span>
+          <span
+            class="login-btn"
+            @click="loginClick"
+          >登录</span>
         </el-col>
       </el-row>
     </div>
     <div>
-      <teleport to='#login'>
-        <Login v-if="showLogin" @closeDialog='closeDialog' />
+      <teleport to="#login">
+        <Login
+          v-if="showLogin"
+          @closeDialog="closeDialog"
+        />
       </teleport>
     </div>
   </div>

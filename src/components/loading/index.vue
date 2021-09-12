@@ -1,12 +1,15 @@
 <template>
-  <div class="loading-container" :style="{ background }">
-    <div class='loader'>
+  <div
+    class="loading-container"
+    :style="{ background }"
+  >
+    <div class="loader">
       <div>
         <div>
           <div>
             <div>
               <div>
-                <div></div>
+                <div />
               </div>
             </div>
           </div>
@@ -17,8 +20,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue'
-
 defineProps({
   background: {
     type: String,

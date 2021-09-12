@@ -2,9 +2,9 @@
   <div id="nav">
     <Header />
   </div>
-  <router-view/>
+  <router-view />
   <teleport to="#loading">
-    <Loading v-if="isLoading"/>
+    <Loading v-if="isLoading" />
   </teleport>
 </template>
 

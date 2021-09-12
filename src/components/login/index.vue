@@ -1,24 +1,39 @@
 <template>
-  <div class='login'>
+  <div class="login">
     <el-dialog
       v-model="showForm"
       width="30%"
-      @close='closeDialog'
+      @close="closeDialog"
     >
       <div class="login-wrapper">
-        <img src="@/assets/logo.jpg" alt="" class="login-logo">
-        <el-form ref="FormRef" :model="loginForm" :rules="loginFormRules">
+        <img
+          src="@/assets/logo.jpg"
+          alt=""
+          class="login-logo"
+        >
+        <el-form
+          ref="FormRef"
+          :model="loginForm"
+          :rules="loginFormRules"
+        >
           <el-form-item prop="phone">
-            <el-input v-model="loginForm.phone" placeholder="请输入手机帐号登录">
+            <el-input
+              v-model="loginForm.phone"
+              placeholder="请输入手机帐号登录"
+            >
               <template #prefix>
-                <i class="iconfont icon-phone"></i>
+                <i class="iconfont icon-phone" />
               </template>
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="loginForm.password" placeholder="请输入密码" show-password>
+            <el-input
+              v-model="loginForm.password"
+              placeholder="请输入密码"
+              show-password
+            >
               <template #prefix>
-                <i class="iconfont icon-pwd"></i>
+                <i class="iconfont icon-pwd" />
               </template>
             </el-input>
           </el-form-item>
@@ -26,7 +41,12 @@
       </div>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitClick">登录</el-button>
+          <el-button
+            type="primary"
+            @click="submitClick"
+          >
+            登录
+          </el-button>
         </div>
       </template>
     </el-dialog>
