@@ -4,12 +4,19 @@ module.exports = {
     node: true
   },
   extends: [
-    'plugin:vue/vue3-essential',
+    // 'plugin:vue/vue3-essential',
+    'plugin:vue/vue3-recommended',
     '@vue/standard',
     '@vue/typescript/recommended'
   ],
   parserOptions: {
     ecmaVersion: 2020
+  },
+  globals: {
+    defineProps: "readonly",
+    defineEmits: "readonly",
+    defineExpose: "readonly",
+    withDefaults: "readonly"
   },
   rules: {
     // 关闭TS any检测
