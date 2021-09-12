@@ -56,7 +56,7 @@ interface BannerItemProps {
   targetType?: number,
   titleColor?: string,
   typeTitle?: string,
-  url?: string | null,
+  url?: string,
   exclusive?: boolean,
   monitorImpress?: string | null,
   monitorClick?: string | null,

@@ -5,6 +5,7 @@
         v-for="item of bannerList"
         :key="item.imageUrl"
         class="swiper-slide"
+        @click="sliderItemClick(item)"
       >
         <img
           :src="item.imageUrl"
@@ -12,32 +13,13 @@
         >
       </div>
     </div>
-    <!-- <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <img
-          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
-          alt=""
-        >
-      </div>
-      <div class="swiper-slide">
-        <img
-          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
-          alt=""
-        >
-      </div>
-      <div class="swiper-slide">
-        <img
-          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
-          alt=""
-        >
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script lang="ts" setup>
 import { nextTick, onMounted, ref } from 'vue'
 import { BannerItemProps } from '@/interface'
+import router from '@/router'
 import axios from '@/axios'
 import Swiper, {
   Autoplay,
@@ -87,6 +69,27 @@ const renderBanner = () => {
     }
   })
 }
+// banner点击事件。
+const sliderItemClick = (item: BannerItemProps) => {
+  switch (item.targetType) {
+    case 1: // 单曲
+      router.push({ path: '/song', query: { id: item.targetId } })
+      break
+    case 10: // 专辑
+      router.push({ path: '/album', query: { id: item.targetId } })
+      break
+    case 1000: // 歌单
+      router.push({ path: '/playlist', query: { id: item.targetId } })
+      break
+    case 1004: // MV
+      router.push({ path: '/mv', query: { id: item.targetId } })
+      break
+    case 3000: // 外链
+      window.open(item.url, '_blank')
+      break
+  }
+}
+
 // 虽然不建议这么使用但是好像可以使用，主要是不想调用的时候bannerList.list这样调用。
 const bannerList = ref<BannerItemProps[]>([])
 onMounted(async () => {
