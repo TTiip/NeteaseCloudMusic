@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, defineEmits } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import useMessage from '@/hooks/useMessage'
 import { setSessionStorage } from '@/hooks/useSessionStorage'
 // import cryptoJs from 'crypto-js'

@@ -1,4 +1,4 @@
-import { SearchHotProps, SuggestInfoProps, LoginQR } from '@/interface'
+import { SearchHotProps, SuggestInfoProps, LoginQRProps, BannerProps } from '@/interface'
 
 const apiList = {
   // 搜索
@@ -11,7 +11,9 @@ const apiList = {
   cellPhoneLogin: '/login/cellphone',
   getLogout: '/logout',
   // 获取用户信息
-  getuserDetail: '/user/detail'
+  getuserDetail: '/user/detail',
+  // 获取banner
+  getBanner: '/banner'
 }
 
 export interface apiKeyDataType {
@@ -20,7 +22,7 @@ export interface apiKeyDataType {
   getSearchSuggest: Promise<SuggestInfoProps>,
   // 登录登出
   getLoginKey: string,
-  getQR: LoginQR,
+  getQR: LoginQRProps,
   getQRRefresh: any,
   cellPhoneLogin: {
     code: number
@@ -37,7 +39,9 @@ export interface apiKeyDataType {
     code: number
   },
   // 获取用户信息
-  getuserDetail: any
+  getuserDetail: any,
+  // 获取banner
+  getBanner: BannerProps
 }
 
 export type apiKeyType = keyof typeof apiList

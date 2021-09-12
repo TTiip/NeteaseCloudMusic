@@ -1,30 +1,44 @@
 <template>
   <div class="swiper-container w1200">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">
+      <div
+        v-for="item of bannerList"
+        :key="item.imageUrl"
+        class="swiper-slide"
+      >
         <img
-          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
-          alt=""
-        >
-      </div>
-      <div class="swiper-slide">
-        <img
-          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
-          alt=""
-        >
-      </div>
-      <div class="swiper-slide">
-        <img
-          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
+          :src="item.imageUrl"
           alt=""
         >
       </div>
     </div>
+    <!-- <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img
+          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
+          alt=""
+        >
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
+          alt=""
+        >
+      </div>
+      <div class="swiper-slide">
+        <img
+          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
+          alt=""
+        >
+      </div>
+    </div> -->
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
+import { BannerItemProps } from '@/interface'
+import axios from '@/axios'
 import Swiper, {
   Autoplay,
   EffectCoverflow,
@@ -37,10 +51,12 @@ import 'swiper/swiper-bundle.min.css'
 // swiper.less/sass/css 决定了基础的样式
 import 'swiper/swiper.less'
 
-Swiper.use([Autoplay, EffectCoverflow, EffectCube, Pagination, Navigation])
-onMounted(() => {
+// 渲染banner
+const renderBanner = () => {
+  Swiper.use([Autoplay, EffectCoverflow, EffectCube, Pagination, Navigation])
   /* eslint-disable no-new */
   new Swiper('.swiper-container', {
+    // observer: true,
     // 循环
     loop: true,
     // 每张播放时长3秒，自动播放
@@ -53,9 +69,14 @@ onMounted(() => {
     slideToClickedSlide: true,
     slidesPerView: 1.32,
     autoplay: {
+      // 自动切换的时间间隔，单位ms
       delay: 3000,
+      // 如果设置为true，当切换到最后一个slide时停止自动切换。（loop模式下无效）。
       stopOnLastSlide: false,
-      disableOnInteraction: false
+      // 如果设置为false，用户操作swiper之后自动切换不会停止，每次都会重新启动autoplay。
+      disableOnInteraction: false,
+      // 开启此功能，鼠标置于swiper时暂停自动切换，鼠标离开时恢复自动切换。
+      pauseOnMouseEnter: true
     },
     coverflowEffect: {
       rotate: 0,
@@ -65,6 +86,17 @@ onMounted(() => {
       slideShadows: true
     }
   })
+}
+// 虽然不建议这么使用但是好像可以使用，主要是不想调用的时候bannerList.list这样调用。
+const bannerList = ref<BannerItemProps[]>([])
+onMounted(async () => {
+  const res = await axios({
+    url: 'getBanner',
+    method: 'GET'
+  })
+  bannerList.value = res.banners
+  // 在数据加载完成以后使用 nextTick 去 调调取微任务渲染。
+  nextTick(() => renderBanner())
 })
 </script>
 

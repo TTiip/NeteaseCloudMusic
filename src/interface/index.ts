@@ -7,7 +7,6 @@ interface StoreProps {
 }
 interface Commom {
   code: number
-  result: any
 }
 
 interface SearchHotItemProps {
@@ -24,7 +23,7 @@ interface SearchHotProps extends Commom {
 interface Album {
   id: number,
   name: string,
-  artist: {},
+  artist: any,
   publishTime: number,
   size: number,
   copyrightId: number,
@@ -32,7 +31,7 @@ interface Album {
   picId: number,
   mark: number
 }
-interface SuggestInfoResult {
+interface SuggestInfoResultProps {
   albums: Album[]
   artists: any[]
   songs: any[]
@@ -40,14 +39,46 @@ interface SuggestInfoResult {
   order: any[]
 }
 interface SuggestInfoProps extends Commom {
-  result: SuggestInfoResult
+  result: SuggestInfoResultProps
 }
 
-interface LoginQR extends Commom {
+interface LoginQRProps extends Commom {
   data: {
     qrimg: string
     qrurl: string
   }
+}
+
+interface BannerItemProps {
+  imageUrl: string
+  targetId?: number,
+  adid?: string | null,
+  targetType?: number,
+  titleColor?: string,
+  typeTitle?: string,
+  url?: string | null,
+  exclusive?: boolean,
+  monitorImpress?: string | null,
+  monitorClick?: string | null,
+  monitorType?: string | null,
+  monitorImpressList?: string | null,
+  monitorClickList?: string | null,
+  monitorBlackList?: string | null,
+  extMonitor?: string | null,
+  extMonitorInfo?: string | null,
+  adSource?: string | null,
+  adLocation?: string | null,
+  adDispatchJson?: string | null,
+  encodeId: string,
+  program?: string | null,
+  event?: string | null,
+  video?: string | null,
+  song?: string | null,
+  scm?: string
+}
+
+interface BannerProps extends Commom {
+  banners: BannerItemProps[]
 }
 
 // interface
@@ -56,6 +87,8 @@ export {
   SearchHotItemProps,
   SearchHotProps,
   SuggestInfoProps,
-  SuggestInfoResult,
-  LoginQR
+  SuggestInfoResultProps,
+  LoginQRProps,
+  BannerItemProps,
+  BannerProps
 }
