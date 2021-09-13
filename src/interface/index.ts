@@ -110,22 +110,27 @@ interface PlaylistHotProps extends Common {
   tags: PlaylistHotItem[]
 }
 
-interface TopListItem {
+interface getPlayListItem {
+  name: string
   id: number
+  trackNumberUpdateTime: number,
+  status: number
+  userId: number
+  createTime: number
+  updateTime: number
+  subscribedCount: number
+  trackCount: number
+  cloudTrackCount: number
   coverImgUrl: string
-  playCount: number
-  tags: any
+  coverImgId: number
+  description: string
 }
 
-interface TopListProps extends Common {
-  list: TopListItem[]
-  artistToplist: {
-    coverUrl: string
-    name: string
-    upateFrequency: string
-    position: number
-    updateFrequency: string
-  }
+interface getPlayListProps extends Common {
+  playlists: getPlayListItem[],
+  total: number,
+  more: boolean,
+  cat: string
 }
 
 // interface
@@ -141,6 +146,6 @@ export {
   PlaylistTagProps,
   PlaylistHotItem,
   PlaylistHotProps,
-  TopListItem,
-  TopListProps
+  getPlayListItem,
+  getPlayListProps
 }

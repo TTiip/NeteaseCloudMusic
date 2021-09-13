@@ -5,11 +5,11 @@
       <div class="recom_list">
         <div class="h_title">
           <h3>热门歌单</h3>
-          <!-- @click="choosePlayListType(index)" -->
           <span
             v-for="(item, index) in playlistTags"
             :key="item.id"
             :class="index === playlistIndex ? 'active' : ''"
+            @click="choosePlayListType(index)"
           >{{ item.name }}</span>
         </div>
         <div class="wrapper">
@@ -140,7 +140,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { PlaylistHotItem, TopListItem } from '@/interface'
+import { PlaylistHotItem, getPlayListItem } from '@/interface'
 import axios from '@/axios'
 import Banner from '@/components/banner/index.vue'
 import PlayList from '@/components/play-list/index.vue'
@@ -169,7 +169,24 @@ const albumArea = ref([
 ])
 const mvArea = ref(['全部', '内地', '港台', '欧美', '日本', '韩国'])
 const playlistTags = ref<PlaylistHotItem[]>([])
-const playList = ref<TopListItem[]>([])
+const playlistParams = { limit: 5, offset: 0, cat: '' }
+const choosePlayListType = async (index: number) => {
+  // change index
+  playlistIndex.value = index
+  // 处理参数
+  playlistParams.cat = index !== 0 ? playlistTags.value[index].name : ''
+  const getPlayList = await axios({
+    url: 'getPlayList',
+    method: 'GET',
+    params: {
+      ...playlistParams
+    }
+  })
+  playList.value = getPlayList.playlists.splice(0, 10)
+  console.log(getPlayList, 'getPlayList')
+}
+
+const playList = ref<getPlayListItem[]>([])
 // const albumList = ref([])
 const topList = ref([])
 const songList = ref({})
@@ -183,16 +200,7 @@ onMounted(async () => {
   })
   playlistTags.value = getPlaylistHot.tags
   playlistTags.value.unshift({ name: '为您推荐' })
-
-  // 热门歌单Top
-  const getTopPlaylist = await axios({
-    url: 'getTopPlaylist',
-    method: 'GET'
-  })
-  console.log(getTopPlaylist, 'getTopPlaylist')
-  playList.value = getTopPlaylist.list.splice(0, 10)
-  console.log(getTopPlaylist.list, 'getTopPlaylist.list')
-  console.log(playList.value, 'playList')
+  choosePlayListType(0)
 })
 
 </script>
