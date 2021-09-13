@@ -1,12 +1,12 @@
 interface StoreProps {
-  isLoading: boolean,
-  isLogin: boolean,
+  isLoading: boolean
+  isLogin: boolean
   userInfo: {
     avatarUrl: string
   }
 }
 interface Common {
-  code: number
+  code?: number
 }
 
 interface SearchHotItemProps {
@@ -21,14 +21,14 @@ interface SearchHotProps extends Common {
   }
 }
 interface Album {
-  id: number,
-  name: string,
-  artist: any,
-  publishTime: number,
-  size: number,
-  copyrightId: number,
-  status: number,
-  picId: number,
+  id: number
+  name: string
+  artist: any
+  publishTime: number
+  size: number
+  copyrightId: number
+  status: number
+  picId: number
   mark: number
 }
 interface SuggestInfoResultProps {
@@ -51,29 +51,29 @@ interface LoginQRProps extends Common {
 
 interface BannerItemProps {
   imageUrl: string
-  targetId?: number,
-  adid?: string | null,
-  targetType?: number,
-  titleColor?: string,
-  typeTitle?: string,
-  url?: string,
-  exclusive?: boolean,
-  monitorImpress?: string | null,
-  monitorClick?: string | null,
-  monitorType?: string | null,
-  monitorImpressList?: string | null,
-  monitorClickList?: string | null,
-  monitorBlackList?: string | null,
-  extMonitor?: string | null,
-  extMonitorInfo?: string | null,
-  adSource?: string | null,
-  adLocation?: string | null,
-  adDispatchJson?: string | null,
-  encodeId: string,
-  program?: string | null,
-  event?: string | null,
-  video?: string | null,
-  song?: string | null,
+  targetId?: number
+  adid?: string | null
+  targetType?: number
+  titleColor?: string
+  typeTitle?: string
+  url?: string
+  exclusive?: boolean
+  monitorImpress?: string | null
+  monitorClick?: string | null
+  monitorType?: string | null
+  monitorImpressList?: string | null
+  monitorClickList?: string | null
+  monitorBlackList?: string | null
+  extMonitor?: string | null
+  extMonitorInfo?: string | null
+  adSource?: string | null
+  adLocation?: string | null
+  adDispatchJson?: string | null
+  encodeId: string
+  program?: string | null
+  event?: string | null
+  video?: string | null
+  song?: string | null
   scm?: string
 }
 
@@ -82,32 +82,50 @@ interface BannerProps extends Common {
 }
 
 interface PlaylistTagProps {
-  id: number,
-  name: string,
-  category: number,
-  usedCount: number,
-  type: number,
-  position: number,
-  createTime: number,
-  highQuality: number,
-  highQualityPos: number,
+  id: number
+  name: string
+  category: number
+  usedCount: number
+  type: number
+  position: number
+  createTime: number
+  highQuality: number
+  highQualityPos: number
   officialPos: number
 }
 interface PlaylistHotItem {
-  playlistTag: PlaylistTagProps,
-  activity: boolean,
-  hot: boolean,
-  usedCount: number,
-  position: number,
-  category: number,
-  createTime: number,
-  name: string,
-  id: number,
-  type: number
+  playlistTag?: PlaylistTagProps
+  activity?: boolean
+  hot?: boolean
+  usedCount?: number
+  position?: number
+  category?: number
+  createTime?: number
+  name: string
+  id?: number
+  type?: number
 }
 
 interface PlaylistHotProps extends Common {
   tags: PlaylistHotItem[]
+}
+
+interface TopListItem {
+  id: number
+  coverImgUrl: string
+  playCount: number
+  tags: any
+}
+
+interface TopListProps extends Common {
+  list: TopListItem[]
+  artistToplist: {
+    coverUrl: string
+    name: string
+    upateFrequency: string
+    position: number
+    updateFrequency: string
+  }
 }
 
 // interface
@@ -122,5 +140,7 @@ export {
   BannerProps,
   PlaylistTagProps,
   PlaylistHotItem,
-  PlaylistHotProps
+  PlaylistHotProps,
+  TopListItem,
+  TopListProps
 }

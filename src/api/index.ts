@@ -1,4 +1,4 @@
-import { SearchHotProps, SuggestInfoProps, LoginQRProps, BannerProps, PlaylistHotProps } from '@/interface'
+import { SearchHotProps, SuggestInfoProps, LoginQRProps, BannerProps, PlaylistHotProps, TopListProps } from '@/interface'
 
 const apiList = {
   // 搜索
@@ -15,7 +15,8 @@ const apiList = {
   // 获取banner
   getBanner: '/banner',
   // 获取热门歌分类
-  getPlaylistHot: '/playlist/hot'
+  getPlaylistHot: '/playlist/hot',
+  getTopPlaylist: '/toplist'
 }
 
 export interface apiKeyDataType {
@@ -24,9 +25,9 @@ export interface apiKeyDataType {
   getSearchSuggest: Promise<SuggestInfoProps>,
   // 登录登出
   getLoginKey: string,
-  getQR: LoginQRProps,
+  getQR: Promise<LoginQRProps>,
   getQRRefresh: any,
-  cellPhoneLogin: {
+  cellPhoneLogin: Promise<{
     code: number
     message?: string
     msg?: string,
@@ -36,16 +37,17 @@ export interface apiKeyDataType {
     loginType?: number
     profile?: any
     token?: string
-  },
-  getLogout: {
+  }>,
+  getLogout: Promise<{
     code: number
-  },
+  }>,
   // 获取用户信息
   getuserDetail: any,
   // 获取banner
-  getBanner: BannerProps
+  getBanner: Promise<BannerProps>
   // 获取热门歌分类
-  getPlaylistHot: PlaylistHotProps
+  getPlaylistHot: Promise<PlaylistHotProps>,
+  getTopPlaylist: Promise<TopListProps>
 }
 
 export type apiKeyType = keyof typeof apiList

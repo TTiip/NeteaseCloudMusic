@@ -13,7 +13,7 @@
           >{{ item.name }}</span>
         </div>
         <div class="wrapper">
-          <!-- <play-list :play-list="playlistList" /> -->
+          <PlayList :play-list="playList" />
         </div>
       </div>
       <div class="album_list">
@@ -140,9 +140,10 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { PlaylistHotItem } from '@/interface'
+import { PlaylistHotItem, TopListItem } from '@/interface'
 import axios from '@/axios'
 import Banner from '@/components/banner/index.vue'
+import PlayList from '@/components/play-list/index.vue'
 
 const albumIndex = ref(0)
 const playlistIndex = ref(0)
@@ -168,19 +169,30 @@ const albumArea = ref([
 ])
 const mvArea = ref(['全部', '内地', '港台', '欧美', '日本', '韩国'])
 const playlistTags = ref<PlaylistHotItem[]>([])
-// const playlistList = ref([])
+const playList = ref<TopListItem[]>([])
 // const albumList = ref([])
 const topList = ref([])
 const songList = ref({})
 const artistsList = ref([])
 
 onMounted(async () => {
-  const res = await axios({
+  // 热门歌单分类
+  const getPlaylistHot = await axios({
     url: 'getPlaylistHot',
     method: 'GET'
   })
-  playlistTags.value = res.tags
-  console.log(playlistTags, 'sssssssss')
+  playlistTags.value = getPlaylistHot.tags
+  playlistTags.value.unshift({ name: '为您推荐' })
+
+  // 热门歌单Top
+  const getTopPlaylist = await axios({
+    url: 'getTopPlaylist',
+    method: 'GET'
+  })
+  console.log(getTopPlaylist, 'getTopPlaylist')
+  playList.value = getTopPlaylist.list.splice(0, 10)
+  console.log(getTopPlaylist.list, 'getTopPlaylist.list')
+  console.log(playList.value, 'playList')
 })
 
 </script>

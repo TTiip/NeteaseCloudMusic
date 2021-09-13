@@ -13,14 +13,13 @@
           :src="item.coverImgUrl"
           lazy
         >
-          <div
-            slot="placeholder"
-            class="image-slot"
-          >
-            <i class="iconfont icon-placeholder" />
-          </div>
+          <template #placeholder>
+            <div class="image-slot">
+              <i class="iconfont icon-placeholder" />
+            </div>
+          </template>
         </el-image>
-        <span class="playCount"><i class="iconfont icon-playnum" /><em>{{ $utils.formartNum(item.playCount) }}</em></span>
+        <span class="playCount"><i class="iconfont icon-playnum" /><em>{{ item.playCount }}</em></span>
       </router-link>
       <div class="info">
         <router-link
@@ -44,27 +43,18 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  components: {},
-  props: {
-    playList: {
-      type: Array,
-      default: () => ([])
-    }
-  },
-  data () {
-    // 这里存放数据
-    return {
-    }
-  },
-  // 监听属性 类似于data概念
-  computed: {},
-  // 方法集合
-  methods: {
+<script lang="ts" setup>
+import { PropType } from 'vue'
+import { TopListItem } from '@/interface'
+defineProps({
+  playList: {
+    type: Array as PropType<TopListItem[]>,
+    default: () => ([])
   }
-}
+})
+
 </script>
+
 <style scoped lang="less">
-@import './index.less'
+@import './index.less';
 </style>
