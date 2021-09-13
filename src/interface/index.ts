@@ -198,7 +198,35 @@ interface GetTopAlbumItem {
 
 interface GetTopAlbumProps extends Common {
   monthData: GetTopAlbumItem[]
+}
 
+interface GetTopListPropItem {
+  id: string
+  coverImgUrl: string
+  name: string
+  [props: string]: any
+}
+
+interface GetTopList extends Common {
+  list: GetTopListPropItem[],
+  artistToplist: any
+}
+
+interface GetTopListDetailItem {
+  id: string
+  coverImgUrl: string
+  name: string
+  tracks: any[]
+  [props: string]: any
+}
+
+interface GetTopListDetail {
+  relatedVideos: any,
+  playlist: GetTopListDetailItem,
+  urls: any,
+  privileges: [],
+  sharedPrivilege: any,
+  resEntrance: any
 }
 
 // interface
@@ -217,5 +245,8 @@ export {
   GetTopListItem,
   GetTopListProps,
   GetTopAlbumItem,
-  GetTopAlbumProps
+  GetTopAlbumProps,
+  GetTopListPropItem,
+  GetTopList,
+  GetTopListDetail
 }

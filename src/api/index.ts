@@ -5,7 +5,9 @@ import {
   BannerProps,
   PlaylistHotProps,
   GetTopListProps,
-  GetTopAlbumProps
+  GetTopAlbumProps,
+  GetTopList,
+  GetTopListDetail
 } from '@/interface'
 
 const apiList = {
@@ -32,7 +34,11 @@ const apiList = {
   // 获取热门歌单
   getTopPlayList: '/top/playlist',
   // 获取新碟上架
-  getTopAlbum: '/top/album'
+  getTopAlbum: '/top/album',
+  // 获取排行榜
+  getTopList: '/toplist',
+  // 获取排行榜详情
+  getTopListDetail: '/playlist/detail'
 }
 
 export interface apiKeyDataType {
@@ -59,7 +65,9 @@ export interface apiKeyDataType {
   getBanner: Promise<BannerProps>
   getPlaylistHot: Promise<PlaylistHotProps>,
   getTopPlayList: Promise<GetTopListProps>,
-  getTopAlbum: Promise<GetTopAlbumProps>
+  getTopAlbum: Promise<GetTopAlbumProps>,
+  getTopList: Promise<GetTopList>,
+  getTopListDetail: Promise<GetTopListDetail>
 }
 
 export type apiKeyType = keyof typeof apiList
