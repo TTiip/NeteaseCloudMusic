@@ -27,7 +27,7 @@
           >{{ item.name }}</span>
         </div>
         <div class="wrapper">
-          <!-- <album-list :album-list="albumList" /> -->
+          <AlbumList :album-list="albumList" />
         </div>
       </div>
       <div class="top_list">
@@ -140,16 +140,17 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { PlaylistHotItem, getPlayListItem } from '@/interface'
+import { PlaylistHotItem, GetTopListItem, GetTopAlbumItem } from '@/interface'
 import axios from '@/axios'
 import Banner from '@/components/banner/index.vue'
 import PlayList from '@/components/play-list/index.vue'
+import AlbumList from '@/components/album-list/index.vue'
 
 const albumIndex = ref(0)
 const playlistIndex = ref(0)
 const mvIndex = ref(0)
 //
-const albumArea = ref([
+const albumArea = [
   {
     name: '全部',
     code: 'all'
@@ -166,33 +167,17 @@ const albumArea = ref([
     name: '日本',
     code: 'jp'
   }
-])
+]
 const mvArea = ref(['全部', '内地', '港台', '欧美', '日本', '韩国'])
 const playlistTags = ref<PlaylistHotItem[]>([])
 const playlistParams = { limit: 5, offset: 0, cat: '' }
-const choosePlayListType = async (index: number) => {
-  // change index
-  playlistIndex.value = index
-  // 处理参数
-  playlistParams.cat = index !== 0 ? playlistTags.value[index].name : ''
-  const getPlayList = await axios({
-    url: 'getPlayList',
-    method: 'GET',
-    params: {
-      ...playlistParams
-    }
-  })
-  playList.value = getPlayList.playlists.splice(0, 10)
-  console.log(getPlayList, 'getPlayList')
-}
-
-const playList = ref<getPlayListItem[]>([])
-// const albumList = ref([])
+const albumParams = { limit: 9, area: '' }
+const playList = ref<GetTopListItem[]>([])
+const albumList = ref<GetTopAlbumItem[]>([])
 const topList = ref([])
 const songList = ref({})
 const artistsList = ref([])
-
-onMounted(async () => {
+const getPlaylistHotFunc = async () => {
   // 热门歌单分类
   const getPlaylistHot = await axios({
     url: 'getPlaylistHot',
@@ -200,7 +185,41 @@ onMounted(async () => {
   })
   playlistTags.value = getPlaylistHot.tags
   playlistTags.value.unshift({ name: '为您推荐' })
+}
+// 热门歌单tab切换
+const choosePlayListType = async (index: number) => {
+  // change index
+  playlistIndex.value = index
+  // 处理参数
+  playlistParams.cat = index !== 0 ? playlistTags.value[index].name : ''
+  const getTopPlayList = await axios({
+    url: 'getTopPlayList',
+    method: 'GET',
+    params: {
+      ...playlistParams
+    }
+  })
+  playList.value = getTopPlayList.playlists.splice(0, 10)
+}
+// 新碟上架tab切换
+const chooseAlbumType = async (index: number) => {
+  // change index
+  albumIndex.value = index
+  albumParams.area = index !== 0 ? albumArea[index].code : ''
+  const getTopAlbum = await axios({
+    url: 'getTopAlbum',
+    method: 'GET',
+    params: {
+      ...albumParams
+    }
+  })
+  albumList.value = getTopAlbum.monthData.splice(0, 9)
+}
+
+onMounted(async () => {
+  getPlaylistHotFunc()
   choosePlayListType(0)
+  chooseAlbumType(0)
 })
 
 </script>

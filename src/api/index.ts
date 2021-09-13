@@ -4,7 +4,8 @@ import {
   LoginQRProps,
   BannerProps,
   PlaylistHotProps,
-  getPlayListProps
+  GetTopListProps,
+  GetTopAlbumProps
 } from '@/interface'
 
 const apiList = {
@@ -29,7 +30,9 @@ const apiList = {
   // 热门歌单分类
   getPlaylistHot: '/playlist/hot',
   // 获取热门歌单
-  getPlayList: '/top/playlist'
+  getTopPlayList: '/top/playlist',
+  // 获取新碟上架
+  getTopAlbum: '/top/album'
 }
 
 export interface apiKeyDataType {
@@ -55,7 +58,8 @@ export interface apiKeyDataType {
   getuserDetail: any,
   getBanner: Promise<BannerProps>
   getPlaylistHot: Promise<PlaylistHotProps>,
-  getPlayList: Promise<getPlayListProps>
+  getTopPlayList: Promise<GetTopListProps>,
+  getTopAlbum: Promise<GetTopAlbumProps>
 }
 
 export type apiKeyType = keyof typeof apiList
