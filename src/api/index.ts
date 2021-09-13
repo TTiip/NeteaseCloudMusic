@@ -1,4 +1,4 @@
-import { SearchHotProps, SuggestInfoProps, LoginQRProps, BannerProps } from '@/interface'
+import { SearchHotProps, SuggestInfoProps, LoginQRProps, BannerProps, PlaylistHotProps } from '@/interface'
 
 const apiList = {
   // 搜索
@@ -13,7 +13,9 @@ const apiList = {
   // 获取用户信息
   getuserDetail: '/user/detail',
   // 获取banner
-  getBanner: '/banner'
+  getBanner: '/banner',
+  // 获取热门歌分类
+  getPlaylistHot: '/playlist/hot'
 }
 
 export interface apiKeyDataType {
@@ -42,6 +44,8 @@ export interface apiKeyDataType {
   getuserDetail: any,
   // 获取banner
   getBanner: BannerProps
+  // 获取热门歌分类
+  getPlaylistHot: PlaylistHotProps
 }
 
 export type apiKeyType = keyof typeof apiList

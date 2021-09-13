@@ -12,26 +12,6 @@
         >
       </div>
     </div>
-    <!-- <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <img
-          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
-          alt=""
-        >
-      </div>
-      <div class="swiper-slide">
-        <img
-          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
-          alt=""
-        >
-      </div>
-      <div class="swiper-slide">
-        <img
-          src="http://p1.music.126.net/F2hTcWUCUXV4OtZYA9kr4A==/109951166370295682.jpg"
-          alt=""
-        >
-      </div>
-    </div> -->
   </div>
 </template>
 

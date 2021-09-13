@@ -5,7 +5,7 @@ interface StoreProps {
     avatarUrl: string
   }
 }
-interface Commom {
+interface Common {
   code: number
 }
 
@@ -15,7 +15,7 @@ interface SearchHotItemProps {
   second: number
   third?: null
 }
-interface SearchHotProps extends Commom {
+interface SearchHotProps extends Common {
   result: {
     hots: SearchHotItemProps[]
   }
@@ -38,11 +38,11 @@ interface SuggestInfoResultProps {
   playlists: any[]
   order: any[]
 }
-interface SuggestInfoProps extends Commom {
+interface SuggestInfoProps extends Common {
   result: SuggestInfoResultProps
 }
 
-interface LoginQRProps extends Commom {
+interface LoginQRProps extends Common {
   data: {
     qrimg: string
     qrurl: string
@@ -77,8 +77,37 @@ interface BannerItemProps {
   scm?: string
 }
 
-interface BannerProps extends Commom {
+interface BannerProps extends Common {
   banners: BannerItemProps[]
+}
+
+interface PlaylistTagProps {
+  id: number,
+  name: string,
+  category: number,
+  usedCount: number,
+  type: number,
+  position: number,
+  createTime: number,
+  highQuality: number,
+  highQualityPos: number,
+  officialPos: number
+}
+interface PlaylistHotItem {
+  playlistTag: PlaylistTagProps,
+  activity: boolean,
+  hot: boolean,
+  usedCount: number,
+  position: number,
+  category: number,
+  createTime: number,
+  name: string,
+  id: number,
+  type: number
+}
+
+interface PlaylistHotProps extends Common {
+  tags: PlaylistHotItem[]
 }
 
 // interface
@@ -90,5 +119,8 @@ export {
   SuggestInfoResultProps,
   LoginQRProps,
   BannerItemProps,
-  BannerProps
+  BannerProps,
+  PlaylistTagProps,
+  PlaylistHotItem,
+  PlaylistHotProps
 }
