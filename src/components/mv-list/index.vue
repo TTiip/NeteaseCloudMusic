@@ -36,7 +36,7 @@
           {{ item.artistName }}
         </router-link>
         <div class="mv-playCount">
-          <i class="iconfont icon-video" /> {{ item.playCount }}
+          <i class="iconfont icon-video" /> {{ utils.formartNum(item.playCount) }}
         </div>
         <div
           v-if="item.publishTime"
@@ -50,6 +50,7 @@
 </template>
 
 <script lang="ts" setup>
+import utils from '@/utils'
 import { PropType } from 'vue'
 import { GetMvFirstDataItem } from '@/interface'
 

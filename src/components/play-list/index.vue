@@ -19,7 +19,7 @@
             </div>
           </template>
         </el-image>
-        <span class="playCount"><i class="iconfont icon-playnum" /><em>{{ item.playCount }}</em></span>
+        <span class="playCount"><i class="iconfont icon-playnum" /><em>{{ utils.formartNum(item.playCount) }}</em></span>
       </a>
       <div class="info">
         <a
@@ -44,6 +44,7 @@
 </template>
 
 <script lang="ts" setup>
+import utils from '@/utils'
 import { PropType } from 'vue'
 import { GetTopListItem } from '@/interface'
 defineProps({
