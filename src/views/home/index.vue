@@ -61,21 +61,21 @@
                     {{ Number(index) + 1 }}
                   </div>
                   <div class="songinfo">
-                    <router-link
+                    <a
                       :to="{ path: '/song', query: { id: item.id }}"
                       class="song_title"
                     >
                       {{ songItem.name }}
-                    </router-link>
+                    </a>
                     <div class="song_author">
-                      <router-link
+                      <a
                         v-for="(author, k) in songItem.ar"
                         :key="k"
                         :to="{ path: '/singer', query: { id: author.id }}"
                         class="song_name"
                       >
                         {{ k !== 0 ? '/ ' + author.name : author.name }}
-                      </router-link>
+                      </a>
                     </div>
                   </div>
                 </div>
