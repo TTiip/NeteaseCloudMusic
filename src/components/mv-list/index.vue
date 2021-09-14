@@ -34,9 +34,10 @@
           class="mv-author"
         >
           {{ item.artistName }}
+          1111
         </router-link>
         <div class="mv-playCount">
-          <i class="iconfont icon-video" /> {{ $utils.formartNum(item.playCount) }}
+          <i class="iconfont icon-video" /> {{ item.playCount }}
         </div>
         <div
           v-if="item.publishTime"
@@ -50,9 +51,12 @@
 </template>
 
 <script lang="ts" setup>
+import { PropType } from 'vue'
+import { GetMvFirstDataItem } from '@/interface'
+
 defineProps({
   mvList: {
-    type: Array,
+    type: Array as PropType<GetMvFirstDataItem[]>,
     default: () => ([])
   }
 })

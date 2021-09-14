@@ -271,6 +271,30 @@ interface GetTopListDetail {
   resEntrance: any
 }
 
+interface GetMvFirstDataItem {
+  id: number
+  cover: string
+  imgurl?: string
+  publishTime?: string
+  name: string
+  playCount: number
+  briefDesc: null
+  desc: null
+  artistName: string
+  artistId: number
+  duration: number
+  mark: number
+  subed: boolean
+  artists: {
+    id: number
+    name: string
+  }[]
+}
+
+interface GetMvFirst extends Common {
+  data: GetMvFirstDataItem[]
+}
+
 // interface
 export {
   StoreProps,
@@ -291,5 +315,7 @@ export {
   GetTopListPropItem,
   GetTopList,
   GetTopListDetailItem,
-  GetTopListDetail
+  GetTopListDetail,
+  GetMvFirstDataItem,
+  GetMvFirst
 }
