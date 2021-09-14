@@ -145,7 +145,8 @@ import {
   GetTopListItem,
   GetTopAlbumItem,
   GetTopListPropItem,
-  GetMvFirstDataItem
+  GetMvFirstDataItem,
+  GetArtists
 } from '@/interface'
 import axios from '@/axios'
 import Banner from '@/components/banner/index.vue'
@@ -184,8 +185,8 @@ const playList = ref<GetTopListItem[]>([])
 const albumList = ref<GetTopAlbumItem[]>([])
 const topList = ref<GetTopListPropItem[]>([])
 const mvList = ref<GetMvFirstDataItem[]>([])
+const artistsList = ref<GetArtists[]>([])
 const songList = ref({})
-// const artistsList = ref([])
 const getPlaylistHot = async () => {
   const getPlaylistHotData = await axios({
     url: 'getPlaylistHot',
@@ -258,13 +259,26 @@ const getMvList = async (index: number) => {
   mvList.value = getMvFirstData.data
 }
 
+const getTopArtists = async () => {
+  const getTopArtistsData = await axios({
+    url: 'getTopArtists',
+    method: 'GET',
+    params: {
+      limit: 16,
+      offset: 0
+    }
+  })
+  artistsList.value = getTopArtistsData.artists
+}
+
 onMounted(async () => {
   Promise.allSettled([
     getPlaylistHot(),
     getTopPlayList(0),
     getTopAlbum(0),
     getTopList(),
-    getMvList(0)
+    getMvList(0),
+    getTopArtists()
   ])
 })
 

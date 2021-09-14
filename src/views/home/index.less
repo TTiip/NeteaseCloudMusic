@@ -157,35 +157,34 @@
 
 .artists_item {
   width: 120px;
+  margin: 8px;
 
   .el-image {
-      transition: all .4s linear;
+    transition: all .6s linear;
   }
 
   &:hover {
-      .el-image {
-          transform: rotateY(180deg);
-      }
+    .el-image {
+      // transform: rotateY(180deg);
+      transform: rotate(25deg);
+    }
   }
 
   .faceImg {
-      width: 120px;
-      height: 120px;
-      border-radius: 100%;
-      overflow: hidden;
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    overflow: hidden;
   }
-
   .info {
-      text-align: center;
-
-      .name {
-          line-height: 28px;
-          font-size: 14px;
-      }
-
-      .albumSize {
-          color: #999;
-      }
+    text-align: center;
+    .name {
+      line-height: 28px;
+      font-size: 14px;
+    }
+    .albumSize {
+      color: #999;
+    }
   }
 }
 

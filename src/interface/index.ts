@@ -295,6 +295,39 @@ interface GetMvFirst extends Common {
   data: GetMvFirstDataItem[]
 }
 
+interface Artists {
+  name: string,
+  id: number,
+  picId: number,
+  img1v1Id: number,
+  briefDesc: string
+  picUrl: string
+  img1v1Url: string
+  albumSize: number,
+  alias: string[]
+  trans: string
+  musicSize: number,
+  topicPerson: number,
+  showPrivateMsg: null,
+  isSubed: null,
+  accountId: number,
+  'picId_str': string
+  'img1v1Id_str': string
+  transNames: null,
+  followed: boolean,
+  mvSize: null,
+  publishTime: null,
+  identifyTag: null,
+  alg: null,
+  fansCount: null
+  }
+
+interface GetTopArtists extends Common {
+  artists: Artists[]
+  more: boolean
+
+}
+
 // interface
 export {
   StoreProps,
@@ -317,5 +350,7 @@ export {
   GetTopListDetailItem,
   GetTopListDetail,
   GetMvFirstDataItem,
-  GetMvFirst
+  GetMvFirst,
+  GetArtists,
+  GetTopArtists
 }
