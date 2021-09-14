@@ -46,7 +46,7 @@ const renderBanner = () => {
     // 循环
     loop: true,
     // 在slide之间设置距离（单位px）
-    spaceBetween: 25,
+    spaceBetween: 0,
     // slide的切换效果，默认为"slide"（位移切换），可设置为'slide'（普通切换、默认）,"fade"（淡入）"cube"（方块）"coverflow"（3d流）"flip"（3d翻转）。
     effect: 'coverflow',
     // 鼠标覆盖Swiper时指针会变成手掌形状，拖动时指针会变成抓手形状。
@@ -84,8 +84,9 @@ const renderBanner = () => {
       slideShadows: true
     },
     on: {
-      slideChange: function (swiperInstance) {
-        console.log(swiperInstance, 'swiperInstance')
+      click: function (swiper, evevt) {
+        console.log(swiper, 'swiper')
+        console.log(evevt.target, 'evevt.target')
       }
     }
   })

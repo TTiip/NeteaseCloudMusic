@@ -165,7 +165,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, reactive } from 'vue'
-import { SearchHotItemProps, SuggestInfoResult } from '@/interface'
+import { SearchHotItemProps, SuggestInfoResultProps } from '@/interface'
 import useMessage from '@/hooks/useMessage'
 import { removeSessionStorage } from '@/hooks/useSessionStorage'
 //
@@ -245,7 +245,7 @@ const listType = reactive({
 const search = reactive({
   isShowSearch: false,
   keyVal: '',
-  suggestInfo: {} as SuggestInfoResult,
+  suggestInfo: {} as SuggestInfoResultProps,
   searchHotList: [] as SearchHotItemProps[],
   handleClose: () => {
     search.isShowSearch = false

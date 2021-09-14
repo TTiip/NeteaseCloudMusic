@@ -45,10 +45,10 @@
 
 <script lang="ts" setup>
 import { PropType } from 'vue'
-import { TopListItem } from '@/interface'
+import { GetTopListItem } from '@/interface'
 defineProps({
   playList: {
-    type: Array as PropType<TopListItem[]>,
+    type: Array as PropType<GetTopListItem[]>,
     default: () => ([])
   }
 })
