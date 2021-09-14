@@ -9,7 +9,7 @@
             v-for="(item, index) in playlistTags"
             :key="item.id"
             :class="index === playlistIndex ? 'active' : ''"
-            @click="choosePlayListType(index)"
+            @click="getTopPlayList(index)"
           >{{ item.name }}</span>
         </div>
         <div class="wrapper">
@@ -23,7 +23,7 @@
             v-for="(item, index) in albumArea"
             :key="item.code"
             :class="index === albumIndex ? 'active' : ''"
-            @click="chooseAlbumType(index)"
+            @click="getTopAlbum(index)"
           >{{ item.name }}</span>
         </div>
         <div class="wrapper">
