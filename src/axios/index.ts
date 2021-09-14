@@ -72,10 +72,10 @@ instance.interceptors.request.use(
     removePending(request)
     if (request.method && HAS_QS_METHOD.includes(request.method)) {
       // 这里只处理post请求，根据自己情况修改
-      request.data.time = +new Date()
+      // request.data.time = +new Date()
     } else if (request.method && NOT_QS_METHOD.includes(request.method)) {
       // 如果是get请求则添加时间戳，避免缓存
-      request.params.time = +new Date()
+      // request.params.time = +new Date()
     }
     request.cancelToken = new CancelToken((c) => {
       pending.push({ url: request.url, method: request.method, params: request.params, data: request.data, cancel: c })

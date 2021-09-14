@@ -239,7 +239,6 @@ const getToplist = async () => {
       ...songList.value,
       [item.id]: getTopListDetail.playlist.tracks.splice(0, 5)
     }
-    console.log(songList, 'songList')
   })
 }
 
