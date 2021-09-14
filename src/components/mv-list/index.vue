@@ -34,7 +34,6 @@
           class="mv-author"
         >
           {{ item.artistName }}
-          1111
         </router-link>
         <div class="mv-playCount">
           <i class="iconfont icon-video" /> {{ item.playCount }}

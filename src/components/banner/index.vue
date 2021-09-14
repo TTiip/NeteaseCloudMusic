@@ -1,11 +1,11 @@
 <template>
   <div class="swiper-container w1200">
     <div class="swiper-wrapper">
-      <!-- @click="sliderItemClick(item)" -->
       <div
         v-for="item of bannerList"
         :key="item.imageUrl"
         class="swiper-slide"
+        @click="sliderItemClick(item)"
       >
         <div class="banner-item">
           <img
@@ -82,11 +82,6 @@ const renderBanner = () => {
       modifier: 1,
       // 是否开启slide阴影
       slideShadows: true
-    },
-    on: {
-      slideChange: function (swiper) {
-        // console.log(swiper.clickedSlide.className, 'swiper')
-      }
     }
   })
 }

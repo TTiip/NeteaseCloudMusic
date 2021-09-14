@@ -84,18 +84,18 @@
           </el-col>
         </el-row>
       </div>
-      <!-- <div class="mv_list">
+      <div class="mv_list">
         <div class="h_title">
           <h3>最新MV</h3>
           <span
             v-for="(item, index) in mvArea"
-            :key="item.id"
+            :key="item"
             :class="index === mvIndex ? 'active' : ''"
-            @click="chooseMvType(index)"
+            @click="getMvList(index)"
           >{{ item }}</span>
         </div>
         <div class="wrapper">
-          <mv-list
+          <MvList
             class="loadMv"
             :mv-list="mvList"
           />
@@ -133,7 +133,7 @@
             </div>
           </router-link>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -144,16 +144,18 @@ import {
   PlaylistHotItem,
   GetTopListItem,
   GetTopAlbumItem,
-  GetTopListPropItem
+  GetTopListPropItem,
+  GetMvFirstDataItem
 } from '@/interface'
 import axios from '@/axios'
 import Banner from '@/components/banner/index.vue'
 import PlayList from '@/components/play-list/index.vue'
 import AlbumList from '@/components/album-list/index.vue'
+import MvList from '@/components/mv-list/index.vue'
 
 const albumIndex = ref(0)
 const playlistIndex = ref(0)
-// const mvIndex = ref(0)
+const mvIndex = ref(0)
 //
 const albumArea = [
   {
@@ -173,13 +175,15 @@ const albumArea = [
     code: 'jp'
   }
 ]
-// const mvArea = ref(['全部', '内地', '港台', '欧美', '日本', '韩国'])
+const mvArea = ['全部', '内地', '港台', '欧美', '日本', '韩国']
 const playlistTags = ref<PlaylistHotItem[]>([])
 const playlistParams = { limit: 5, offset: 0, cat: '' }
 const albumParams = { limit: 9, area: '' }
+const mvParams = { limit: 10, area: '' }
 const playList = ref<GetTopListItem[]>([])
 const albumList = ref<GetTopAlbumItem[]>([])
 const topList = ref<GetTopListPropItem[]>([])
+const mvList = ref<GetMvFirstDataItem[]>([])
 const songList = ref({})
 // const artistsList = ref([])
 const getPlaylistHot = async () => {
@@ -227,7 +231,7 @@ const getTopList = async () => {
   })
   topList.value = getTopListData.list.splice(0, 8)
   topList.value.forEach(async item => {
-    const getTopListDetail = await axios({
+    const getTopListDetailData = await axios({
       url: 'getTopListDetail',
       method: 'GET',
       params: {
@@ -236,9 +240,22 @@ const getTopList = async () => {
     })
     songList.value = {
       ...songList.value,
-      [item.id]: getTopListDetail.playlist.tracks.splice(0, 5)
+      [item.id]: getTopListDetailData.playlist.tracks.splice(0, 5)
     }
   })
+}
+
+const getMvList = async (index: number) => {
+  mvIndex.value = index
+  mvParams.area = index !== 0 ? mvArea[index] : ''
+  const getMvFirstData = await axios({
+    url: 'getMvFirst',
+    method: 'GET',
+    params: {
+      ...mvParams
+    }
+  })
+  mvList.value = getMvFirstData.data
 }
 
 onMounted(async () => {
@@ -246,7 +263,8 @@ onMounted(async () => {
     getPlaylistHot(),
     getTopPlayList(0),
     getTopAlbum(0),
-    getTopList()
+    getTopList(),
+    getMvList(0)
   ])
 })
 
