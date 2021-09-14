@@ -24,7 +24,9 @@ import {
   ElDropdownItem,
   ElDialog,
   ElForm,
-  ElFormItem
+  ElFormItem,
+  ElCarouselItem,
+  ElCarousel
 } from 'element-plus'
 
 // 创建实例
@@ -46,7 +48,9 @@ useDirective(app)
   ElDropdownItem,
   ElDialog,
   ElForm,
-  ElFormItem
+  ElFormItem,
+  ElCarouselItem,
+  ElCarousel
 ].map(item => app.component(item.name, item))
 // 全局设置尺寸。
 app.config.globalProperties.$ELEMENT = { size: 'small' }

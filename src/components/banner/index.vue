@@ -7,10 +7,15 @@
         class="swiper-slide"
         @click="sliderItemClick(item)"
       >
-        <img
-          :src="item.imageUrl"
-          alt=""
-        >
+        <div class="banner-item">
+          <img
+            :src="item.imageUrl"
+            alt=""
+          >
+          <div class="type-title">
+            {{ item.typeTitle }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -38,21 +43,27 @@ const renderBanner = () => {
   Swiper.use([Autoplay, EffectCoverflow, EffectCube, Pagination, Navigation])
   /* eslint-disable no-new */
   new Swiper('.swiper-container', {
-    // observer: true,
     // 循环
     loop: true,
-    // 每张播放时长3秒，自动播放
+    // 在slide之间设置距离（单位px）
     spaceBetween: 25,
+    // slide的切换效果，默认为"slide"（位移切换），可设置为'slide'（普通切换、默认）,"fade"（淡入）"cube"（方块）"coverflow"（3d流）"flip"（3d翻转）。
     effect: 'coverflow',
     // 鼠标覆盖Swiper时指针会变成手掌形状，拖动时指针会变成抓手形状。
     grabCursor: true,
+    // 设定为true时，active slide会居中，而不是默认状态下的居左。
     centeredSlides: true,
     // 添加点击左右两个跳转至对应的banner图
     slideToClickedSlide: true,
+    // 当swiper在触摸时阻止默认事件（preventDefault），用于防止触摸时触发链接跳转。
+    preventClicks: false,
+    // 阻止click冒泡。拖动Swiper时阻止click事件
+    preventClicksPropagation: true,
+    // 设置slider容器能够同时显示的slides数量(carousel模式)。
     slidesPerView: 1.32,
     autoplay: {
       // 自动切换的时间间隔，单位ms
-      delay: 3000,
+      delay: 5000,
       // 如果设置为true，当切换到最后一个slide时停止自动切换。（loop模式下无效）。
       stopOnLastSlide: false,
       // 如果设置为false，用户操作swiper之后自动切换不会停止，每次都会重新启动autoplay。
@@ -61,11 +72,21 @@ const renderBanner = () => {
       pauseOnMouseEnter: true
     },
     coverflowEffect: {
+      // slide做3d旋转时Y轴的旋转角度
       rotate: 0,
+      // 每个slide之间的拉伸值，越大slide靠得越紧。5.3.6 后可使用%百分比
       stretch: 0,
-      depth: 100,
+      // slide的位置深度。值越大z轴距离越远，看起来越小。
+      depth: 200,
+      // depth和rotate和stretch的倍率，相当于depth*modifier、rotate*modifier、stretch*modifier，值越大这三个参数的效果越明显。
       modifier: 1,
+      // 是否开启slide阴影
       slideShadows: true
+    },
+    on: {
+      slideChange: function (swiperInstance) {
+        console.log(swiperInstance, 'swiperInstance')
+      }
     }
   })
 }

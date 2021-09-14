@@ -2,8 +2,21 @@
 .swiper-container {
   margin: 0 auto;
   .swiper-slide {
-    img {
-      width: 100%;
+    position: relative;
+    .banner-item {
+      img {
+        width: 100%;
+        border-radius: 6px;
+      }
+      .type-title {
+        position: absolute;
+        right: 0;
+        bottom: 3px;
+        color: #fff;
+        border-radius: 6px 0 6px 0;
+        padding: 4px 8px;
+        background: #ff6700;
+      }
     }
   }
 }
