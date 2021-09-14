@@ -85,8 +85,8 @@ const submitClick = () => {
     if (valid) {
       const res = await axios({
         url: 'cellPhoneLogin',
-        method: 'POST',
-        data: {
+        method: 'get',
+        params: {
           phone: loginForm.phone,
           // 加密调用后台后台有时候会报错，所以现在先使用不加密。
           // md5_password: cryptoJs.MD5(loginForm.password).toString()
