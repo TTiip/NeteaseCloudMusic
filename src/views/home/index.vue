@@ -182,90 +182,72 @@ const albumList = ref<GetTopAlbumItem[]>([])
 const topList = ref<GetTopListPropItem[]>([])
 const songList = ref({})
 // const artistsList = ref([])
-const getPlaylistHot = () => axios({
-  url: 'getPlaylistHot',
-  method: 'GET'
-})
+const getPlaylistHot = async () => {
+  const getPlaylistHotData = await axios({
+    url: 'getPlaylistHot',
+    method: 'GET'
+  })
+  playlistTags.value = getPlaylistHotData.tags
+  playlistTags.value.unshift({ name: '为您推荐' })
+}
 // 热门歌单tab切换
-const getTopPlayList = (index: number) => {
+const getTopPlayList = async (index: number) => {
   // change index
   playlistIndex.value = index
   // 处理参数
   playlistParams.cat = index !== 0 ? playlistTags.value[index].name : ''
-  return axios({
+  const getTopPlayListData = await axios({
     url: 'getTopPlayList',
     method: 'GET',
     params: {
       ...playlistParams
     }
   })
+  playList.value = getTopPlayListData.playlists.splice(0, 10)
 }
 // 新碟上架tab切换
-const getTopAlbum = (index: number) => {
+const getTopAlbum = async (index: number) => {
   // change index
   albumIndex.value = index
   albumParams.area = index !== 0 ? albumArea[index].code : ''
-  return axios({
+  const getTopAlbumData = await axios({
     url: 'getTopAlbum',
     method: 'GET',
     params: {
       ...albumParams
     }
   })
+  albumList.value = getTopAlbumData.monthData.splice(0, 9)
 }
 // 获取排行榜相关
-const getTopList = () => axios({
-  url: 'getTopList',
-  method: 'GET'
-})
+const getTopList = async () => {
+  const getTopListData = await axios({
+    url: 'getTopList',
+    method: 'GET'
+  })
+  topList.value = getTopListData.list.splice(0, 8)
+  topList.value.forEach(async item => {
+    const getTopListDetail = await axios({
+      url: 'getTopListDetail',
+      method: 'GET',
+      params: {
+        id: item.id
+      }
+    })
+    songList.value = {
+      ...songList.value,
+      [item.id]: getTopListDetail.playlist.tracks.splice(0, 5)
+    }
+  })
+}
 
 onMounted(async () => {
-  const [
-    getPlaylistHotData,
-    getTopPlayListData,
-    getTopAlbumData,
-    getTopListData
-  ] = await Promise.allSettled([
+  Promise.allSettled([
     getPlaylistHot(),
     getTopPlayList(0),
     getTopAlbum(0),
     getTopList()
   ])
-  // 获取热门歌单tab
-  if (getPlaylistHotData.status === 'fulfilled') {
-    playlistTags.value = (getPlaylistHotData.value as any).tags
-    playlistTags.value.unshift({ name: '为您推荐' })
-  }
-  // 热门歌单tab切换
-  if (getTopPlayListData.status === 'fulfilled') {
-    playList.value = (getTopPlayListData.value as any).playlists.splice(0, 10)
-  }
-  // 新碟上架tab切换
-  if (getTopAlbumData.status === 'fulfilled') {
-    albumList.value = (getTopAlbumData.value as any).monthData.splice(0, 9)
-  }
-  // 排行榜
-  if (getTopListData.status === 'fulfilled') {
-    topList.value = (getTopListData.value as any).list.splice(0, 8)
-    console.log(topList.value, 'topList.value')
-    topList.value.forEach(async item => {
-      const getTopListDetail = await axios({
-        url: 'getTopListDetail',
-        method: 'GET',
-        params: {
-          id: item.id
-        }
-      })
-      songList.value = {
-        ...songList.value,
-        [item.id]: getTopListDetail.playlist.tracks.splice(0, 5)
-      }
-    })
-  }
-  // getToplist()
-  // getPlaylistHotFunc()
-  // choosePlayListType(0)
-  // chooseAlbumType(0)
 })
 
 </script>
