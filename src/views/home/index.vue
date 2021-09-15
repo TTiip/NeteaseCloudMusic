@@ -61,21 +61,21 @@
                     {{ Number(index) + 1 }}
                   </div>
                   <div class="songinfo">
-                    <a
+                    <router-link
                       :to="{ path: '/song', query: { id: item.id }}"
                       class="song_title"
                     >
                       {{ songItem.name }}
-                    </a>
+                    </router-link>
                     <div class="song_author">
-                      <a
+                      <router-link
                         v-for="(author, k) in songItem.ar"
                         :key="k"
                         :to="{ path: '/singer', query: { id: author.id }}"
                         class="song_name"
                       >
                         {{ k !== 0 ? '/ ' + author.name : author.name }}
-                      </a>
+                      </router-link>
                     </div>
                   </div>
                 </div>
@@ -135,6 +135,7 @@
         </div>
       </div>
     </div>
+    <PlayBar />
   </div>
 </template>
 
@@ -153,6 +154,8 @@ import Banner from '@/components/banner/index.vue'
 import PlayList from '@/components/play-list/index.vue'
 import AlbumList from '@/components/album-list/index.vue'
 import MvList from '@/components/mv-list/index.vue'
+
+import PlayBar from '@/components/play-bar/index.vue'
 
 const albumIndex = ref(0)
 const playlistIndex = ref(0)

@@ -1,0 +1,3 @@
+<template>
+  play-list
+</template>
