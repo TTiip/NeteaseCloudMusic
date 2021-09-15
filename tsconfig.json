@@ -5,7 +5,7 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
-    "importHelpers": true,
+    "importHelpers": false,
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
