@@ -1,4 +1,7 @@
 <template>
+  <div style="margin-bottom: 100px;position: fixed;bottom: 0;">
+    {{ lockName }}
+  </div>
   <div
     v-if="curSongInfo"
     :class="['play-bar', lockName]"
@@ -12,7 +15,7 @@
       >
         <i
           class="iconfont icon-lock"
-          :class="[locked ? 'active': '']"
+          :class="[lockedBar ? 'active': '']"
         />
       </div>
     </div>
@@ -211,10 +214,11 @@ const playMode = ref(0)
 const timer: any = ref(null)
 const lyricsVisible = ref(false)
 const playlistVisible = ref(false)
-// 歌词弹窗时，固定播放条
+// 歌词或者播放列表展示弹窗时，固定播放条
 const isLock = ref(false)
-const locked = ref(false)
-const lockName = ref('active')
+// 固定palyBar组件
+const lockedBar = ref(false)
+const lockName = ref('')
 
 // computed
 const playIndex = computed(() => store.state.playIndex)
@@ -346,9 +350,7 @@ const enterBar = () => {
   lockName.value = 'active'
 }
 const leaveBar = () => {
-  // 点击锁住按钮，会触发mouseleave 事件 此时的e的值是 undefined  而正常通过鼠标移出的时候 e是个对象
-  // if (!e) return
-  if (!isLock.value && !locked.value) {
+  if (!isLock.value && !lockedBar.value) {
     clearTimeout(timer.value)
     timer.value = setTimeout(() => {
       lockName.value = isLock.value ? 'active' : ''
@@ -356,8 +358,8 @@ const leaveBar = () => {
   }
 }
 const lockBar = () => {
-  locked.value = !locked.value
-  isLock.value = locked.value
+  lockedBar.value = !lockedBar.value
+  isLock.value = lockedBar.value
   leaveBar()
 }
 const lyricsHandle = () => {
