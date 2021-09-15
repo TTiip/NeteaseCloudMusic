@@ -47,7 +47,7 @@ const apiList = {
   // 获取首页热门歌手
   getTopArtists: '/top/artists',
   // 获取歌曲的歌词
-  getLyric: '/api/lyric'
+  getLyric: '/lyric'
 }
 
 export interface apiKeyDataType {

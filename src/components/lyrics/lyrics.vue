@@ -11,6 +11,7 @@
           v-for="(item, index) in lyricObj"
           :key="index"
           :class="[isCurLyric(index)]"
+          @click="lyricClick(item)"
         >
           {{ item.txt }}
         </p>
@@ -40,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, defineComponent } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import axios from '@/axios'
 
 const props = defineProps({
@@ -95,9 +96,15 @@ watch(() => props.currentTime, newVal => {
 })
 
 /* mounted */
-// this.getLyrics(this.lyricsId)
+// mounted的时候默认获取一次当前歌曲的歌词。
+onMounted(() => {
+  getLyrics(props.lyricsId)
+})
 
 /* methods */
+const lyricClick = (lyricItem: string) => {
+  console.log(lyricItem, 'lyricItem')
+}
 const isCurLyric = (index: any) => index === curIndex.value && !props.local ? 'active' : ''
 const getLyrics = async (id: string | number) => {
   const getLyricData = await axios({
@@ -124,7 +131,8 @@ const formartLyric = (lrc: { version: number, lyric: string }) => {
     if (!arr) {
       return
     }
-    lyricObj.value.push({ t: arr[1] * 60 * 1 + arr[2] * 1, txt: arr[3] })
+    lyricObj.value.push({ time: arr[1] * 60 * 1 + arr[2] * 1, txt: arr[3] })
+    console.log(lyricObj.value, 'lyricObj.value')
   })
 
   // 根据时间轴重排顺序
@@ -134,7 +142,7 @@ const formartLyric = (lrc: { version: number, lyric: string }) => {
 }
 const findCurIndex = (t: any) => {
   for (let i = 0; i < lyricObj.value.length; i++) {
-    if (t <= lyricObj.value[i].t) {
+    if (t <= lyricObj.value[i].time) {
       return i
     }
   }
