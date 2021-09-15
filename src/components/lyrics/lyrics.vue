@@ -137,7 +137,7 @@ const formartLyric = (lrc: { version: number, lyric: string }) => {
 
   // 根据时间轴重排顺序
   lyricObj.value.sort((a: any, b: any) => {
-    return a.t - b.t
+    return a.time - b.ttime
   })
 }
 const findCurIndex = (t: any) => {
