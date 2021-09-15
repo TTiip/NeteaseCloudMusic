@@ -295,7 +295,7 @@ interface GetMvFirst extends Common {
   data: GetMvFirstDataItem[]
 }
 
-interface Artists {
+interface GetArtists {
   name: string,
   id: number,
   picId: number,
@@ -323,7 +323,7 @@ interface Artists {
   }
 
 interface GetTopArtists extends Common {
-  artists: Artists[]
+  artists: GetArtists[]
   more: boolean
 
 }

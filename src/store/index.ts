@@ -59,13 +59,42 @@ export default createStore({
         duration: '04:39',
         url: 'https://music.163.com/song/media/outer/url?id=417859631.mp3',
         publishTime: 'NaN年NaN月NaN日'
+      },
+      {
+        id: '1498342485',
+        name: '耗尽',
+        mvId: 0,
+        singer: [{
+          id: 5781,
+          name: '薛之谦',
+          alia: ['Joker Xue']
+        },
+        {
+          id: 12479356,
+          name: '郭聪明'
+        }],
+        album: {
+          id: 121012393,
+          name: '天外来物',
+          picUrl: 'https://p2.music.126.net/jOrfzq4tB9ENWQVWLhi3Ag==/109951165591010361.jpg',
+          pic_str: '109951165591010361',
+          pic: 109951165591010370
+        },
+        alia: [],
+        vip: false,
+        duration: '04:19',
+        url: 'https://music.163.com/song/media/outer/url?id=1498342485.mp3',
+        publishTime: 'NaN年NaN月NaN日'
       }
-    ], // 播放列表
-    playIndex: 0, // 当前播放歌曲在播放列表的所在位置
+    ],
+    // 播放列表
+    playIndex: 0,
+    // 当前播放歌曲在播放列表的所在位置
     playListTips: 0 // 添加及播放成功后，播放列表按钮提示的文字
   },
   mutations: {
-    setLoading (state, loading) {
+    setLoading (state,
+      loading) {
       state.isLoading = loading
     },
     setLogin (state, isLogin) {

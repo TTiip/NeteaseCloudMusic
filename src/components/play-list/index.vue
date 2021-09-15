@@ -5,8 +5,8 @@
       :key="item.id"
       class="item"
     >
-      <a
-        :to="{ path: 'playlist/detail', query: { id: item.id }}"
+      <router-link
+        :to="{ path: '/playlist/detail', query: { id: item.id }}"
         class="faceImg"
       >
         <el-image
@@ -20,23 +20,23 @@
           </template>
         </el-image>
         <span class="playCount"><i class="iconfont icon-playnum" /><em>{{ utils.formartNum(item.playCount) }}</em></span>
-      </a>
+      </router-link>
       <div class="info">
-        <a
-          :to="{ path: 'playlist/detail', query: { id: item.id }}"
+        <router-link
+          :to="{ path: '/playlist/detail', query: { id: item.id }}"
           class="info_name"
         >
           {{ item.name }}
-        </a>
+        </router-link>
         <div class="tags">
-          <a
+          <router-link
             v-for="(tag, index) in item.tags"
             :key="index"
             :to="{ path: '/playlist', query: { cat: tag }}"
             class="tag"
           >
             #{{ tag }}
-          </a>
+          </router-link>
         </div>
       </div>
     </div>

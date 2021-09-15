@@ -1,7 +1,4 @@
 <template>
-  <div style="margin-bottom: 100px;position: fixed;bottom: 0;">
-    {{ lockName }}
-  </div>
   <div
     v-if="curSongInfo"
     :class="['play-bar', lockName]"
@@ -29,6 +26,7 @@
         ref="audio"
         preload="auto"
         :src="curSongInfo.url"
+        autoplay
         @canplay="canplaySong"
         @playing="playSong"
         @ended="endedSong"
@@ -61,12 +59,12 @@
             </router-link>
             <p>
               <router-link
-                v-for="(author, k) in curSongInfo.singer"
+                v-for="(author, index) in curSongInfo.singer"
                 :key="author.name"
                 :to="{ path: '/singer', query: { id: author.id }}"
                 class="song_author"
               >
-                {{ k !== 0 ? ' / ' + author.name : author.name }}
+                {{ index !== 0 ? ' / ' + author.name : author.name }}
               </router-link>
             </p>
           </div>
@@ -152,10 +150,10 @@
                     @click="lyricsHandle"
                   />
                 </h3>
-                <!-- <lyrics
+                <lyrics
                   :s-id="curSongInfo.id"
                   :current-time="currentTime"
-                /> -->
+                />
               </div>
               <div
                 v-show="playlistVisible"
@@ -190,13 +188,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
 import ProgressLine from '@/components/progress/index.vue'
 import utils from '@/utils'
 // import songList from '@/components/song-list.vue'
-// import Lyrics from '@/components/lyrics.vue'
+import Lyrics from '@/components/lyrics.vue'
 
+// 初始化audio标签ref
+const audio = ref<any>(null)
 // 初始化音频准备
 const initAudioReady = ref(false)
 // 是否禁音
@@ -206,7 +206,7 @@ const currentTime = ref(0)
 // 音频总时长
 const totalTime = ref(0)
 // 音量值(0~1)
-const volumeNum = ref(0.5)
+const volumeNum = ref(1)
 // 取消禁音的时候，设置保留的上一次的音量值
 const oldVolume = ref(0)
 // 播放模式  0循环播放、1单曲循环、2随机播放
@@ -220,7 +220,8 @@ const isLock = ref(false)
 const lockedBar = ref(false)
 const lockName = ref('')
 
-// computed
+/* computed */
+
 const playIndex = computed(() => store.state.playIndex)
 const playList = computed(() => store.state.playList)
 const isPlayed = computed(() => store.state.isPlayed)
@@ -242,13 +243,14 @@ const modeIcon = computed(() => [{
 // 音频进度条长度
 const audioProgressWidth = computed(() => currentTime.value / totalTime.value * 100 + '%')
 const volumeProgressWidth = computed(() => volumeNum.value / 1 * 100 + '%')
-const curSongInfo: any = computed(() => playList.value[playIndex.value])
+const curSongInfo = computed(() => playList.value[playIndex.value])
 
-// methods
+/* methods */
+
 // 音频播放/暂停/上一首/下一首事件
 const audioHandler = (type: string) => {
   if (type === 'play') {
-    store.commit(SET_PLAYS_TATUS, isPlayed.value)
+    store.commit(SET_PLAYS_TATUS, !isPlayed.value)
     store.commit(SET_PLAY_INDEX, playIndex.value)
   } else {
     changeSong(type)
@@ -286,9 +288,16 @@ const errorSong = () => {
 }
 // 音量禁音及取消操作
 const volumeHandler = () => {
-  // isMuted.value = this.$refs.audio.muted = this.isMuted ? 0 : 1
+  isMuted.value = audio.value.muted = !isMuted.value
   isMuted.value && (oldVolume.value = volumeNum.value)
-  volumeNum.value = isMuted.value ? 0 : oldVolume.value
+  volumeNum.value = isMuted.value
+    ? 0
+    : oldVolume.value === 0
+      ? 1
+      : oldVolume.value
+
+  // 如果禁用的时候音量为0这直接设置成1
+  audio.value.volume = volumeNum.value
 }
 // 点击拖拽进度条，设置当前时间
 const setAudioProgress = (params: any) => {
@@ -297,15 +306,15 @@ const setAudioProgress = (params: any) => {
 
   // 拖拽的时候，不实时更改音频的时间
   if (params.flag) {
-    // this.$refs.audio.currentTime = params.val * this.totalTime
+    audio.value.currentTime = params.val * totalTime.value
   }
 }
 // 点击拖拽音量条，设置当前音量
 const setvolumeProgress = (params: any) => {
   volumeNum.value = params.val
   oldVolume.value = params.val
-  // this.$refs.audio.volume = params.val
-  // this.isMuted = this.$refs.audio.muted = params.val ? 0 : 1
+  audio.value.volume = params.val
+  isMuted.value = audio.value.muted = !params.val
 }
 // 切换播放模式
 const changePlayMode = () => {
@@ -319,10 +328,13 @@ const clearSonglist = () => {
   store.commit(SET_PLAY_INDEX, 0)
 }
 // 手动切换歌曲
-const changeSong = (type: string) => { // type: prev/next  上一首/下一首
-  if (playList.value.length !== 1) { // 若播放列表只有一首歌则单曲循环
+// type: prev/next  上一首/下一首
+const changeSong = (type: string) => {
+  // 若播放列表只有一首歌则单曲循环
+  if (playList.value.length !== 1) {
     let index = playIndex.value
-    if (playMode.value === 2) { // 随机模式
+    if (playMode.value === 2) {
+      // 随机模式
       index = Math.floor(Math.random() * playList.value.length - 1) + 1
     } else {
       if (type === 'prev') {
@@ -341,8 +353,8 @@ const changeSong = (type: string) => { // type: prev/next  上一首/下一首
 }
 // 单曲循环歌曲
 const loopSong = () => {
-  // this.$refs.audio.currentTime = 0
-  // this.$refs.audio.play()
+  audio.value.currentTime = 0
+  audio.value.play()
   store.commit(SET_PLAYS_TATUS, true)
 }
 const enterBar = () => {
@@ -376,6 +388,32 @@ const popverClose = () => {
   lyricsVisible.value = playlistVisible.value = isLock.value = false
   leaveBar()
 }
+
+/* watch */
+watch(() => curSongInfo.value, (newVal, olVal) => {
+  if (!olVal || (olVal && newVal.id === olVal.id)) {
+    return
+  }
+  // 当前播放歌曲变化的时候  重置状态及当前播放的时长
+  initAudioReady.value = false
+  currentTime.value = 0
+  nextTick(() => {
+    if (audio.value) {
+      audio.value.play()
+    }
+  })
+})
+watch(() => isPlayed.value, (newVal) => {
+  // 等待音频加载成功完成后播放
+  if (!initAudioReady.value) {
+    return
+  }
+  nextTick(() => {
+    if (audio.value) {
+      newVal ? audio.value.play() : audio.value.pause()
+    }
+  })
+})
 
 </script>
 

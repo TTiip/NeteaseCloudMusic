@@ -1,6 +1,6 @@
 <template>
   <div class="album">
-    <a
+    <router-link
       v-for="item in albumList"
       :key="item.id"
       :to="{ path: '/album', query: { id: item.id }}"
@@ -32,7 +32,7 @@
           {{ item.artist.name }}
         </div>
       </div>
-    </a>
+    </router-link>
   </div>
 </template>
 
