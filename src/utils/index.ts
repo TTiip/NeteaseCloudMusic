@@ -12,14 +12,14 @@ export default {
   },
   // 时间毫秒格式化处理 2020-10-30 09:30:00
   formartDate (dateString: any, format: any) {
-    const dt = new Date(dateString)
+    const date = new Date(dateString)
     const opt = {
-      yyyy: dt.getFullYear(),
-      MM: (dt.getMonth() + 1 + '').padStart(2, '0'),
-      dd: (dt.getDate() + '').padStart(2, '0'),
-      HH: (dt.getHours() + '').padStart(2, '0'),
-      mm: (dt.getMinutes() + '').padStart(2, '0'),
-      ss: (dt.getSeconds() + '').padStart(2, '0')
+      yyyy: date.getFullYear(),
+      MM: (date.getMonth() + 1 + '').padStart(2, '0'),
+      dd: (date.getDate() + '').padStart(2, '0'),
+      HH: (date.getHours() + '').padStart(2, '0'),
+      mm: (date.getMinutes() + '').padStart(2, '0'),
+      ss: (date.getSeconds() + '').padStart(2, '0')
     }
 
     for (const k in opt) {
@@ -34,9 +34,9 @@ export default {
   // 歌曲毫秒格式化处理 03:30
   formatSongTime (duration = 0) {
     duration = duration / 1000
-    const m = (Math.floor(duration / 60) + '').padStart(2, '0')
-    const s = (Math.floor(duration % 60) + '').padStart(2, '0')
-    return `${m}:${s}`
+    const min = (Math.floor(duration / 60) + '').padStart(2, '0')
+    const second = (Math.floor(duration % 60) + '').padStart(2, '0')
+    return `${min}:${second}`
   },
   // 评论时间格式化处理
   formatMsgTime (duration: any) {
