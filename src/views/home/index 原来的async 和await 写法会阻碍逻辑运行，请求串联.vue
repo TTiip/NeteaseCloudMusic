@@ -147,9 +147,9 @@ import {
   GetTopListPropItem
 } from '@/interface'
 import axios from '@/axios'
-import Banner from '@/components/banner/index.vue'
-import PlayList from '@/components/play-list/index.vue'
-import AlbumList from '@/components/album-list/index.vue'
+import Banner from '@/components/banner/banner.vue'
+import PlayList from '@/components/play-list/play-list.vue'
+import AlbumList from '@/components/album-list/album-list.vue'
 
 const albumIndex = ref(0)
 const playlistIndex = ref(0)

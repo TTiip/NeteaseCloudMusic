@@ -150,12 +150,12 @@ import {
   GetArtists
 } from '@/interface'
 import axios from '@/axios'
-import Banner from '@/components/banner/index.vue'
-import PlayList from '@/components/play-list/index.vue'
-import AlbumList from '@/components/album-list/index.vue'
-import MvList from '@/components/mv-list/index.vue'
+import Banner from '@/components/banner/banner.vue'
+import PlayList from '@/components/play-list/play-list.vue'
+import AlbumList from '@/components/album-list/album-list.vue'
+import MvList from '@/components/mv-list/mv-list.vue'
 
-import PlayBar from '@/components/play-bar/index.vue'
+import PlayBar from '@/components/play-bar/play-bar.vue'
 
 const albumIndex = ref(0)
 const playlistIndex = ref(0)

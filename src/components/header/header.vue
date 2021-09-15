@@ -169,7 +169,7 @@ import { SearchHotItemProps, SuggestInfoResultProps } from '@/interface'
 import useMessage from '@/hooks/useMessage'
 import { removeSessionStorage } from '@/hooks/useSessionStorage'
 //
-import Login from '@/components/login/index.vue'
+import Login from '@/components/login/login.vue'
 //
 import router from '@/router'
 import store from '@/store'

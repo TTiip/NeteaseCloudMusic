@@ -9,7 +9,8 @@ import {
   GetTopList,
   GetTopListDetail,
   GetMvFirst,
-  GetTopArtists
+  GetTopArtists,
+  GetLyric
 } from '@/interface'
 
 const apiList = {
@@ -44,7 +45,9 @@ const apiList = {
   // 获取 最新 mv
   getMvFirst: '/mv/first',
   // 获取首页热门歌手
-  getTopArtists: '/top/artists'
+  getTopArtists: '/top/artists',
+  // 获取歌曲的歌词
+  getLyric: '/api/lyric'
 }
 
 export interface apiKeyDataType {
@@ -75,7 +78,8 @@ export interface apiKeyDataType {
   getTopList: Promise<GetTopList>,
   getTopListDetail: Promise<GetTopListDetail>,
   getMvFirst: Promise<GetMvFirst>,
-  getTopArtists: Promise<GetTopArtists>
+  getTopArtists: Promise<GetTopArtists>,
+  getLyric: Promise<GetLyric>
 }
 
 export type apiKeyType = keyof typeof apiList

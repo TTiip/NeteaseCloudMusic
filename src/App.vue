@@ -10,8 +10,8 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import Loading from '@/components/loading/index.vue'
-import Header from '@/components/header/index.vue'
+import Loading from '@/components/loading/loading.vue'
+import Header from '@/components/header/header.vue'
 import store from '@/store'
 import { getSessionStorage } from '@/hooks/useSessionStorage'
 

@@ -150,8 +150,8 @@
                     @click="lyricsHandle"
                   />
                 </h3>
-                <lyrics
-                  :s-id="curSongInfo.id"
+                <Lyrics
+                  :lyrics-id="curSongInfo.id"
                   :current-time="currentTime"
                 />
               </div>
@@ -190,10 +190,10 @@
 <script lang="ts" setup>
 import { ref, computed, watch, nextTick } from 'vue'
 import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
-import ProgressLine from '@/components/progress/index.vue'
+import ProgressLine from '@/components/progress/progress.vue'
 import utils from '@/utils'
 // import songList from '@/components/song-list.vue'
-import Lyrics from '@/components/lyrics.vue'
+import Lyrics from '@/components/lyrics/lyrics.vue'
 
 // 初始化audio标签ref
 const audio = ref<any>(null)

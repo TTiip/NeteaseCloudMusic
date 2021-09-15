@@ -327,6 +327,24 @@ interface GetTopArtists extends Common {
   more: boolean
 
 }
+interface GetLyric extends Common {
+  sgc: boolean
+  sfy: boolean
+  qfy: boolean
+  lrc: {
+    version: number
+    lyric: string
+  }
+  klyric: {
+    version: number
+    lyric: string
+  }
+  tlyric: {
+    version: number
+    lyric: string
+  }
+
+}
 
 // interface
 export {
@@ -352,5 +370,6 @@ export {
   GetMvFirstDataItem,
   GetMvFirst,
   GetArtists,
-  GetTopArtists
+  GetTopArtists,
+  GetLyric
 }
