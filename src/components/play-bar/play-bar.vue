@@ -153,6 +153,7 @@
                 <Lyrics
                   :lyrics-id="curSongInfo.id"
                   :current-time="currentTime"
+                  @lyricClick="lyricClick"
                 />
               </div>
               <div
@@ -246,6 +247,12 @@ const volumeProgressWidth = computed(() => volumeNum.value / 1 * 100 + '%')
 const curSongInfo = computed(() => playList.value[playIndex.value])
 
 /* methods */
+
+// 歌词点击事件
+const lyricClick = (lrcItem: any) => {
+  currentTime.value = lrcItem.time
+  audio.value.currentTime = lrcItem.time
+}
 
 // 音频播放/暂停/上一首/下一首事件
 const audioHandler = (type: string) => {

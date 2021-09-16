@@ -59,6 +59,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['lyricClick'])
+
 /* data */
 
 const lyric = ref<string | boolean>('')
@@ -68,9 +70,7 @@ const isFull = ref(false)
 
 /* computed */
 
-const lyricName = computed(() => {
-  return [props.local === 'page' ? 'page-lyrics' : '', isFull.value ? 'fullLyrics' : '']
-})
+const lyricName = computed(() => [props.local === 'page' ? 'page-lyrics' : '', isFull.value ? 'fullLyrics' : ''])
 const transform = computed(() => {
   if (curIndex.value > 6) {
     return `transform: translateY(-${30 * (curIndex.value - 6)}px)`
@@ -90,8 +90,9 @@ watch(() => props.lyricsId, newVal => {
 watch(() => props.currentTime, newVal => {
   // 无歌词的时候 不做动画滚动
   if (!lyricObj.value.length) {
-    return
+    return false
   }
+  // 因为要等这句唱完才能移到下一行，但是时间匹配总是在后面一行。
   curIndex.value = findCurIndex(newVal) - 1
 })
 
@@ -102,11 +103,11 @@ onMounted(() => {
 })
 
 /* methods */
-const lyricClick = (lyricItem: string) => {
-  console.log(lyricItem, 'lyricItem')
+const lyricClick = (lyricItem: any) => {
+  emit('lyricClick', lyricItem)
 }
 const isCurLyric = (index: any) => index === curIndex.value && !props.local ? 'active' : ''
-const getLyrics = async (id: string | number) => {
+const getLyrics = async (id: any) => {
   const getLyricData = await axios({
     url: 'getLyric',
     method: 'GET',
@@ -124,7 +125,7 @@ const formartLyric = (lrc: { version: number, lyric: string }) => {
   }
   const lyricLis = lrc.lyric.split('\n')
 
-  lyric.value = lrc.lyric
+  // lyric.value = lrc.lyric
   lyricLis.forEach((item: any) => {
     console.log(item, 'itemitemitem')
     const arr = lrcReg.exec(item)
@@ -135,14 +136,15 @@ const formartLyric = (lrc: { version: number, lyric: string }) => {
     console.log(lyricObj.value, 'lyricObj.value')
   })
 
-  // 根据时间轴重排顺序
+  // 根据时间轴重排顺序(避免排序错乱)
   lyricObj.value.sort((a: any, b: any) => {
     return a.time - b.ttime
   })
 }
-const findCurIndex = (t: any) => {
+// 通过转化以后的时间比较 查找出当前高亮的歌词index
+const findCurIndex = (time: any) => {
   for (let i = 0; i < lyricObj.value.length; i++) {
-    if (t <= lyricObj.value[i].time) {
+    if (time <= lyricObj.value[i].time) {
       return i
     }
   }
