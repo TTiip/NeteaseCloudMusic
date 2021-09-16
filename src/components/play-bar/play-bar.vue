@@ -398,7 +398,7 @@ const popverClose = () => {
 
 /* watch */
 watch(() => curSongInfo.value, (newVal, olVal) => {
-  if (!olVal || (olVal && newVal.id === olVal.id)) {
+  if (!olVal || (olVal && newVal?.id === olVal?.id)) {
     return
   }
   // 当前播放歌曲变化的时候  重置状态及当前播放的时长

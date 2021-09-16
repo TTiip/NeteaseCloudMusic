@@ -31,7 +31,7 @@
       >
         <div
           v-for="(item, index) in list"
-          :key="item.id"
+          :key="index"
           :class="isCurSong(item, index)"
           @click.stop="tips($event, item)"
         >
@@ -161,7 +161,7 @@
 </template>
 
 <script lang='ts' setup>
-import store from '@/store'
+import store, { SET_PLAYS_TATUS, SET_PLAY_LIST } from '@/store'
 import { ref, watch, computed } from 'vue'
 
 const props = defineProps({
@@ -203,19 +203,19 @@ const curScroll = ref(0)
 
 // 全局设置当前播放歌曲
 const currentSong = (item: any) => {
-  // // 若当前唔歌曲 或者 当前播放歌曲不是本歌单显示的歌曲  立即播放当前歌单
-  // if (!this.curSongInfo || item.id !== this.curSongInfo.id) {
-  //     this.selectPlay({ list: [item] })
-  //     if (this.isShowTips) {
-  //         this.setPlayListTips({ flag: true, txt: '已开始播放' })
-  //         clearTimeout(this.timer)
-  //         this.timer = setTimeout(() => {
-  //             this.setPlayListTips({ flag: false, txt: '已开始播放' })
-  //         }, 2000)
-  //     }
-  // } else {
-  //     this.setPlayStatus(!this.isPlayed)
-  // }
+  // 若当前歌曲 或者 当前播放歌曲不是本歌单显示的歌曲  立即播放当前歌单
+  if (!curSongInfo.value || item?.id !== curSongInfo.value?.id) {
+    store.dispatch('selectPlay', { list: [item] })
+    if (props.isShowTips) {
+      // store.dispatch('setPlayListTips', { flag: true, txt: '已开始播放' })
+      clearTimeout(timer)
+      timer.value = setTimeout(() => {
+        store.dispatch('setPlayListTips', { flag: true, txt: '已开始播放' })
+      }, 2000)
+    }
+  } else {
+    store.commit(SET_PLAYS_TATUS, !isPlayed.value)
+  }
 }
 // 表格列表序号格式化
 const indexMethod = (page: any) => {
@@ -244,8 +244,9 @@ const addSongList = (item: any) => {
 }
 // 在播放列表删除当前歌曲
 const delList = (index: any) => {
-  // this.playList.splice(index, 1)
-  // this.setPlayList(this.playList)
+  console.log(playList.value, 'playList.value')
+  playList.value.splice(index, 1)
+  store.commit(SET_PLAY_LIST, playList.value)
 }
 // 喜欢该歌曲
 const likeSong = async (item: any) => {
@@ -326,7 +327,7 @@ const isCurSong = computed(() => {
   return (item: any, index: any) => {
     return [
       'list-item', props.stripe ? (index % 2 === 0 ? 'stripe' : '') : '',
-      isPlayed.value && (item.id === curSongInfo.value.id) ? 'active' : '',
+      isPlayed.value && (item?.id === curSongInfo.value?.id) ? 'active' : '',
       // (item.license || item.vip) ? 'disable' : '',
       item.vip ? 'vip disable' : ''
     ]
@@ -338,7 +339,7 @@ const isShowPagination = computed(() => {
 
 const playIcon = computed(() => {
   return (item: any) => {
-    return ['iconfont', 'playicon', isPlayed.value && (item.id === curSongInfo.value.id) ? 'icon-pause' : 'icon-play']
+    return ['iconfont', 'playicon', isPlayed.value && (item?.id === curSongInfo.value?.id) ? 'icon-pause' : 'icon-play']
   }
 })
 const curSongSty = computed(() => {
