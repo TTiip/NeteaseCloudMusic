@@ -78,7 +78,7 @@ export default createStore({
         },
         alia: [],
         vip: false,
-        license: '__vue_devtool_undefined__',
+        license: false,
         duration: '04:05',
         url: 'https://music.163.com/song/media/outer/url?id=36270426.mp3',
         publishTime: '2015年11月06日'
@@ -107,6 +107,7 @@ export default createStore({
           '动画电影《精灵王座》主题曲'
         ],
         vip: false,
+        license: false,
         duration: '04:39',
         url: 'https://music.163.com/song/media/outer/url?id=417859631.mp3',
         publishTime: 'NaN年NaN月NaN日'
@@ -133,6 +134,7 @@ export default createStore({
         },
         alia: [],
         vip: false,
+        license: false,
         duration: '04:19',
         url: 'https://music.163.com/song/media/outer/url?id=1498342485.mp3',
         publishTime: 'NaN年NaN月NaN日'
