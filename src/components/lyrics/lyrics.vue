@@ -126,7 +126,8 @@ const formartLyric = (lrc: { version: number, lyric: string }) => {
 
   // lyric.value = lrc.lyric
   lyricLis.forEach((item: any) => {
-    const arr = lrcReg.exec(item)
+    // 返回的类型会导致下方报错，暂时没找到解决办法，先any。
+    const arr: any = lrcReg.exec(item)
     if (!arr) {
       return
     }

@@ -140,6 +140,8 @@ export default createStore({
         publishTime: 'NaN年NaN月NaN日'
       }
     ],
+    // 播放模式 0循环播放、1单曲循环、2随机播放
+    playMode: getLocalStorage('playMode') || 0,
     // 播放列表
     playIndex: getLocalStorage('playIndex') || 0,
     // 当前播放歌曲在播放列表的所在位置
@@ -158,6 +160,9 @@ export default createStore({
     },
     setPlayListTips (state, val = null) {
       state.playListTips = val
+    },
+    setPlayMode (state, mode = 0) {
+      state.playMode = mode
     },
     [SET_PLAYS_TATUS] (state, val = false) {
       state.isPlayed = val

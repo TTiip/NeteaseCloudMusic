@@ -235,7 +235,6 @@ const currentChange = (page: any) => {
 }
 // 添加当前歌曲到播放列表
 const addSongList = (item: any) => {
-  console.log(props.isShowTips, 'props.isShowTips')
   store.dispatch('addList', { list: [item] })
 
   if (props.isShowTips) {
@@ -333,7 +332,6 @@ const list = computed(() => {
 
 const isCurSong = computed(() => {
   return (item: any, index: any) => {
-    console.log(item, 'item')
     return [
       'list-item', props.stripe ? (index % 2 === 0 ? 'stripe' : '') : '',
       isPlayed.value && (item?.id === curSongInfo.value?.id) ? 'active' : '',

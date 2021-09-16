@@ -195,6 +195,7 @@ import ProgressLine from '@/components/progress/progress.vue'
 import utils from '@/utils'
 import SongList from '@/components/song-list/song-list.vue'
 import Lyrics from '@/components/lyrics/lyrics.vue'
+import { setLocalStorage } from '@/hooks/useLocalStorage'
 
 // 初始化audio标签ref
 const audio = ref<any>(null)
@@ -210,8 +211,6 @@ const totalTime = ref(0)
 const volumeNum = ref(1)
 // 取消禁音的时候，设置保留的上一次的音量值
 const oldVolume = ref(0)
-// 播放模式  0循环播放、1单曲循环、2随机播放
-const playMode = ref(0)
 const timer: any = ref(null)
 const lyricsVisible = ref(false)
 const playlistVisible = ref(false)
@@ -223,6 +222,8 @@ const lockName = ref('')
 
 /* computed */
 
+// 播放模式  0循环播放、1单曲循环、2随机播放
+const playMode = computed(() => store.state.playMode)
 const playIndex = computed(() => store.state.playIndex)
 const playList = computed(() => store.state.playList)
 const isPlayed = computed(() => store.state.isPlayed)
@@ -230,7 +231,7 @@ const isPlayed = computed(() => store.state.isPlayed)
 const playIcon = computed(() => !isPlayed.value ? 'icon-audio-play' : 'icon-audio-pause')
 // 是否静音
 const mutedIcon = computed(() => isMuted.value ? 'icon-volume-active' : 'icon-volume')
-// 播放模式
+// 播放模式 0循环播放、1单曲循环、2随机播放
 const modeIcon = computed(() => [{
   className: 'icon-loop',
   title: '循环模式'
@@ -282,7 +283,8 @@ const playSong = (e: any) => {
 }
 // 音频播放结束 自动播放下一首
 const endedSong = () => {
-  if (playMode.value === 1) {
+  console.log(playMode, 'playMode.value')
+  if (Number(playMode.value) === 1) {
     loopSong()
   } else {
     changeSong('next')
@@ -325,7 +327,13 @@ const setvolumeProgress = (params: any) => {
 }
 // 切换播放模式
 const changePlayMode = () => {
-  playMode.value = playMode.value >= 2 ? 0 : playMode.value + 1
+  // 这里不建议直接写在下方的赋值，因为在判断逻辑之后还会在执行一次，影响结果。
+  let mode = Number(playMode.value) + 1
+  mode > 2 && (mode = 0)
+  // 修改vuex中的模式
+  store.commit('setPlayMode', mode)
+  // 设置 localStorage 中的 playMode值
+  setLocalStorage('playMode', mode)
 }
 // 清空播放列表
 const clearSonglist = () => {
@@ -339,9 +347,12 @@ const clearSonglist = () => {
 const changeSong = (type: string) => {
   // 若播放列表只有一首歌则单曲循环
   if (playList.value.length !== 1) {
-    let index = playIndex.value
-    if (playMode.value === 2) {
+    let index = Number(playIndex.value)
+    if (Number(playMode.value) === 2) {
       // 随机模式
+      // 先减一在加一： 因为只能向下取整，不能丢掉index为0的歌，所以就要最后—+1
+      // 但是直接取整在加一，会出现第十首歌index是9但是存入的index变成10从而使播放器出现问题。
+      // 如果直接在赋值的时候减一会导致大概率少最后一首歌。
       index = Math.floor(Math.random() * playList.value.length - 1) + 1
     } else {
       if (type === 'prev') {
