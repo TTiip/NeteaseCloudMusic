@@ -59,6 +59,32 @@ export default createStore({
         publishTime: '1970年01月01日'
       },
       {
+        id: '2526628',
+        name: 'Blow Me a Kiss',
+        mvId: 0,
+        singer: [
+          {
+            id: 55350,
+            name: 'Deep Side',
+            tns: [],
+            alias: []
+          }
+        ],
+        album: {
+          id: 254362,
+          name: 'Git Fresh',
+          picUrl: 'https://p1.music.126.net/dUSiZ5ASRpWgaq9OTMtoDw==/860917604602698.jpg',
+          tns: [],
+          pic: 860917604602698
+        },
+        alia: [],
+        duration: '04:11',
+        url: 'https://music.163.com/song/media/outer/url?id=2526628.mp3',
+        vip: false,
+        license: false,
+        publishTime: '2008年01月01日'
+      },
+      {
         id: '36270426',
         name: '来自天堂的魔鬼',
         mvId: 503273,

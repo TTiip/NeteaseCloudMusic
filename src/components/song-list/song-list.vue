@@ -116,7 +116,7 @@
                 title="添加到列表"
                 @click="addSongList(item)"
               />
-              <el-popover
+              <!-- <el-popover
                 ref="popAddList"
                 placement="bottom"
                 trigger="click"
@@ -128,7 +128,7 @@
                     @click="closeAddListPop"
                   />
                 </template>
-              </el-popover>
+              </el-popover> -->
               <i
                 class="iconfont icon-collect"
                 @click="likeSong(item)"
@@ -163,7 +163,7 @@
 
 <script lang='ts' setup>
 import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
-import { ref, watch, computed, getCurrentInstance } from 'vue'
+import { ref, watch, computed, getCurrentInstance, onUnmounted } from 'vue'
 import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage'
 
 const _this = (getCurrentInstance() as any).appContext.config.globalProperties
@@ -200,7 +200,7 @@ const props = defineProps({
 const pageSize = ref(30)
 const currentPage = ref(1)
 const timer: any = ref(null)
-// 当前播放的音乐
+// 当前播放的音乐的位置
 const curScroll = ref(0)
 
 /* methods */
@@ -231,7 +231,7 @@ const indexMethod = (page: any) => {
 }
 // 歌曲列表分页功能
 const currentChange = (page: any) => {
-  // this.currentPage = page
+  currentPage.value = page
 }
 // 添加当前歌曲到播放列表
 const addSongList = (item: any) => {
@@ -275,17 +275,19 @@ const tips = (e: any, item: any) => {
     _this.$message.error('付费歌曲，请在网易云音乐播放')
   }
 }
-const closeAddListPop = () => {
-  // this.$refs.popAddList.forEach(item => {
-  //     item.doClose()
-  // })
-}
+// const popAddList = ref()
+// const closeAddListPop = () => {
+//   popAddList.value.forEach((item: any) => {
+//     item.doClose()
+//   })
+// }
 const curSongRef: any = ref('')
 // 滚动到当前播放音乐的位置
 const scrollCurSong = (cur: any) => {
+  console.log(cur, 'cur')
   // if (props.isScroll) {
   //   const curIndex = props.songList.findIndex((item: any) => item.id === cur.id)
-
+  //   // 找到的index大于7
   //   if (curIndex > 7 && curIndex < props.songList.length - 8) {
   //     curScroll.value = -(curIndex - 4) * 50
   //   } else if (curIndex >= (props.songList.length - 8) && props.songList.length - 8 > 0) {
@@ -308,13 +310,12 @@ const scrollCurSong = (cur: any) => {
 // watch(() => curSongInfo.value, (newVal) => {
 //   scrollCurSong(newVal)
 // })
-// watch(props.songList.value, (newVal) => {
-//   scrollCurSong(newVal)
-// })
+watch(props.songList, (newVal) => {
+  scrollCurSong(newVal)
+})
 
-// beforeDestroy () {
-//         clearTimeout(this.timer)
-//     }
+// 组件注销释放事件避免内存泄漏。
+onUnmounted(() => clearTimeout(timer.value))
 
 /* compunted */
 
@@ -348,15 +349,17 @@ const isShowPagination = computed(() => {
 
 const playIcon = computed(() => {
   return (item: any) => {
-    return ['iconfont', 'playicon', isPlayed.value && (item?.id === curSongInfo.value?.id) ? 'icon-pause' : 'icon-play']
+    return [
+      'iconfont',
+      'playicon',
+      isPlayed.value && (item?.id === curSongInfo.value?.id)
+        ? 'icon-pause'
+        : 'icon-play'
+    ]
   }
 })
-const curSongSty = computed(() => {
-  return `transform: translateY(${curScroll.value}px)`
-})
-const curSongInfo = computed(() => {
-  return playList.value[playIndex.value]
-})
+const curSongSty = computed(() => `transform: translateY(${curScroll.value}px)`)
+const curSongInfo = computed(() => playList.value[playIndex.value])
 </script>
 
 <style scoped lang="less">

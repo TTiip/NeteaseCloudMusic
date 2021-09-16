@@ -112,6 +112,9 @@ const getLyrics = async (id: any) => {
     method: 'GET',
     params: {
       id
+    },
+    headers: {
+      showLoading: false
     }
   })
   formartLyric(getLyricData.lrc)
