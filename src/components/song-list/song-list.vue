@@ -163,8 +163,10 @@
 
 <script lang='ts' setup>
 import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, getCurrentInstance } from 'vue'
 import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage'
+
+const _this = (getCurrentInstance() as any).appContext.config.globalProperties
 
 const props = defineProps({
   songList: {
@@ -266,15 +268,13 @@ const likeSong = async (item: any) => {
   // this.$msg.success('收藏成功')
 }
 const tips = (e: any, item: any) => {
-  // if (e.target.nodeName !== 'A') {
-  //     if (item.license) {
-  //         this.$msg.error('由于版权保护，您所在的地区暂时无法使用。')
-  //     }
+  if (item.license) {
+    _this.$message.error('由于版权保护，您所在的地区暂时无法使用。')
+  }
 
-  //     if (item.vip) {
-  //         this.$msg.error('付费歌曲，请在网易云音乐播放')
-  //     }
-  // }
+  if (item.vip) {
+    _this.$message.error('付费歌曲，请在网易云音乐播放')
+  }
 }
 const closeAddListPop = () => {
   // this.$refs.popAddList.forEach(item => {
@@ -333,10 +333,13 @@ const list = computed(() => {
 
 const isCurSong = computed(() => {
   return (item: any, index: any) => {
+    console.log(item, 'item')
     return [
       'list-item', props.stripe ? (index % 2 === 0 ? 'stripe' : '') : '',
       isPlayed.value && (item?.id === curSongInfo.value?.id) ? 'active' : '',
-      // (item.license || item.vip) ? 'disable' : '',
+      // 版权问题禁用
+      (item.license || item.vip) ? 'disable' : '',
+      // vip可用
       item.vip ? 'vip disable' : ''
     ]
   }
