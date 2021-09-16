@@ -127,13 +127,11 @@ const formartLyric = (lrc: { version: number, lyric: string }) => {
 
   // lyric.value = lrc.lyric
   lyricLis.forEach((item: any) => {
-    console.log(item, 'itemitemitem')
     const arr = lrcReg.exec(item)
     if (!arr) {
       return
     }
     lyricObj.value.push({ time: arr[1] * 60 * 1 + arr[2] * 1, txt: arr[3] })
-    console.log(lyricObj.value, 'lyricObj.value')
   })
 
   // 根据时间轴重排顺序(避免排序错乱)
