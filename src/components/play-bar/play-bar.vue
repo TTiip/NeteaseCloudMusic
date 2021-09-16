@@ -172,13 +172,13 @@
                     />清空列表
                   </div>
                 </h3>
-                <!-- <song-list
+                <SongList
                   :song-list="playList"
                   :is-scroll="true"
                   :height="400"
-                  :type-size="'mini'"
+                  type-size="mini"
                   :is-show-tips="false"
-                /> -->
+                />
               </div>
             </div>
           </div>
@@ -193,7 +193,7 @@ import { ref, computed, watch, nextTick } from 'vue'
 import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
 import ProgressLine from '@/components/progress/progress.vue'
 import utils from '@/utils'
-// import songList from '@/components/song-list.vue'
+import SongList from '@/components/song-list/song-list.vue'
 import Lyrics from '@/components/lyrics/lyrics.vue'
 
 // 初始化audio标签ref

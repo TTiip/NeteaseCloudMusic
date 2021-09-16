@@ -33,6 +33,56 @@ export default createStore({
     isPlayed: false, // 当前播放状态
     playList: [
       {
+        id: '1873049720',
+        name: '初恋',
+        mvId: 0,
+        singer: [{
+          id: 27730224,
+          name: '回春丹',
+          tns: [],
+          alias: []
+        }],
+        album: {
+          id: 132354811,
+          name: '初恋',
+          picUrl: 'https://p2.music.126.net/4NJvc1HOi4uv7cs4501Bjg==/109951166324714668.jpg',
+          tns: [],
+          pic_str: '109951166324714668',
+          pic: 109951166324714670
+        },
+        alia: [],
+        duration: '03:42',
+        url: 'https://music.163.com/song/media/outer/url?id=1873049720.mp3',
+        vip: false,
+        license: false,
+        publishTime: '1970年01月01日'
+      },
+      {
+        id: '36270426',
+        name: '来自天堂的魔鬼',
+        mvId: 503273,
+        singer: [{
+          id: 7763,
+          name: 'G.E.M.邓紫棋',
+          tns: [],
+          alias: ['G.E.M.'],
+          alia: ['G.E.M.']
+        }],
+        album: {
+          id: 3189002,
+          name: '新的心跳',
+          picUrl: 'http://p4.music.126.net/kVwk6b8Qdya8oDyGDcyAVA==/1364493930777368.jpg',
+          tns: [],
+          pic: 1364493930777368
+        },
+        alia: [],
+        vip: false,
+        license: '__vue_devtool_undefined__',
+        duration: '04:05',
+        url: 'https://music.163.com/song/media/outer/url?id=36270426.mp3',
+        publishTime: '2015年11月06日'
+      },
+      {
         id: '417859631',
         name: '我好像在哪见过你',
         mvId: 5342354,
@@ -90,7 +140,7 @@ export default createStore({
     // 播放列表
     playIndex: 0,
     // 当前播放歌曲在播放列表的所在位置
-    playListTips: 0 // 添加及播放成功后，播放列表按钮提示的文字
+    playListTips: '' // 添加及播放成功后，播放列表按钮提示的文字
   },
   mutations: {
     setLoading (state,
@@ -102,6 +152,9 @@ export default createStore({
     },
     setUserInfo (state, userInfo) {
       state.userInfo = userInfo
+    },
+    setPlayListTips (state, val = null) {
+      state.playListTips = val
     },
     [SET_PLAYS_TATUS] (state, val = false) {
       state.isPlayed = val
@@ -134,7 +187,7 @@ export default createStore({
     // 添加歌曲到当前播放列表
     addList ({ commit, state }, { list }) {
       const listState: any = state.playList
-      const playList = concatPlayList(list, listState)
+      const playList = concatPlayList(list, listState.value)
 
       commit(SET_PLAY_LIST, playList)
     }
