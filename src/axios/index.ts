@@ -68,7 +68,11 @@ const removePending = (config: AxiosRequestConfig) => {
 // 添加请求拦截器
 instance.interceptors.request.use(
   request => {
-    store.commit('setLoading', true)
+    // 如果不存在showLoading则默认设置为true
+    if (!Reflect.has(request.headers, 'showLoading')) {
+      request.headers.showLoading = true
+    }
+    request.headers.showLoading && store.commit('setLoading', true)
     removePending(request)
     if (request.method && HAS_QS_METHOD.includes(request.method)) {
       // 这里只处理post请求，根据自己情况修改
@@ -156,7 +160,8 @@ const httpFunc = <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }
       params: options.params || {},
       data: options.data || {},
       method: options.method || 'GET',
-      responseType: options.responseType || 'json'
+      responseType: options.responseType || 'json',
+      headers: options.headers || {}
     }).then(res => {
       resolve(res)
     }).catch(error => {

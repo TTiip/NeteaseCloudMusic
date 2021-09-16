@@ -190,10 +190,14 @@ const topList = ref<GetTopListPropItem[]>([])
 const mvList = ref<GetMvFirstDataItem[]>([])
 const artistsList = ref<GetArtists[]>([])
 const songList = ref({})
+
 const getPlaylistHot = async () => {
   const getPlaylistHotData = await axios({
     url: 'getPlaylistHot',
-    method: 'GET'
+    method: 'GET',
+    headers: {
+      showLoading: false
+    }
   })
   playlistTags.value = getPlaylistHotData.tags
   playlistTags.value.unshift({ name: '为您推荐' })
@@ -209,6 +213,9 @@ const getTopPlayList = async (index: number) => {
     method: 'GET',
     params: {
       ...playlistParams
+    },
+    headers: {
+      showLoading: false
     }
   })
   playList.value = getTopPlayListData.playlists.splice(0, 10)
@@ -223,6 +230,9 @@ const getTopAlbum = async (index: number) => {
     method: 'GET',
     params: {
       ...albumParams
+    },
+    headers: {
+      showLoading: false
     }
   })
   albumList.value = getTopAlbumData.monthData.splice(0, 9)
@@ -231,7 +241,10 @@ const getTopAlbum = async (index: number) => {
 const getTopList = async () => {
   const getTopListData = await axios({
     url: 'getTopList',
-    method: 'GET'
+    method: 'GET',
+    headers: {
+      showLoading: false
+    }
   })
   topList.value = getTopListData.list.splice(0, 8)
   topList.value.forEach(async item => {
@@ -240,6 +253,9 @@ const getTopList = async () => {
       method: 'GET',
       params: {
         id: item.id
+      },
+      headers: {
+        showLoading: false
       }
     })
     songList.value = {
@@ -257,6 +273,9 @@ const getMvList = async (index: number) => {
     method: 'GET',
     params: {
       ...mvParams
+    },
+    headers: {
+      showLoading: false
     }
   })
   mvList.value = getMvFirstData.data
@@ -269,6 +288,9 @@ const getTopArtists = async () => {
     params: {
       limit: 16,
       offset: 0
+    },
+    headers: {
+      showLoading: false
     }
   })
   artistsList.value = getTopArtistsData.artists

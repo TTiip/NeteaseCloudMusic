@@ -254,7 +254,10 @@ const search = reactive({
     if (!search.searchHotList.length) {
       const res = await axios({
         url: 'getSearchHot',
-        method: 'GET'
+        method: 'GET',
+        headers: {
+          showLoading: false
+        }
       })
       search.searchHotList = res.result.hots
       search.isShowSearch = true

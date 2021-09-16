@@ -12,6 +12,7 @@ import useDirective from '@/hooks/useDirective'
 
 // 此时会自动引入对应的样式文件，无需再手动逐一引入
 import {
+  ElMessage,
   ElButton,
   ElRow,
   ElCol,
@@ -56,5 +57,7 @@ useDirective(app)
 ].map(item => app.component(item.name, item))
 // 全局设置尺寸。
 app.config.globalProperties.$ELEMENT = { size: 'small' }
+// 在vue实例上挂在属性，不推荐这么用，但是要使用message每个文件都要引入有点 小烦。
+app.config.globalProperties.$message = ElMessage
 
 app.use(store).use(router).mount('#app')
