@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 import utils from '@/utils'
 import {
   setLocalStorage
+  , getLocalStorage
 } from '@/hooks/useLocalStorage'
 
 // 是否时播放状态
@@ -138,7 +139,7 @@ export default createStore({
       }
     ],
     // 播放列表
-    playIndex: 0,
+    playIndex: getLocalStorage('playIndex') || 0,
     // 当前播放歌曲在播放列表的所在位置
     playListTips: '' // 添加及播放成功后，播放列表按钮提示的文字
   },

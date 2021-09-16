@@ -81,7 +81,6 @@ const transform = computed(() => {
 
 /* watch */
 watch(() => props.lyricsId, newVal => {
-  console.log('sssss')
   lyric.value = ''
   lyricObj.value = []
   curIndex.value = 0

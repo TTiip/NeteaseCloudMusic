@@ -397,6 +397,7 @@ const popverClose = () => {
 }
 
 /* watch */
+
 watch(() => curSongInfo.value, (newVal, olVal) => {
   if (!olVal || (olVal && newVal?.id === olVal?.id)) {
     return

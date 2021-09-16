@@ -148,6 +148,7 @@
       v-if="isShowPagination"
       class="pagination"
     >
+      {{ songList }}
       <el-pagination
         v-model:current-page="currentPage"
         background
@@ -161,8 +162,9 @@
 </template>
 
 <script lang='ts' setup>
-import store, { SET_PLAYS_TATUS, SET_PLAY_LIST } from '@/store'
+import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
 import { ref, watch, computed } from 'vue'
+import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage'
 
 const props = defineProps({
   songList: {
@@ -244,7 +246,13 @@ const addSongList = (item: any) => {
 }
 // 在播放列表删除当前歌曲
 const delList = (index: any) => {
-  console.log(playList.value, 'playList.value')
+  const playIndex = Number(getLocalStorage('playIndex'))
+  // 删除当前播放音乐之前的音乐会默认使用当前音乐的index去播放新的音乐。
+  // 在删除当前音乐之前的音乐时重新设置一下playIndex来解决。
+  if (index < playIndex) {
+    setLocalStorage('playIndex', playIndex - 1)
+    store.commit(SET_PLAY_INDEX, playIndex - 1)
+  }
   playList.value.splice(index, 1)
   store.commit(SET_PLAY_LIST, playList.value)
 }
@@ -334,7 +342,7 @@ const isCurSong = computed(() => {
   }
 })
 const isShowPagination = computed(() => {
-  return props.songList.length > pageSize.value && !props.isScroll
+  return (props.songList.length > pageSize.value) && !props.isScroll
 })
 
 const playIcon = computed(() => {
