@@ -163,7 +163,7 @@
 
 <script lang='ts' setup>
 import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
-import { ref, watch, computed, getCurrentInstance, onUnmounted } from 'vue'
+import { ref, watch, computed, getCurrentInstance, onMounted, onUnmounted } from 'vue'
 import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage'
 
 const _this = (getCurrentInstance() as any).appContext.config.globalProperties
@@ -202,6 +202,12 @@ const currentPage = ref(1)
 const timer: any = ref(null)
 // 当前播放的音乐的位置
 const curScroll = ref(0)
+
+/* mounted */
+// 加载完成默认滚动到当前播放的音乐位置。
+onMounted(() => {
+  scrollCurSong(curSongInfo.value)
+})
 
 /* methods */
 
@@ -284,38 +290,29 @@ const tips = (e: any, item: any) => {
 const curSongRef: any = ref('')
 // 滚动到当前播放音乐的位置
 const scrollCurSong = (cur: any) => {
-  console.log(cur, 'cur')
-  // if (props.isScroll) {
-  //   const curIndex = props.songList.findIndex((item: any) => item.id === cur.id)
-  //   // 找到的index大于7
-  //   if (curIndex > 7 && curIndex < props.songList.length - 8) {
-  //     curScroll.value = -(curIndex - 4) * 50
-  //   } else if (curIndex >= (props.songList.length - 8) && props.songList.length - 8 > 0) {
-  //     curScroll.value = -(props.songList.length - 8) * 50
-  //   } else {
-  //     curScroll.value = 0
-  //   }
-  //   curSongRef.value.addEventListener('wheel', (event: any) => {
-  //     if (event.wheelDelta > 0 || event.detail < 0) {
-  //       curScroll.value = Math.abs(curScroll.value) > 0 ? curScroll.value + 50 : 0
-  //     } else {
-  //       curScroll.value = Math.abs(curScroll.value) < (props.songList.length - 8) / 2 * 100 ? curScroll.value - 50 : curScroll.value
-  //     }
-  //   })
-  // }
+  if (props.isScroll) {
+    const curIndex = props.songList.findIndex((item: any) => item.id === cur.id)
+    // 如果是第二页的数据，且不是最后一页数据，直接上划滚动至当前点击index前四个即可
+    if (curIndex > 7 && curIndex < props.songList.length - 8) {
+      curScroll.value = -(curIndex - 4) * 50
+      // 如果是最后一页数据则直接滑动到最后最后一页。
+    } else if (curIndex >= (props.songList.length - 8) && props.songList.length - 8 > 0) {
+      curScroll.value = -(props.songList.length - 8) * 50
+    } else {
+      curScroll.value = 0
+    }
+    curSongRef.value.addEventListener('wheel', (event: any) => {
+      console.log(event, 'event')
+      if (event.wheelDelta > 0 || event.detail < 0) {
+        curScroll.value = Math.abs(curScroll.value) > 0 ? curScroll.value + 50 : 0
+      } else {
+        curScroll.value = Math.abs(curScroll.value) < (props.songList.length - 8) / 2 * 100 ? curScroll.value - 50 : curScroll.value
+      }
+      // return false可以理解为同时 event.stopPropagation() 和 event.preventDefault()
+      return false
+    })
+  }
 }
-
-/* watch */
-
-// watch(() => curSongInfo.value, (newVal) => {
-//   scrollCurSong(newVal)
-// })
-watch(props.songList, (newVal) => {
-  scrollCurSong(newVal)
-})
-
-// 组件注销释放事件避免内存泄漏。
-onUnmounted(() => clearTimeout(timer.value))
 
 /* compunted */
 
@@ -360,6 +357,19 @@ const playIcon = computed(() => {
 })
 const curSongSty = computed(() => `transform: translateY(${curScroll.value}px)`)
 const curSongInfo = computed(() => playList.value[playIndex.value])
+
+/* watch */
+
+watch(() => curSongInfo.value, (newVal) => {
+  scrollCurSong(newVal)
+})
+
+watch(props.songList, (newVal) => {
+  scrollCurSong(newVal)
+})
+
+// 组件注销释放事件避免内存泄漏。
+onUnmounted(() => clearTimeout(timer.value))
 </script>
 
 <style scoped lang="less">
