@@ -34,7 +34,7 @@ const useDirective = (app: App<Element>): void => {
         event.preventDefault()
       })
     },
-    unmounted (el) {}
+    unmounted () {}
   })
 }
 
