@@ -218,7 +218,7 @@ const getTopPlayList = async (index: number) => {
       showLoading: false
     }
   })
-  playList.value = getTopPlayListData.playlists.splice(0, 10)
+  playList.value = getTopPlayListData.playlists.splice(0, 5)
 }
 // 新碟上架tab切换
 const getTopAlbum = async (index: number) => {
@@ -246,7 +246,7 @@ const getTopList = async () => {
       showLoading: false
     }
   })
-  topList.value = getTopListData.list.splice(0, 8)
+  topList.value = getTopListData.list.splice(0, 4)
   topList.value.forEach(async item => {
     const getTopListDetailData = await axios({
       url: 'getTopListDetail',
@@ -286,7 +286,7 @@ const getTopArtists = async () => {
     url: 'getTopArtists',
     method: 'GET',
     params: {
-      limit: 16,
+      limit: 8,
       offset: 0
     },
     headers: {
