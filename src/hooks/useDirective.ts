@@ -25,6 +25,17 @@ const useDirective = (app: App<Element>): void => {
       delete el.__vueClickOutside__
     }
   })
+  app.directive('lockBody', {
+    // 初始化指令
+    beforeMount (el: any) {
+      el.addEventListener('wheel', (event: any) => {
+        // 禁止默认事件 解决歌曲列表和歌词列表滚动时body跟随滚动的问题。
+        event.stopPropagation()
+        event.preventDefault()
+      })
+    },
+    unmounted (el) {}
+  })
 }
 
 export default useDirective

@@ -141,6 +141,7 @@
               </div>
               <div
                 v-show="lyricsVisible"
+                v-lockBody
                 class="lyrics-container"
               >
                 <h3 class="lyrics-header">
@@ -158,6 +159,8 @@
               </div>
               <div
                 v-show="playlistVisible"
+                ref="playlistContainer"
+                v-lockBody
                 class="playlist-container"
               >
                 <h3 class="playlist-header">
@@ -283,7 +286,6 @@ const playSong = (e: any) => {
 }
 // 音频播放结束 自动播放下一首
 const endedSong = () => {
-  console.log(playMode, 'playMode.value')
   if (Number(playMode.value) === 1) {
     loopSong()
   } else {
