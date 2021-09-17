@@ -277,12 +277,12 @@ const search = reactive({
   }
 })
 // login
-const showLogin = ref(false)
+const showLogin = computed(() => store.state.showLogin)
 const loginClick = async () => {
-  showLogin.value = true
+  store.commit('showLogin', true)
 }
 const closeDialog = () => {
-  showLogin.value = false
+  store.commit('showLogin', false)
 }
 
 const selectMenu = (path: string): void => {

@@ -47,7 +47,9 @@ const apiList = {
   // 获取首页热门歌手
   getTopArtists: '/top/artists',
   // 获取歌曲的歌词
-  getLyric: '/lyric'
+  getLyric: '/lyric',
+  // 喜欢音乐
+  getLike: '/like'
 }
 
 export interface apiKeyDataType {
@@ -79,7 +81,9 @@ export interface apiKeyDataType {
   getTopListDetail: Promise<GetTopListDetail>,
   getMvFirst: Promise<GetMvFirst>,
   getTopArtists: Promise<GetTopArtists>,
-  getLyric: Promise<GetLyric>
+  getLyric: Promise<GetLyric>,
+  // 此处不需要返回的接口做后续操作，偷个懒直接any
+  getLike: Promise<any>
 }
 
 export type apiKeyType = keyof typeof apiList

@@ -165,6 +165,7 @@
 import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
 import { ref, watch, computed, getCurrentInstance, onMounted, onUnmounted } from 'vue'
 import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage'
+import axios from '@/axios'
 
 const _this = (getCurrentInstance() as any).appContext.config.globalProperties
 
@@ -265,6 +266,16 @@ const delList = (index: any) => {
 }
 // 喜欢该歌曲
 const likeSong = async (item: any) => {
+  console.log(item, 'item')
+  const getLikeData = await axios({
+    url: 'getLike',
+    method: 'GET',
+    params: {
+      id: item.id,
+      like: true
+    }
+  })
+  console.log(getLikeData, 'getLikeData')
   // const { data: res } = await this.$http.likeSong({ id: item.id, like: !item.like })
 
   // if (res.code !== 200) {
@@ -301,15 +312,13 @@ const scrollCurSong = (cur: any) => {
     } else {
       curScroll.value = 0
     }
+    // 控制每次滑动50px
     curSongRef.value.addEventListener('wheel', (event: any) => {
-      console.log(event, 'event')
       if (event.wheelDelta > 0 || event.detail < 0) {
         curScroll.value = Math.abs(curScroll.value) > 0 ? curScroll.value + 50 : 0
       } else {
         curScroll.value = Math.abs(curScroll.value) < (props.songList.length - 8) / 2 * 100 ? curScroll.value - 50 : curScroll.value
       }
-      // return false可以理解为同时 event.stopPropagation() 和 event.preventDefault()
-      return false
     })
   }
 }

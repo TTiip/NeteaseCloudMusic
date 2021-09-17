@@ -104,9 +104,19 @@ instance.interceptors.response.use(
     return response.data
   },
   error => {
-    useMessage('error', error)
     const response = error.response
+    useMessage('error', response.data.msg)
     store.commit('setLoading', false)
+
+    switch (response.data.code) {
+      case 301:
+        // 为登录状态，显示登录dialog弹窗提示用户登录。
+        store.commit('setShowLogin', true)
+        break
+      default:
+        break
+    }
+
     // 超时重新请求
     const config = error.config
     // 全局的请求次数,请求的间隙
@@ -165,7 +175,7 @@ const httpFunc = <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }
     }).then(res => {
       resolve(res)
     }).catch(error => {
-      useMessage('error', error)
+      // useMessage('error', error)
       reject(error)
     })
   })

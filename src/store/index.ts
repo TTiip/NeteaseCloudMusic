@@ -332,6 +332,7 @@ export default createStore({
   state: {
     isLoading: false, // loading 显示
     isLogin: false, // 是否登录
+    showLogin: false, // 是否展示login dialog
     userInfo: { // 用户信息
       avatarUrl: ''
     },
@@ -352,6 +353,9 @@ export default createStore({
     },
     setLogin (state, isLogin) {
       state.isLogin = isLogin
+    },
+    setShowLogin (state, showLogin) {
+      state.showLogin = showLogin
     },
     setUserInfo (state, userInfo) {
       state.userInfo = userInfo
