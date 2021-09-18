@@ -8,32 +8,32 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/home',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "Home" */ '../views/home/index.vue')
+    component: () => import(/* webpackChunkName: "Home" */ '../views/home/home.vue')
   },
   {
     path: '/singer',
     name: 'Singer',
-    component: () => import(/* webpackChunkName: "Singer" */ '../views/singer/index.vue')
+    component: () => import(/* webpackChunkName: "Singer" */ '../views/singer/singer.vue')
   },
   {
     path: '/mv',
     name: 'MV',
-    component: () => import(/* webpackChunkName: "MV" */ '../views/mv/index.vue')
+    component: () => import(/* webpackChunkName: "MV" */ '../views/mv/mv.vue')
   },
   {
     path: '/song',
     name: 'Song',
-    component: () => import(/* webpackChunkName: "Song" */ '../views/song/index.vue')
+    component: () => import(/* webpackChunkName: "Song" */ '../views/song/song.vue')
   },
   {
     path: '/playlist',
     name: 'PlayList',
-    component: () => import(/* webpackChunkName: "PlayList" */ '../views/play-list/index.vue')
+    component: () => import(/* webpackChunkName: "PlayList" */ '../views/play-list/play-list.vue')
   },
   {
     path: '/playlist/detail',
     name: 'PlayListDetail',
-    component: () => import(/* webpackChunkName: "PlayListDetail" */ '../views/play-list-detail/index.vue')
+    component: () => import(/* webpackChunkName: "PlayListDetail" */ '../views/play-list-detail/play-list-detail.vue')
   },
   {
     path: '/album',
