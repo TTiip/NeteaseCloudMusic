@@ -302,7 +302,7 @@ const curSongRef: any = ref('')
 // 滚动到当前播放音乐的位置
 const scrollCurSong = (cur: any) => {
   if (props.isScroll) {
-    const curIndex = props.songList.findIndex((item: any) => item.id === cur.id)
+    const curIndex = props.songList.findIndex((item: any) => item?.id === cur?.id)
     // 如果是第二页的数据，且不是最后一页数据，直接上划滚动至当前点击index前四个即可
     if (curIndex > 7 && curIndex < props.songList.length - 8) {
       curScroll.value = -(curIndex - 4) * 50
