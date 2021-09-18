@@ -266,22 +266,18 @@ const delList = (index: any) => {
 }
 // 喜欢该歌曲
 const likeSong = async (item: any) => {
-  console.log(item, 'item')
-  const getLikeData = await axios({
+  await axios({
     url: 'getLike',
     method: 'GET',
     params: {
       id: item.id,
       like: true
+    },
+    headers: {
+      showLoading: false
     }
   })
-  console.log(getLikeData, 'getLikeData')
-  // const { data: res } = await this.$http.likeSong({ id: item.id, like: !item.like })
-
-  // if (res.code !== 200) {
-  //     return this.$msg.error('数据请求失败')
-  // }
-  // this.$msg.success('收藏成功')
+  _this.$message.success('收藏成功！')
 }
 const tips = (e: any, item: any) => {
   if (item.license) {

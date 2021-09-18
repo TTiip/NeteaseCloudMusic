@@ -135,7 +135,6 @@
         </div>
       </div>
     </div>
-    <PlayBar />
   </div>
 </template>
 
@@ -154,8 +153,6 @@ import Banner from '@/components/banner/banner.vue'
 import PlayList from '@/components/play-list/play-list.vue'
 import AlbumList from '@/components/album-list/album-list.vue'
 import MvList from '@/components/mv-list/mv-list.vue'
-
-import PlayBar from '@/components/play-bar/play-bar.vue'
 
 const albumIndex = ref(0)
 const playlistIndex = ref(0)
