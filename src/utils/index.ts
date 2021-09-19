@@ -1,4 +1,43 @@
-export default {
+class Song {
+  protected id: ''
+  protected name: ''
+  protected mvId: ''
+  protected singer: ''
+  protected album: ''
+  protected alia: ''
+  protected duration: ''
+  protected url: ''
+  protected vip: ''
+  protected license: ''
+  protected publishTime: ''
+  constructor ({
+    id,
+    name,
+    mvId,
+    singer,
+    album,
+    alia,
+    duration,
+    url,
+    vip,
+    license,
+    publishTime
+  }: {[props: string]: any}) {
+    this.id = id
+    this.name = name
+    this.mvId = mvId
+    this.singer = singer
+    this.album = album
+    this.alia = alia
+    this.duration = duration
+    this.url = url
+    this.vip = vip
+    this.license = license
+    this.publishTime = publishTime
+  }
+}
+
+const utils = {
   // 数字过万的处理
   formartNum (val: any) {
     let num: any = 0
@@ -60,13 +99,28 @@ export default {
   concatPlayList (newList = [], oldList = []) {
     const arr: any[] = [...oldList, ...newList]
     const map = new Map()
-
     for (const item of arr) {
       if (!map.has(item.id)) {
         map.set(item.id, item)
       }
     }
-
     return [...map.values()]
+  },
+  formatSongInfo (params: any) {
+    return new Song({
+      id: String(params.id),
+      name: params.name,
+      mvId: params.mv,
+      singer: params.ar,
+      album: params.al,
+      alia: params.alia,
+      vip: params.fee === 1,
+      license: params.license,
+      duration: utils.formatSongTime(params.dt),
+      url: `https://music.163.com/song/media/outer/url?id=${params.id}.mp3`,
+      publishTime: utils.formatMsgTime(params.publishTime)
+    })
   }
 }
+
+export default utils
