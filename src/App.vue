@@ -29,8 +29,7 @@ import PlayBar from '@/components/play-bar/play-bar.vue'
 import store from '@/store'
 import { getSessionStorage } from '@/hooks/useSessionStorage'
 
-// 回到顶部函数实现参考element源码部分。
-
+// 回到顶部功能实现参考element源码backTop部分。
 // 展示回到顶部按钮ref
 const showBackTop: any = ref(null)
 // 滚动条的高度
