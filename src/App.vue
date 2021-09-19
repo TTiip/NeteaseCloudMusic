@@ -29,17 +29,30 @@ import PlayBar from '@/components/play-bar/play-bar.vue'
 import store from '@/store'
 import { getSessionStorage } from '@/hooks/useSessionStorage'
 
+// 回到顶部函数实现参考element源码部分。
+
 // 展示回到顶部按钮ref
 const showBackTop: any = ref(null)
 // 滚动条的高度
 const scrollTop = ref(0)
+// 计算每次滚动的比例。
+const getScrollRatio = (value: number) => value < 0.5 ? 1 - Math.pow(value * 2, 3) / 2 : Math.pow((1 - value) * 2, 3) / 2
 
 const backTopFunc = () => {
-  document.body.scrollTop = document.documentElement.scrollTop = 0
-  // if (document.documentElement.scrollTop >= 0) {
-  //   document.body.style.transform = `translateY(${scrollTop.value -= 10}px)`
-  // }
-  // window.requestAnimationFrame(backTopFunc)
+  const beginTime = Date.now()
+  const beginValue = document.documentElement.scrollTop
+  const rAF = window.requestAnimationFrame || ((func) => setTimeout(func, 16))
+  const frameFunc = () => {
+    // 通过调用时间和第一次触发时间的差值作为滚动的比例的参数
+    const progress = (Date.now() - beginTime) / 500
+    if (progress < 1) {
+      document.documentElement.scrollTop = beginValue * getScrollRatio(progress)
+      rAF(frameFunc)
+    } else {
+      document.documentElement.scrollTop = 0
+    }
+  }
+  rAF(frameFunc)
 }
 const backTop = () => {
   backTopFunc()
@@ -49,9 +62,9 @@ const handleScroll = () => {
   scrollTop.value = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
   // 如果滚动条滚动距离大于300 则显示返回顶部按钮
   if (Number(scrollTop.value) > 300) {
-    showBackTop.value.style.opacity = '1'
+    showBackTop.value && (showBackTop.value.style.opacity = '1')
   } else {
-    showBackTop.value.style.opacity = '0'
+    showBackTop.value && (showBackTop.value.style.opacity = '0')
   }
 }
 
