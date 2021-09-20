@@ -69,7 +69,20 @@ const apiList = {
   // 调用此接口,可发送评论或者删除评论
   getCommit: '/comment',
   // 调用此接口 , 传入 type, 资源 id, 和评论 id cid 和 是否点赞参数 t 即可给对 应评论点赞 ( 需要登录 )
-  getCommitLike: '/comment/like'
+  getCommitLike: '/comment/like',
+  // 说明 : 歌单能看到歌单名字, 但看不到具体歌单内容 , 调用此接口 , 传入歌单 id, 可 以获取对应歌单内的所有的音乐(未登录状态只能获取不完整的歌单,登录后是完整的)
+  // 但是返回的trackIds是完整的，tracks 则是不完整的，可拿全部 trackIds 请求一次 song/detail 接口获取所有歌曲的详情
+  getPlayListDetail: '/playlist/detail',
+  // 调用此接口 , 传入歌单 id 可获取歌单的所有收藏者
+  getPlayListSubscribers: '/playlist/subscribers',
+  // 调用此接口 , 传入歌单 id 可获取歌单的所有收藏者
+  getRelatedPlaylist: '/related/playlist',
+  // 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该歌单的所有评论 ( 不需要 登录 )
+  getCommentPlaylist: '/comment/playlist',
+  // 调用此接口 , 传入音乐 id(支持多个 id, 用 , 隔开), 可获得歌曲详情
+  getSongDetail: '/song/detail',
+  // 调用此接口 , 传入类型和歌单 id 可收藏歌单或者取消收藏歌单
+  getPlaylistSubscribe: '/playlist/subscribe'
 }
 
 export interface apiKeyDataType {
@@ -115,6 +128,12 @@ export interface apiKeyDataType {
   getCommentVideo: Promise<any>,
   getCommit: Promise<any>,
   getCommitLike: Promise<any>,
+  getPlayListDetail: Promise<any>,
+  getPlayListSubscribers: Promise<any>,
+  getRelatedPlaylist: Promise<any>,
+  getCommentPlaylist: Promise<any>,
+  getSongDetail: Promise<any>,
+  getPlaylistSubscribe: Promise<any>,
 }
 
 export type apiKeyType = keyof typeof apiList
