@@ -51,7 +51,25 @@ const apiList = {
   // 喜欢音乐
   getLike: '/like',
   // 获取专辑内容
-  getAlbum: '/album'
+  getAlbum: '/album',
+  // 调用此接口 , 传入专辑 id, 可获得专辑动态信息,如是否收藏,收藏数,评论数,分享数
+  getAlbumDetail: '/album/detail/dynamic',
+  // 调用此接口 , 传入歌手 id, 可获得歌手专辑内容
+  getArtistAlbum: '/artist/album',
+  // 调用此接口,可收藏/取消收藏专辑
+  getAlbumSub: '/album/sub',
+  // 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该音乐的所有评论 ( 不需要登录 )
+  getCommentMusic: '/comment/music',
+  // 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该 mv 的所有评论 ( 不需要 登录 )
+  getCommentMv: '/comment/mv',
+  // 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该专辑的所有评论 ( 不需要 登录 )
+  getCommentAlbum: '/comment/album',
+  // 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该 视频 的所有评论 ( 不需要登录 )
+  getCommentVideo: '/comment/video',
+  // 调用此接口,可发送评论或者删除评论
+  getCommit: '/comment',
+  // 调用此接口 , 传入 type, 资源 id, 和评论 id cid 和 是否点赞参数 t 即可给对 应评论点赞 ( 需要登录 )
+  getCommitLike: '/comment/like'
 }
 
 export interface apiKeyDataType {
@@ -87,7 +105,16 @@ export interface apiKeyDataType {
   // 此处不需要返回的接口做后续操作，偷个懒直接any
   getLike: Promise<any>,
   // 接口字段太多了，不想加了，直接全部any？
-  getAlbum: Promise<any>
+  getAlbum: Promise<any>,
+  getAlbumDetail: Promise<any>,
+  getArtistAlbum: Promise<any>,
+  getAlbumSub: Promise<any>,
+  getCommentMusic: Promise<any>,
+  getCommentMv: Promise<any>,
+  getCommentAlbum: Promise<any>,
+  getCommentVideo: Promise<any>,
+  getCommit: Promise<any>,
+  getCommitLike: Promise<any>,
 }
 
 export type apiKeyType = keyof typeof apiList

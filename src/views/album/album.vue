@@ -49,12 +49,17 @@
             <p @click="showAllDesc">
               {{ details.description }}
             </p>
-            <pre
-              v-if="isShowDesc"
-              class="album-desc-all"
+            <el-dialog
+              v-model="isShowDesc"
+              title="歌单简介"
+              width="60%"
             >
-              {{ details.description }}
-            </pre>
+              <div>
+                <pre class="album-desc-all">
+                  {{ details.description }}
+                </pre>
+              </div>
+            </el-dialog>
           </div>
         </div>
       </div>
@@ -131,10 +136,10 @@ import { useRoute } from 'vue-router'
 import utils from '@/utils'
 import SongList from '@/components/song-list/song-list.vue'
 import axios from '@/axios'
-// import Comments from '@components/common/comments.vue'
+import store from '@/store'
+import Comments from '@/components/comments/comments.vue'
 
 const route = useRoute()
-// console.log(route.query)
 
 /* data */
 const albumId = ref('')
@@ -142,62 +147,75 @@ const details: any = ref(null)
 const songList: any = ref([])
 const dynamic: any = ref({})
 const hotAlbums: any = ref([])
-const comments = ref([])
 const type = ref(3) // 0: 歌曲 1: mv 2: 歌单 3: 专辑  4: 电台 5: 视频 6: 动态
 const isShowDesc = ref(false)
 
 /* methods */
-// ...mapMutations({
-//       setPlayStatus: 'SET_PLAYSTATUS',
-//       setPlayList: 'SET_PLAYLIST',
-//       setPlayIndex: 'SET_PLAYINDEX'
-//     ...mapActions(['playAll'])
-// //     }),
 // 相关歌单推荐
 const getAlbum = async (params: any) => {
   const getAlbumData = await axios({
     url: 'getAlbum',
     method: 'GET',
-    params
+    params,
+    headers: {
+      showLoading: false
+    }
   })
   details.value = getAlbumData.album
   // 按照字段映射以后的数据返回。
   songList.value = _formatSongs(getAlbumData.songs)
+  getArtistAlbum()
 }
 const getAlbumDynamic = async (params: any) => {
-  // const { data: res } = await this.$http.albumDynamic(params)
-
-  // if (res.code !== 200) {
-  //   return this.$msg.error('数据请求失败')
-  // }
-  // this.dynamic = res
+  const getAlbumDetailData = await axios({
+    url: 'getAlbumDetail',
+    method: 'GET',
+    params,
+    headers: {
+      showLoading: false
+    }
+  })
+  dynamic.value = getAlbumDetailData
 }
 const getArtistAlbum = async () => {
-  // const { data: res } = await this.$http.artistAlbum({ id: this.details.artists[0].id, limit: 5 })
-
-  // if (res.code !== 200) {
-  //   return this.$msg.error('数据请求失败')
-  // }
-  // this.hotAlbums = res.hotAlbums
+  const getArtistAlbumData = await axios({
+    url: 'getArtistAlbum',
+    method: 'GET',
+    params: {
+      id: details.value.artists[0].id,
+      limit: 10,
+      offset: 0
+    }
+  })
+  hotAlbums.value = getArtistAlbumData.hotAlbums
 }
 // 专辑简介查看更多
 const showAllDesc = () => {
-  // if (this.details.description.length > 120) {
-  //   this.isShowDesc = !this.isShowDesc
-  // }
+  if (details.value.description.length > 120) {
+    isShowDesc.value = !isShowDesc.value
+  }
 }
 const playAllSongs = () => {
-  // this.playAll({
-  //   list: this.songList
-  // })
+  store.dispatch('playAll', {
+    list: songList.value
+  })
 }
 const subAlbum = async () => {
-  // const { data: res } = await this.$http.albumSub({ id: this.albumId, t: Number(!this.dynamic.isSub) })
-
-  // if (res.code !== 200) {
-  //   return this.$msg.error('数据请求失败')
-  // }
-  // this.dynamic.isSub = Number(!this.dynamic.isSub)
+  const getAlbumSubData = await axios({
+    url: 'getAlbumSub',
+    method: 'GET',
+    params: {
+      id: details.value.artists[0].id,
+      t: Number(!dynamic.value.isSub)
+    },
+    headers: {
+      showLoading: false
+    }
+  })
+  // 比较特殊，可能出现没有专辑版权的情况，暂时这么判断
+  if (getAlbumSubData.code === 200) {
+    dynamic.value.isSub = Number(!dynamic.value.isSub)
+  }
 }
 // 处理歌曲
 const _formatSongs = (list: any) => {

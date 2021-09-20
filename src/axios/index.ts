@@ -70,7 +70,9 @@ instance.interceptors.request.use(
   request => {
     // 如果不存在showLoading则默认设置为true
     if (!Reflect.has(request.headers, 'showLoading')) {
-      request.headers.showLoading = true
+      // request.headers.showLoading = true
+      // 先设置为false，之后在改。
+      request.headers.showLoading = false
     }
     request.headers.showLoading && store.commit('setLoading', true)
     removePending(request)

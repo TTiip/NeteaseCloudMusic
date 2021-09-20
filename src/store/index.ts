@@ -359,7 +359,9 @@ export default createStore({
     isLogin: false, // 是否登录
     showLogin: false, // 是否展示login dialog
     userInfo: { // 用户信息
-      avatarUrl: ''
+      avatarUrl: '',
+      nickname: '',
+      userId: ''
     },
     loginDialogVisible: false, // 登录弹窗显示与隐藏
     isPlayed: false, // 当前播放状态
