@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="w1200">
-      <Banner />
+      <Banner style="margin-top: 20px;" />
       <div class="recom_list">
         <div class="h_title">
           <h3>热门歌单</h3>
