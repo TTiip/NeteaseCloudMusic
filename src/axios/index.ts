@@ -105,13 +105,16 @@ instance.interceptors.response.use(
   },
   error => {
     const response = error.response
-    useMessage('error', response.data.msg)
     store.commit('setLoading', false)
 
     switch (response.data.code) {
       case 301:
         // 为登录状态，显示登录dialog弹窗提示用户登录。
         store.commit('setShowLogin', true)
+        break
+      case 401:
+        // 401提示
+        useMessage('error', response.data.message)
         break
       default:
         break
