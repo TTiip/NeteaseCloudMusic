@@ -181,7 +181,7 @@ const userInfo = computed(() => store.state.userInfo)
 const menuList = ref([
   {
     name: '首页',
-    path: '/index'
+    path: '/home'
   }, {
     name: '排行榜',
     path: '/rank'
