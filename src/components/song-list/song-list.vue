@@ -163,11 +163,10 @@
 
 <script lang='ts' setup>
 import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
-import { ref, watch, computed, getCurrentInstance, onMounted, onUnmounted } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage'
+import useMessage from '@/hooks/useMessage'
 import axios from '@/axios'
-
-const _this = (getCurrentInstance() as any).appContext.config.globalProperties
 
 const props = defineProps({
   songList: {
@@ -277,15 +276,15 @@ const likeSong = async (item: any) => {
       showLoading: false
     }
   })
-  _this.$message.success('收藏成功！')
+  useMessage('success', '收藏成功！')
 }
 const tips = (e: any, item: any) => {
   if (item.license) {
-    _this.$message.error('由于版权保护，您所在的地区暂时无法使用。')
+    useMessage('error', '由于版权保护，您所在的地区暂时无法使用。')
   }
 
   if (item.vip) {
-    _this.$message.error('付费歌曲，请在网易云音乐播放')
+    useMessage('error', '付费歌曲，请在网易云音乐播放')
   }
 }
 // const popAddList = ref()
