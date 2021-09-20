@@ -377,13 +377,6 @@ const likeComment = async (item: any) => {
   // 标记喜欢 不喜欢。
   item.liked = !item.liked
   getComment()
-
-  // const { data: res } = await this.$http.commentLike({ id: this.curId, cid: item.commentId, t: Number(!item.liked), type: this.type })
-
-  // if (res.code !== 200) {
-  //   return this.$msg.error('数据请求失败')
-  // }
-  // this.getComment()
 }
 // 留言分页
 const currentChange = (page: number) => {
