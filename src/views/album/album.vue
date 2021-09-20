@@ -230,15 +230,15 @@ const _formatSongs = (list: any) => {
   return ret
 }
 const _initialize = () => {
-  getAlbum({ id: albumId.value })
-  getAlbumDynamic({ id: albumId.value })
+  albumId.value && getAlbum({ id: albumId.value })
+  albumId.value && getAlbumDynamic({ id: albumId.value })
 }
 
 /* watch */
 watch(() => route.query, (newVal) => {
   // 直接赋值会出现类型报错问题，因为route出来的是一个特殊类型的，已经确定id是一个string直接转换一下赋值。
   albumId.value = String(newVal.id)
-  if (albumId.value) {
+  if (newVal.id) {
     _initialize()
   }
 })
