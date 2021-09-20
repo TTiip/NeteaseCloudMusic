@@ -47,7 +47,7 @@
       <template v-if="comments.length">
         <div
           v-for="(item, index) in comments"
-          :key="item.commentId + index + ''"
+          :key="item.commentId + Number(index) + ''"
           class="comment_item"
         >
           <router-link
