@@ -132,12 +132,6 @@
                       <i class="iconfont icon-home" />我的主页
                     </router-link>
                   </el-dropdown-item>
-                  <el-dropdown-item command="grade">
-                    <i class="iconfont icon-grade" />我的等级
-                  </el-dropdown-item>
-                  <el-dropdown-item command="set">
-                    <i class="iconfont icon-set" />设置
-                  </el-dropdown-item>
                   <el-dropdown-item command="quit">
                     <i class="iconfont icon-quit" />退出
                   </el-dropdown-item>
