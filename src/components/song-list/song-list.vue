@@ -148,7 +148,6 @@
       v-if="isShowPagination"
       class="pagination"
     >
-      {{ songList }}
       <el-pagination
         v-model:current-page="currentPage"
         background
