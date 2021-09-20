@@ -218,7 +218,6 @@ const collects: any = ref([])
 const playlists: any = ref([])
 const comments: any = ref([])
 const total = ref(0)
-const isLoading = ref(true)
 const isShowDesc = ref(false)
 
 /* mounted */
@@ -228,7 +227,6 @@ onMounted(() => {
 
 /* computed */
 const isLogin = computed(() => store.state.isLogin)
-const playList = computed(() => store.state.playList)
 
 /* methods */
 const _initialize = (id: any) => {
@@ -243,7 +241,6 @@ const _initialize = (id: any) => {
 }
 // 登录及未登录下获取歌单中歌曲的列表
 const getDetail = async (params: any) => {
-  isLoading.value = true
   const getPlayListDetailData = await axios({
     url: 'getPlayListDetail',
     method: 'GET',
@@ -258,7 +255,6 @@ const getDetail = async (params: any) => {
   } else {
     songList.value = _formatSongs(getPlayListDetailData.playlist.tracks)
     total.value = songList.value.length
-    isLoading.value = false
   }
 }
 // 订阅该歌单的用户列表
@@ -310,7 +306,6 @@ const getAllSongs = async (ids: any) => {
     sliceArr[i].map((d: any) => {
       arrs.push(d.id)
     })
-    isLoading.value = true
     const getSongDetailData = await axios({
       url: 'getSongDetail',
       method: 'GET',
@@ -324,7 +319,6 @@ const getAllSongs = async (ids: any) => {
 
   songList.value = idsArr
   total.value = idsArr.length
-  isLoading.value = false
 }
 // 未登录状态，点击登录按钮，显示登录框
 const loginDialog = () => {
