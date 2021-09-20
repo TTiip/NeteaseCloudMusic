@@ -49,7 +49,9 @@ const apiList = {
   // 获取歌曲的歌词
   getLyric: '/lyric',
   // 喜欢音乐
-  getLike: '/like'
+  getLike: '/like',
+  // 获取专辑内容
+  getAlbum: '/album'
 }
 
 export interface apiKeyDataType {
@@ -83,7 +85,9 @@ export interface apiKeyDataType {
   getTopArtists: Promise<GetTopArtists>,
   getLyric: Promise<GetLyric>,
   // 此处不需要返回的接口做后续操作，偷个懒直接any
-  getLike: Promise<any>
+  getLike: Promise<any>,
+  // 接口字段太多了，不想加了，直接全部any？
+  getAlbum: Promise<any>
 }
 
 export type apiKeyType = keyof typeof apiList
