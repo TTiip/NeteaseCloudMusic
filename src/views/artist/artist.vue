@@ -56,9 +56,13 @@
           </div>
         </router-link>
       </div>
-      <template v-if="isLoading">
-        <Loading />
-      </template>
+      <div
+        v-loading="isLoading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+        style="width: 100%;margin-bottom: 10px"
+      />
     </div>
   </div>
 </template>
