@@ -202,10 +202,15 @@ const timer: any = ref(null)
 // 当前播放的音乐的位置
 const curScroll = ref(0)
 
+const flag = ref(true)
+
 /* mounted */
 // 加载完成默认滚动到当前播放的音乐位置。
 onMounted(() => {
-  scrollCurSong(curSongInfo.value)
+  if (flag.value) {
+    flag.value = false
+    scrollCurSong(curSongInfo.value)
+  }
 })
 
 /* methods */
@@ -300,6 +305,7 @@ const scrollCurSong = (cur: any) => {
       }
     })
   }
+  flag.value = true
 }
 
 /* compunted */
@@ -309,10 +315,16 @@ const playList = computed(() => store.state.playList)
 const playIndex = computed(() => store.state.playIndex)
 
 const list = computed(() => {
-  if (!props.isScroll) { // 分页加载数据
-    return props.songList.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value)
+  // 当存在歌曲列表时在计算操作。
+  if (props.songList.length) {
+    if (!props.isScroll) {
+    // 分页加载数据
+      return props.songList.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value)
+    } else {
+      return props.songList
+    }
   } else {
-    return props.songList
+    return []
   }
 })
 
@@ -349,11 +361,17 @@ const curSongInfo = computed(() => playList.value[playIndex.value])
 /* watch */
 
 watch(() => curSongInfo.value, (newVal) => {
-  scrollCurSong(newVal)
+  if (flag.value) {
+    flag.value = false
+    scrollCurSong(newVal)
+  }
 })
 
 watch(props.songList, (newVal) => {
-  scrollCurSong(newVal)
+  if (flag.value) {
+    flag.value = false
+    scrollCurSong(newVal)
+  }
 })
 
 // 组件注销释放事件避免内存泄漏。

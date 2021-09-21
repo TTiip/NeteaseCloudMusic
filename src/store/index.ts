@@ -76,7 +76,6 @@ export default createStore({
   actions: {
     // 播放歌曲列表里全部歌曲（清空当前播放列表）
     playAll ({ commit }, { list }) {
-      console.log(list, 'list')
       commit(SET_PLAY_LIST, concatPlayList(list))
       commit(SET_PLAYS_TATUS, true)
       commit(SET_PLAY_INDEX, 0)
