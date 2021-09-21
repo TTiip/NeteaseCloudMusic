@@ -12,6 +12,7 @@ import useDirective from '@/hooks/useDirective'
 
 // 此时会自动引入对应的样式文件，无需再手动逐一引入
 import {
+  // 组件
   ElButton,
   ElRow,
   ElCol,
@@ -28,7 +29,10 @@ import {
   ElCarouselItem,
   ElCarousel,
   ElPagination,
-  ElSwitch
+  ElSwitch,
+  // 插件
+  ElInfiniteScroll,
+  ElLoading
 } from 'element-plus'
 
 // 创建实例
@@ -56,6 +60,11 @@ useDirective(app)
   ElPagination,
   ElSwitch
 ].map(item => app.component(item.name, item))
+
+;[
+  ElInfiniteScroll,
+  ElLoading
+].map(item => app.use(item))
 // 全局设置尺寸。
 app.config.globalProperties.$ELEMENT = { size: 'small' }
 
