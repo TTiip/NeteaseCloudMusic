@@ -49,6 +49,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/rank',
     name: 'Rank',
     component: () => import(/* webpackChunkName: "Rank" */ '../views/rank/rank.vue')
+  },
+  {
+    path: '/artist',
+    name: 'Artist',
+    component: () => import(/* webpackChunkName: "Artist" */ '../views/artist/artist.vue')
   }
 ]
 
