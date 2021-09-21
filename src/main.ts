@@ -28,7 +28,7 @@ import {
   ElCarouselItem,
   ElCarousel,
   ElPagination,
-  ElCheckbox
+  ElSwitch
 } from 'element-plus'
 
 // 创建实例
@@ -54,7 +54,7 @@ useDirective(app)
   ElCarouselItem,
   ElCarousel,
   ElPagination,
-  ElCheckbox
+  ElSwitch
 ].map(item => app.component(item.name, item))
 // 全局设置尺寸。
 app.config.globalProperties.$ELEMENT = { size: 'small' }

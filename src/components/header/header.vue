@@ -157,7 +157,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, reactive, inject } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { SearchHotItemProps, SuggestInfoResultProps } from '@/interface'
 import useMessage from '@/hooks/useMessage'
 import { removeSessionStorage } from '@/hooks/useSessionStorage'

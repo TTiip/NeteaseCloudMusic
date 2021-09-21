@@ -2,8 +2,8 @@
 import { createStore } from 'vuex'
 import utils from '@/utils'
 import {
-  setLocalStorage
-  , getLocalStorage
+  setLocalStorage,
+  getLocalStorage
 } from '@/hooks/useLocalStorage'
 
 // 是否时播放状态
@@ -355,6 +355,9 @@ const playList = [
 
 export default createStore({
   state: {
+    phone: JSON.parse(getLocalStorage('PhoneAndPassword') || '{}')?.phone || '',
+    password: JSON.parse(getLocalStorage('PhoneAndPassword') || '{}')?.password || '',
+    isSave: getLocalStorage('isSave') || false, // 是否记住账号密码
     isLoading: false, // loading 显示
     isLogin: false, // 是否登录
     showLogin: false, // 是否展示login dialog
@@ -374,8 +377,16 @@ export default createStore({
     playListTips: '' // 添加及播放成功后，播放列表按钮提示的文字
   },
   mutations: {
-    setLoading (state,
-      loading) {
+    // setPhoneAndPassword (state, { phone, password }) {
+    //   state.phone = phone
+    //   state.password = password
+    //   setLocalStorage('PhoneAndPassword', JSON.stringify({ phone, password }))
+    // },
+    setIsSave (state, isSave) {
+      state.isSave = isSave
+      setLocalStorage('isSave', isSave)
+    },
+    setLoading (state, loading) {
       state.isLoading = loading
     },
     setLogin (state, isLogin) {

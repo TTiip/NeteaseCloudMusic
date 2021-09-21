@@ -38,15 +38,15 @@
             </el-input>
           </el-form-item>
         </el-form>
-      </div>
-      <template #footer>
-        <div>
-          111
-          <el-checkboxs
-            v-model="saveAccountPassword"
-            label="记住账号密码"
+        <div style="text-align: right;">
+          是否记住账号密码: <el-switch
+            v-model="isSave"
+            active-color="#ff641e"
+            @change="changeIsSave"
           />
         </div>
+      </div>
+      <template #footer>
         <div class="dialog-footer">
           <el-button
             type="primary"
@@ -64,17 +64,24 @@
 import { ref, reactive, computed } from 'vue'
 import useMessage from '@/hooks/useMessage'
 import { setSessionStorage } from '@/hooks/useSessionStorage'
+import { setLocalStorage } from '@/hooks/useLocalStorage'
 // import cryptoJs from 'crypto-js'
 import store from '@/store'
 import axios from '@/axios'
 
-const saveAccountPassword = ref(false)
-
 const showForm = computed(() => !store.state.isLogin)
-//
+const compuntedIsSave = computed(() => store.state.isSave)
+const compuntedPhone = computed(() => store.state.phone)
+const compuntedPassword = computed(() => store.state.password)
+const isSave = ref(compuntedIsSave.value === 'true')
+
+const changeIsSave = (isSave: boolean) => {
+  store.commit('setIsSave', isSave)
+}
+
 const loginForm = reactive({
-  phone: '',
-  password: ''
+  phone: compuntedPhone.value,
+  password: compuntedPassword.value
 })
 
 const loginFormRules = {
@@ -119,6 +126,13 @@ const submitClick = () => {
         setSessionStorage('cookie', res.cookie)
         setSessionStorage('isLogin', true)
         setSessionStorage('userInfo', JSON.stringify(userDetail.profile))
+        if (isSave.value) {
+          setLocalStorage('PhoneAndPassword', JSON.stringify({ phone: loginForm.phone, password: loginForm.password }))
+        } else {
+          setLocalStorage('PhoneAndPassword', '')
+        }
+        loginForm.phone = ''
+        loginForm.password = ''
       }
     } else {
       console.log('error submit!!')
