@@ -40,6 +40,13 @@
         </el-form>
       </div>
       <template #footer>
+        <div>
+          111
+          <el-checkboxs
+            v-model="saveAccountPassword"
+            label="记住账号密码"
+          />
+        </div>
         <div class="dialog-footer">
           <el-button
             type="primary"
@@ -60,6 +67,8 @@ import { setSessionStorage } from '@/hooks/useSessionStorage'
 // import cryptoJs from 'crypto-js'
 import store from '@/store'
 import axios from '@/axios'
+
+const saveAccountPassword = ref(false)
 
 const showForm = computed(() => !store.state.isLogin)
 //

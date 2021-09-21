@@ -114,17 +114,16 @@
               placement="bottom"
               @command="dropDownItemClick"
             >
-              <img
+              <el-image
                 :src="userInfo.avatarUrl"
                 class="avatar"
               >
-              <!-- <el-image :src="userInfo.avatarUrl" class="avatar">
                 <template #placeholder>
                   <div class="image-slot">
-                    <i class="iconfont icon-placeholder"></i>
+                    <i class="iconfont icon-placeholder" />
                   </div>
                 </template>
-              </el-image> -->
+              </el-image>
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item command="user">
@@ -169,7 +168,7 @@ import router from '@/router'
 import store from '@/store'
 import axios from '@/axios'
 
-const reload: any = inject('reload')
+// const reload: any = inject('reload')
 // 菜单相关
 const menuActive = computed(() => router.currentRoute.value.path)
 const isLogin = computed(() => store.state.isLogin)
@@ -224,7 +223,7 @@ const dropDownItemClick = (command: string) => {
       break
     case 'quit':
       getLoginOut()
-      reload && reload()
+      // reload && reload()
       break
   }
 }
