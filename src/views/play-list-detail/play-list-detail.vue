@@ -385,8 +385,8 @@ watch(() => isLogin.value, (newVal: any) => {
     const ids = details.value.trackIds
     getAllSongs(ids)
   } else {
-    songList.value = details.value.tracks
-    total.value = details.value.tracks.length
+    songList.value = details.value?.tracks ?? []
+    total.value = details.value?.tracks?.length ?? 0
   }
 })
 </script>
