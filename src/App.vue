@@ -1,5 +1,8 @@
 <template>
-  <div id="container">
+  <div
+    v-if="isRouterAlive"
+    id="container"
+  >
     <Header />
     <div class="layout">
       <router-view />
@@ -22,12 +25,22 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, provide, nextTick } from 'vue'
 import Loading from '@/components/loading/loading.vue'
 import Header from '@/components/header/header.vue'
 import PlayBar from '@/components/play-bar/play-bar.vue'
 import store from '@/store'
 import { getSessionStorage } from '@/hooks/useSessionStorage'
+
+const isRouterAlive = ref(true)
+const reload = () => {
+  isRouterAlive.value = false
+  nextTick(() => {
+    isRouterAlive.value = true
+  })
+}
+
+provide('reload', reload)
 
 // 回到顶部功能实现参考element源码backTop部分。
 // 展示回到顶部按钮ref

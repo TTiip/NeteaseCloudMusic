@@ -158,7 +158,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, inject } from 'vue'
 import { SearchHotItemProps, SuggestInfoResultProps } from '@/interface'
 import useMessage from '@/hooks/useMessage'
 import { removeSessionStorage } from '@/hooks/useSessionStorage'
@@ -168,6 +168,8 @@ import Login from '@/components/login/login.vue'
 import router from '@/router'
 import store from '@/store'
 import axios from '@/axios'
+
+const reload: any = inject('reload')
 // 菜单相关
 const menuActive = computed(() => router.currentRoute.value.path)
 const isLogin = computed(() => store.state.isLogin)
@@ -208,10 +210,6 @@ const getLoginOut = async () => {
   // 设置登录相关信息
   store.commit('setLogin', false)
   store.commit('setUserInfo', {})
-
-  // if (this.$route.path.indexOf('/my') >= 0) {
-  //   this.$router.push({ path: '/' })
-  // }
 }
 const dropDownItemClick = (command: string) => {
   switch (command) {
@@ -226,6 +224,7 @@ const dropDownItemClick = (command: string) => {
       break
     case 'quit':
       getLoginOut()
+      reload && reload()
       break
   }
 }
