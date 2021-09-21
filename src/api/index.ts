@@ -84,7 +84,9 @@ const apiList = {
   // 调用此接口 , 传入类型和歌单 id 可收藏歌单或者取消收藏歌单
   getPlaylistSubscribe: '/playlist/subscribe',
   // 调用此接口,可获取所有榜单内容摘要
-  getToplistDetail: '/toplist/detail'
+  getToplistDetail: '/toplist/detail',
+  // 调用此接口,可获取歌单分类,包含 category 信息
+  getPlaylistCatlist: '/playlist/catlist'
 }
 
 export interface apiKeyDataType {
@@ -138,6 +140,7 @@ export interface apiKeyDataType {
   getPlaylistSubscribe: Promise<any>,
   getToplistDetail: Promise<any>,
   getPlaylistDetail: Promise<any>,
+  getPlaylistCatlist: Promise<any>,
 }
 
 export type apiKeyType = keyof typeof apiList
