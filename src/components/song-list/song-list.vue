@@ -215,13 +215,6 @@ const currentSong = (item: any) => {
   // 若当前歌曲 或者 当前播放歌曲不是本歌单显示的歌曲  立即播放当前歌单
   if (!curSongInfo.value || item?.id !== curSongInfo.value?.id) {
     store.dispatch('selectPlay', { list: [item] })
-    if (props.isShowTips) {
-      // store.dispatch('setPlayListTips', { flag: true, txt: '已开始播放' })
-      clearTimeout(timer)
-      timer.value = setTimeout(() => {
-        store.dispatch('setPlayListTips', { flag: true, txt: '已开始播放' })
-      }, 2000)
-    }
   } else {
     store.commit(SET_PLAYS_TATUS, !isPlayed.value)
   }
@@ -241,14 +234,6 @@ const currentChange = (page: any) => {
 // 添加当前歌曲到播放列表
 const addSongList = (item: any) => {
   store.dispatch('addList', { list: [item] })
-
-  if (props.isShowTips) {
-    // store.commit('setPlayListTips', { flag: true, txt: '已添加到播放列表' })
-    clearTimeout(timer.value)
-    timer.value = setTimeout(() => {
-      store.commit('setPlayListTips', { flag: true, txt: '已添加到播放列表' })
-    }, 2000)
-  }
 }
 // 在播放列表删除当前歌曲
 const delList = (index: any) => {
