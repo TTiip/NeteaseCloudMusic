@@ -81,3 +81,25 @@ const isLoading = computed(() => store.state.isLoading)
 <style lang="less">
 @import './App.less';
 </style>
+
+<style lang='less'>
+// 全局样式修改
+  #body {
+    .el-pagination {
+      .el-pager {
+        .active {
+          background: @color-theme;
+        }
+        li:not(.active):hover {
+          color: @color-theme;
+        }
+      }
+    }
+    .login {
+      .el-button {
+        background: @color-theme;
+        border: 1px solid @color-theme;
+      }
+    }
+  }
+</style>
