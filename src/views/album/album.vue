@@ -68,7 +68,7 @@
           <div class="song-header">
             <h4>包含歌曲列表 <em>{{ details.size + '首歌' }}</em></h4>
             <span
-              class="play-all"
+              :class="['play-all', songList.length ? '' : 'disabled']"
               @click="playAllSongs"
             ><i class="iconfont icon-audio-play" /> 播放全部</span>
             <span
@@ -196,9 +196,11 @@ const showAllDesc = () => {
   }
 }
 const playAllSongs = () => {
-  store.dispatch('playAll', {
-    list: songList.value
-  })
+  if (songList.value.length) {
+    store.dispatch('playAll', {
+      list: songList.value
+    })
+  }
 }
 const subAlbum = async () => {
   const getAlbumSubData = await axios({
