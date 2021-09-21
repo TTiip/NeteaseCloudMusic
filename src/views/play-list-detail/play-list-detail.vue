@@ -85,7 +85,7 @@
             <div class="song-header">
               <h4>歌曲列表 <em>{{ total + '首歌' }}</em></h4>
               <span
-                class="play-all"
+                :class="['play-all', songList.length ? '' : 'disabled']"
                 @click="playAllSongs"
               ><i class="iconfont icon-audio-play" /> 播放全部</span>
               <span
@@ -250,10 +250,9 @@ const getDetail = async (params: any) => {
 
   if (isLogin.value) {
     const ids = getPlayListDetailData.playlist.trackIds
-
     getAllSongs(ids)
   } else {
-    songList.value = _formatSongs(getPlayListDetailData.playlist.tracks)
+    songList.value = _formatSongsNoLogin(getPlayListDetailData.playlist.tracks)
     total.value = songList.value.length
   }
 }
@@ -314,7 +313,7 @@ const getAllSongs = async (ids: any) => {
         timestamp: new Date().valueOf() + i
       }
     })
-    idsArr = idsArr.concat(_formatSongs(getSongDetailData))
+    idsArr = idsArr.concat(_formatSongsLogin(getSongDetailData))
   }
 
   songList.value = idsArr
@@ -325,7 +324,19 @@ const loginDialog = () => {
   store.commit('setShowLogin', true)
 }
 // 处理歌曲
-const _formatSongs = (list: any) => {
+const _formatSongsNoLogin = (list: any) => {
+  const ret: any = []
+  list.map((item: any, index: any) => {
+    if (item.id) {
+      // 是否有版权播放
+      item.license = !list[index].cp
+      ret.push(utils.formatSongInfo(item))
+    }
+  })
+  return ret
+}
+// 处理歌曲
+const _formatSongsLogin = (list: any) => {
   const ret: any = []
   list.songs.map((item: any, index: any) => {
     if (item.id) {
@@ -338,9 +349,11 @@ const _formatSongs = (list: any) => {
 }
 // 播放列表为当前歌单的全部歌曲
 const playAllSongs = () => {
-  store.dispatch('playAll', {
-    list: songList.value
-  })
+  if (songList.value.length) {
+    store.dispatch('playAll', {
+      list: songList.value
+    })
+  }
 }
 // 收藏、取消歌单
 const subPlayList = async (item: any) => {
