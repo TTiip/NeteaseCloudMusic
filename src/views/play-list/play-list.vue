@@ -12,10 +12,10 @@
           </div>
           <div class="filter-box">
             <span
-              v-for="sub1 in item.children.slice(0, 8)"
-              :key="sub1.name"
-              :class="['item-box', curType === sub1.name ? 'active' : '']"
-            ><em @click="selectType(sub)">{{ sub1.name }}</em></span>
+              v-for="subItem in item.children.slice(0, 8)"
+              :key="subItem.name"
+              :class="['item-box', curType === subItem.name ? 'active' : '']"
+            ><em @click="selectType(subItem)">{{ subItem.name }}</em></span>
             <el-popover
               v-if="item.children.length > 9"
               placement="bottom"
@@ -31,10 +31,10 @@
               </template>
               <div class="filter-drop">
                 <span
-                  v-for="sub2 in item.children.slice(9)"
-                  :key="sub2.name"
-                  :class="['item-box', curType === sub2.name ? 'active' : '']"
-                ><em @click="selectType(sub2)">{{ sub2.name }}</em></span>
+                  v-for="subItem in item.children.slice(9)"
+                  :key="subItem.name"
+                  :class="['item-box', curType === subItem.name ? 'active' : '']"
+                ><em @click="selectType(subItem)">{{ subItem.name }}</em></span>
               </div>
             </el-popover>
           </div>
@@ -84,12 +84,12 @@ const categories: any = ref([])
 const curType = ref('')
 const moreTxt = ref({})
 const allList: any = ref({})
-const params: any = {
+const params: any = ref({
   order: 'hot',
   cat: '',
   limit: 50,
   offset: 0
-}
+})
 
 /* methods */
 const getCatlist = async () => {
@@ -114,13 +114,15 @@ const getCatlist = async () => {
   getMoreTxt()
 }
 const selectType = (item: any) => {
-  router.push({ path: '/playlist', query: { cat: item.name, order: params.order } })
+  curType.value = item.name
+  router.push({ path: '/playlist', query: { cat: item.name, order: params.value.order } })
 }
 const closed = () => {
+  curType.value = '全部歌单'
   router.push({ path: '/playlist' })
 }
 const selectOrder = (type: any) => {
-  router.push({ path: 'playlist', query: { cat: params.cat, order: type } })
+  router.push({ path: 'playlist', query: { cat: params.value.cat, order: type } })
 }
 const getMoreTxt = () => {
   // 查询当前显示的歌单分类详情，如：全部歌单、华语
@@ -135,13 +137,13 @@ const getMoreTxt = () => {
 
 /* mounted */
 onMounted(() => {
-  params.cat = route.query.cat
+  params.value.cat = route.query.cat
   getCatlist()
 })
 
 /* watch */
-watch(() => route, (newVal) => {
-  const { cat, order } = newVal.query
+watch(() => route.query, (newVal) => {
+  const { cat, order } = newVal
 
   curType.value = cat || allList.value.name
   params.value = Object.assign({}, { order: 'hot', cat: '', limit: 50, offset: 0 }, { cat: cat || '', order: order || 'hot' })

@@ -167,8 +167,6 @@ import Login from '@/components/login/login.vue'
 import router from '@/router'
 import store from '@/store'
 import axios from '@/axios'
-
-// const reload: any = inject('reload')
 // 菜单相关
 const menuActive = computed(() => router.currentRoute.value.path)
 const isLogin = computed(() => store.state.isLogin)
