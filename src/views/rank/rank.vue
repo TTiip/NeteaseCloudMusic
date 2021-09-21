@@ -137,6 +137,28 @@ onMounted(() => {
 })
 
 /* methods */
+// 通过type设置当前列表的数据和rId
+const setListAndType = () => {
+  switch (type.value) {
+    case 'Top':
+      list.value = listTop.value
+      rId.value = (listTop.value[0] as any).id
+      break
+    case 'Feature':
+      list.value = listFeature.value
+      rId.value = (listFeature.value[0] as any).id
+      break
+    case 'Other':
+      list.value = listOther.value
+      rId.value = (listOther.value[0] as any).id
+      break
+    default:
+      list.value = listTop.value
+      rId.value = (listTop.value[0] as any).id
+      break
+  }
+}
+
 const getTopListDetail = async () => {
   const getToplistDetailData = await axios({
     url: 'getToplistDetail',
@@ -155,22 +177,7 @@ const getTopListDetail = async () => {
   listOther.value = getToplistDetailData.list.filter((item: any) => {
     return !item.ToplistType && item.name.indexOf('云音乐') < 0
   })
-
-  switch (type.value) {
-    case 'Top':
-      list.value = listTop.value
-      break
-    case 'Feature':
-      list.value = listFeature.value
-      break
-    case 'Other':
-      list.value = listOther.value
-      break
-    default:
-      list.value = listTop.value
-      break
-  }
-  rId.value = rId.value ? rId.value : (listTop.value[0] as any).id
+  setListAndType()
 }
 const getListDetail = async () => {
   const getPlayListDetailData = await axios({
@@ -188,8 +195,7 @@ const getListDetail = async () => {
 }
 const selectType = (typeStr: string) => {
   type.value = typeStr
-  list.value = ['list' + type.value]
-  rId.value = (['list' + typeStr][0] as any).id
+  setListAndType()
   router.push({ path: 'rank', query: { type: type.value, rId: rId.value } })
 }
 const selectItem = (item: any) => {
