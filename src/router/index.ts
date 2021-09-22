@@ -16,11 +16,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "Singer" */ '../views/singer/singer.vue')
   },
   {
-    path: '/mv',
-    name: 'MV',
-    component: () => import(/* webpackChunkName: "MV" */ '../views/mv/mv.vue')
-  },
-  {
     path: '/song',
     name: 'Song',
     component: () => import(/* webpackChunkName: "Song" */ '../views/song/song.vue')
@@ -54,6 +49,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/artist',
     name: 'Artist',
     component: () => import(/* webpackChunkName: "Artist" */ '../views/artist/artist.vue')
+  },
+  {
+    path: '/mvlist',
+    name: 'MvList',
+    component: () => import(/* webpackChunkName: "MvList" */ '../views/mv-list/mv-list.vue')
+  },
+  {
+    path: '/mvdetail',
+    name: 'MvDetail',
+    component: () => import(/* webpackChunkName: "MvDetail" */ '../views/mv-detail/mv-detail.vue')
   }
 ]
 
