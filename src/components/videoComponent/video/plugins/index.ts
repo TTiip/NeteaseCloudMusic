@@ -18,7 +18,7 @@ export const videoEmits = [
 export const videoDefineProps = {
   width: { type: String, default: '800px' },
   height: { type: String, default: '450px' },
-  color: { type: String, default: '#409eff' },
+  color: { type: String, default: '#ff641e' },
   src: { required: true, type: String, default: '' }, // 视频源
   title: { type: String, default: '' }, // 视频名称
   type: { type: String, default: 'video/mp4' }, // 视频类型
@@ -32,7 +32,7 @@ export const videoDefineProps = {
   autoPlay: { type: Boolean, default: false }, // 自动播放
   loop: { type: Boolean, default: false }, // 循环播放
   mirror: { type: Boolean, default: false }, // 镜像画面
-  ligthOff: { type: Boolean, default: false }, // 关灯模式
+  lightOff: { type: Boolean, default: false }, // 关灯模式
   volume: { type: [String, Number], default: 0.3 }, // 默认音量大小
   control: { type: Boolean, default: true }, // 是否显示控制器
   controlBtns: {
