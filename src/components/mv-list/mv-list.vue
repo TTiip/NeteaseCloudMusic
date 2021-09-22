@@ -7,7 +7,7 @@
       class="item"
     >
       <router-link
-        :to="{ path: '/mv', query: { id: item.id }}"
+        :to="{ path: '/mvdetail', query: { id: item.id }}"
         class="faceImg"
       >
         <i class="iconfont icon-play" />
@@ -23,7 +23,7 @@
       </router-link>
       <div class="info">
         <router-link
-          :to="{ path: '/mv', query: { id: item.id }}"
+          :to="{ path: '/mvdetail', query: { id: item.id }}"
           class="mv-name"
         >
           {{ item.name }}

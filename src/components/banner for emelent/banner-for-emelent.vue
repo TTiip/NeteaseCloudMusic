@@ -44,7 +44,7 @@ const sliderItemClick = (item: BannerItemProps) => {
       router.push({ path: '/playlist', query: { id: item.targetId } })
       break
     case 1004: // MV
-      router.push({ path: '/mv', query: { id: item.targetId } })
+      router.push({ path: '/mvdetail', query: { id: item.targetId } })
       break
     case 3000: // 外链
       window.open(item.url, '_blank')

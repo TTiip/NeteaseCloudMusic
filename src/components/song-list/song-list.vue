@@ -72,7 +72,7 @@
               <router-link
                 v-if="item.mvId"
                 class="mv-name"
-                :to="{ path: '/mv', query: { id: item.mvId }}"
+                :to="{ path: '/mvdetail', query: { id: item.mvId }}"
               >
                 <i class="iconfont icon-video" />
               </router-link>

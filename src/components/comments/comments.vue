@@ -395,7 +395,7 @@ watch(() => props.id, (newVal) => {
   offset.value = 0
   getComment()
 })
-watch(() => msg.value, () => {
+watch(msg, () => {
   msg.value = maxLen.value >= msg.value.length ? msg.value : msg.value.substring(0, maxLen.value)
 })
 
