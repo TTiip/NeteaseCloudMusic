@@ -115,7 +115,6 @@ onMounted(() => {
   params.value.area = area.value[areaIndex.value].val
   params.value.type = type.value[typeIndex.value].val
   params.value.initial = initial.value[initialIndex.value].val
-  console.log(params.value, 'params.value')
   renderInitial()
 })
 /* methods */
