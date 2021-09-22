@@ -26,7 +26,6 @@
         ref="audio"
         preload="auto"
         :src="curSongInfo.url"
-        autoplay
         @canplay="canplaySong"
         @playing="playSong"
         @ended="endedSong"
