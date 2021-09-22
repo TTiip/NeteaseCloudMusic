@@ -365,7 +365,23 @@ const state: any = reactive({
   isMultiplesPlay: false, // 是否倍速播放
   longPressTimeout: null,
   progressCursorTime: '00:00:00', // 进度条光标时间
-  qualityLevels: [], // 分辨率数组
+  qualityLevels: [
+    {
+      height: 240
+    },
+    {
+      height: 480
+    },
+    {
+      height: 640
+    },
+    {
+      height: 720
+    },
+    {
+      height: 1080
+    }
+  ], // 分辨率数组
   currentLevel: 0 // 首选分辨率
 })
 const compose =
@@ -567,9 +583,10 @@ const mouseMovewWarp = (ev: any) => {
   hideControl()
 }
 
-// 播放速度
+// 播放清晰度
 const qualityLevelsHandle = (row: any, index: any) => {
-  Hls.value.currentLevel = index
+  console.log(Hls.value, 'Hls.value')
+  // Hls.value.currentLevel = index
   state.currentLevel = index
 }
 // 播放速度
