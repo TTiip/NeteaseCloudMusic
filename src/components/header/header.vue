@@ -175,21 +175,22 @@ const menuList = ref([
   {
     name: '首页',
     path: '/home'
-  }, {
+  },
+  {
     name: '排行榜',
     path: '/rank'
-  }, {
+  },
+  {
     name: '歌单',
     path: '/playlist'
-  }, {
+  },
+  {
     name: 'MV',
     path: '/mvlist'
-  }, {
+  },
+  {
     name: '歌手',
     path: '/artist'
-  }, {
-    name: '我的音乐',
-    path: '/my'
   }
 ])
 const getLoginOut = async () => {
