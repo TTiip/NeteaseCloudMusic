@@ -106,7 +106,7 @@ const isLoading = ref(true)
 const isLoadMv: any = ref(true)
 
 /* watch */
-watch(() => params.value, () => {
+watch(params.value, () => {
   getArtist(params.value)
 })
 
@@ -148,7 +148,6 @@ const selectType = (typeStr: any, index: any) => {
   }
   list.value = []
   params.value.offset = 0
-  getArtist(params.value)
 }
 const getArtist = async (params: any) => {
   const getArtistListData: any = await axios({
@@ -164,7 +163,6 @@ const getArtist = async (params: any) => {
 const loadMore = () => {
   isLoadMv.value = true
   params.value.offset = +list.value.length
-  getArtist(params.value)
 }
 </script>
 
