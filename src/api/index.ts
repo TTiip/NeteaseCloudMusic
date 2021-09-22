@@ -88,7 +88,9 @@ const apiList = {
   // 调用此接口,可获取歌单分类,包含 category 信息
   getPlaylistCatlist: '/playlist/catlist',
   // 调用此接口,可获取歌手分类列表
-  getArtistList: '/artist/list'
+  getArtistList: '/artist/list',
+  // 调用此接口,可获取歌手分类列表
+  getMvAll: '/mv/all'
 }
 
 export interface apiKeyDataType {
@@ -144,6 +146,7 @@ export interface apiKeyDataType {
   getPlaylistDetail: Promise<any>,
   getPlaylistCatlist: Promise<any>,
   getArtistList: Promise<any>,
+  getMvAll: Promise<any>,
 }
 
 export type apiKeyType = keyof typeof apiList
