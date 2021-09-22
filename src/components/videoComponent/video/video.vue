@@ -51,7 +51,7 @@
       />
     </transition>
     <!-- 全屏模式&&鼠标滑过 顶部显示的内容 -->
-    <d-player-top
+    <DPlayerTop
       v-if="state.fullScreen"
       :title="props.title"
     />
@@ -66,14 +66,14 @@
           v-show="state.playBtnState == 'play'"
           class="d-play-btn"
         >
-          <d-icon
+          <DIcon
             icon="icon-play"
             :size="40"
           />
         </div>
       </transition>
       <!-- 操作信息通知 -->
-      <d-status :state="state" />
+      <DStatus :state="state" />
     </div>
     <!-- 移动端不显示 -->
     <input
@@ -94,8 +94,8 @@
       @keydown="keypress"
     >
     <!-- 预加载动画 -->
-    <d-loading :load-type="state.loadStateType" />
-    <d-contextmenu />
+    <DLoading :load-type="state.loadStateType" />
+    <DContextmenu />
     <!-- PC端播放按钮控制器  移动端调用自带控制器-->
     <div
       v-if="!isMobile && state.control"
@@ -103,7 +103,7 @@
       class="d-player-control"
     >
       <div class="d-control-progress">
-        <d-slider
+        <DSlider
           v-model="state.playProgress"
           class="d-progress-bar"
           :disabled="!state.speed"
@@ -123,11 +123,12 @@
             class="d-tool-item"
             @click="togglePlay"
           >
-            <d-icon
+            <DIcon
               size="24"
               :icon="`icon-${state.playBtnState}`"
             />
           </div>
+          <!-- 播放器时间进度: 当前时间:总时间 -->
           <div
             v-if="props.controlBtns.includes('audioTrack')"
             class="d-tool-item d-tool-time audioTrack-btn"
@@ -157,7 +158,6 @@
                 >
                   {{ row.height }}P
                 </li>
-                <!-- <li @click="qualityLevelsHandle({}, -1)">自动</li> -->
               </ul>
             </div>
           </div>
@@ -195,7 +195,7 @@
               >
                 <span class="volume-text-size">{{ state.muted ? 0 : ~~(state.volume * 100) }}%</span>
                 <!-- @change 如果修改音量则取消静音 -->
-                <d-slider
+                <DSlider
                   v-model="state.volume"
                   :hover="false"
                   size="5px"
@@ -208,7 +208,7 @@
               style="display: flex"
               @click="mutedHandler"
             >
-              <d-icon
+              <DIcon
                 size="20"
                 :icon="`icon-volume-${state.volume == 0 || state.muted
                   ? 'mute'
@@ -224,7 +224,7 @@
             v-if="props.controlBtns.includes('setting')"
             class="d-tool-item setting-btn"
           >
-            <d-icon
+            <DIcon
               size="20"
               class="rotateHover"
               icon="icon-settings"
@@ -233,21 +233,21 @@
               <ul class="speed-main">
                 <li>
                   镜像画面
-                  <d-switch
+                  <DSwitch
                     v-model="state.mirror"
                     @change="mirrorChange"
                   />
                 </li>
                 <li>
                   循环播放
-                  <d-switch
+                  <DSwitch
                     v-model="state.loop"
                     @change="loopChange"
                   />
                 </li>
                 <li>
                   关灯模式
-                  <d-switch
+                  <DSwitch
                     v-model="state.lightOff"
                     @change="lightOffChange"
                   />
@@ -261,7 +261,7 @@
             class="d-tool-item pip-btn"
             @click="requestPictureInPictureHandle"
           >
-            <d-icon
+            <DIcon
               size="20"
               icon="icon-pip"
             />
@@ -275,7 +275,7 @@
             class="d-tool-item pip-btn"
             @click="state.webFullScreen = !state.webFullScreen"
           >
-            <d-icon
+            <DIcon
               size="20"
               icon="icon-web-screen"
             />
@@ -292,7 +292,7 @@
             <div class="d-tool-item-main">
               全屏
             </div>
-            <d-icon
+            <DIcon
               size="20"
               icon="icon-screen"
             />
@@ -314,7 +314,7 @@ import {
   nextTick
 } from 'vue'
 import { debounce } from 'throttle-debounce'
-import Hls2 from 'hls.js'
+import HlsJs from 'hls.js'
 import DIcon from '../components/d-icon.vue'
 import DPlayerTop from '../components/d-player-top.vue'
 import DStatus from '../components/d-status.vue' // 倍速播放状态
@@ -346,8 +346,8 @@ const refPlayerControl: any = ref(null) // 播放器控制器
 const refInput: any = ref(null) // 快捷键操作
 const Hls: any = ref(null)
 const state: any = reactive({
-  dVideo: null,
   ...props, // 如果有自定义配置就会替换默认配置
+  dVideo: null,
   muted: props.muted,
   playBtnState: props.autoPlay ? 'pause' : 'play', // 播放按钮状态
   loadStateType: 'loadstart', // 加载状态类型 //loadstart初始化  waiting缓冲 ended播放结束
@@ -412,7 +412,6 @@ videoEvents['onDurationchange'] = (ev: any) => {
 
 // 缓冲下载中
 videoEvents['onProgress'] = (ev: any) => {
-  console.log('缓冲中...')
   emits('progress', ev)
   const duration = ev.target.duration // 媒体总长
   const length = ev.target.buffered
@@ -603,37 +602,24 @@ const toggleFullScreenHandle = () => {
 }
 
 const init = (): void => {
-  if (state.dVideo.canPlayType(props.type) || state.dVideo.canPlayType('application/vnd.apple.mpegurl')) {
-    state.muted = props.autoPlay
-    // state.dVideo.load();
-  } else if (Hls2.isSupported()) {
-    // // 使用hls解码
-    Hls.value = new Hls2({ fragLoadingTimeOut: 2000 })
-    Hls.value.detachMedia() // 解除绑定
+  // 如果url里面包含m3u8 则视为Hls解析数据源。
+  if (HlsJs.isSupported() && props.src.includes('.m3u8')) {
+    Hls.value = new HlsJs()
+    Hls.value.loadSource(props.src)
     Hls.value.attachMedia(state.dVideo)
-    Hls.value.on(Hls2.Events.MEDIA_ATTACHED, () => {
-      Hls.value.loadSource(props.src)
-      // 加载可用质量级别
-      Hls.value.on('hlsManifestParsed', (ev: any, data: any) => {
-        console.log(data)
-        state.currentLevel = data.level
-        state.qualityLevels = data.levels || []
-        // state.dVideo.load();
-      })
-    })
-
-    Hls.value.on('hlsLevelSwitching', (ev: any, data: any) => {
-      console.log(data)
-      // state.qualityLevels = Hls.levels || []
-      console.log('LEVEL_SWITCHING')
-      // state.dVideo.load();
-    })
-    Hls.value.on('hlsLevelSwitched', (ev: any, data: any) => {
-      state.currentLevel = data.level
-      // state.qualityLevels = Hls.levels || []
-      console.log('LEVEL_SWITCHED')
-      // state.dVideo.load();
-    })
+    // 视频加载完成以后做的操作
+    // Hls.value.on(HlsJs.Events.MANIFEST_PARSED, function () {
+    //   state.dVideo.play()
+    // })
+    // 视频加载出错以后做的操作
+    // Hls.value.on(HlsJs.Events.ERROR, function () {})
+  } else {
+    // 否则视为video直接可以解析的数据源
+    state.dVideo.src = props.src
+    // 视频加载完成以后做的操作
+    // state.dVideo.addEventListener('loadedmetadata', function () {
+    //   state.dVideo.play()
+    // })
   }
 }
 
