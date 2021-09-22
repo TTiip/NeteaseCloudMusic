@@ -33,9 +33,9 @@ const options = reactive({
   title: '', // 视频名称
   type: 'm3u8',
   src: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', // 视频源
-  // src: "https://go.codelife.cc/videos/IronMan.mp4", //视频源
+  // src: 'https://go.codelife.cc/videos/IronMan.mp4', // 视频源
   // src: "https://logos-channel.scaleengine.net/logos-channel/live/biblescreen-ad-free/playlist.m3u8", //视频源
-  poster: 'https://go.codelife.cc/videos/ironMan.jpg', // 封面
+  poster: 'https://i.loli.net/2019/06/06/5cf8c5d9c57b510947.png', // 封面
   controlBtns: [
     'audioTrack',
     'quality',
