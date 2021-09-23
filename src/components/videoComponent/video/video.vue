@@ -330,10 +330,10 @@ import {
   isMobile,
   firstUpperCase
 } from '../utils/util'
-import { videoEmits, videoEmitsType, videoDefineProps } from './plugins/index'
+import { videoEmits, videoDefineProps } from './plugins/index'
 
 const props = defineProps(videoDefineProps) // props
-const emits = defineEmits<videoEmitsType>([
+const emits = defineEmits([
   'mirrorChange',
   'loopChange',
   'lightOffChange',
