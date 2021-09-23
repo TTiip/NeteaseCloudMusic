@@ -330,14 +330,16 @@ import {
   isMobile,
   firstUpperCase
 } from '../utils/util'
-import { videoEmits, videoDefineProps } from './plugins/index'
+import { videoEmits, videoEmitsType, videoDefineProps } from './plugins/index'
 
 const props = defineProps(videoDefineProps) // props
-const emits = defineEmits([
-  ...videoEmits,
+const emits = defineEmits<videoEmitsType>([
   'mirrorChange',
   'loopChange',
-  'lightOffChange'
+  'lightOffChange',
+  'durationchange',
+  'progress',
+  'timeupdate'
 ]) // emits
 
 const refPlayerWrap: any = ref(null) // wrap
@@ -366,30 +368,34 @@ const state: any = reactive({
   longPressTimeout: null,
   progressCursorTime: '00:00:00', // 进度条光标时间
   qualityLevels: [
-    {
-      height: 240
-    },
-    {
-      height: 480
-    },
-    {
-      height: 640
-    },
-    {
-      height: 720
-    },
-    {
-      height: 1080
-    }
-  ], // 分辨率数组
+    // {
+    //   height: 240
+    // },
+    // {
+    //   height: 480
+    // },
+    // {
+    //   height: 640
+    // },
+    // {
+    //   height: 720
+    // },
+    // {
+    //   height: 1080
+    // }
+  ], // 分辨率数组，网易接口目前还没提供暂时不弄。
   currentLevel: 0 // 首选分辨率
 })
 const compose =
   (...args: any) =>
-    (value: any) =>
-      args.reverse().reduce((acc: any, fn: any) => fn(acc), value)
+    (value: any) => {
+      console.log(value, 'value')
+      console.log(args.reverse(), 'args.reverse()')
+      console.log(...args, '...args')
+      return args.reverse().reduce((acc: any, fn: any) => fn(acc), value)
+    }
 // 收集video事件
-const videoEvents: any = videoEmits.reduce((events, emit) => {
+const videoEvents: any = videoEmits.reduce((events, emit: any) => {
   const name = `on${firstUpperCase(emit)}`
   events[name] = (ev: any) => {
     state.loadStateType = emit

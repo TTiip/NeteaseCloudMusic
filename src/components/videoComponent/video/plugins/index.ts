@@ -13,8 +13,30 @@ export const videoEmits = [
   'timeupdate',
   'ended',
   'error',
-  'stalled'
+  'stalled',
+  'mirrorChange',
+  'loopChange',
+  'lightOffChange'
 ]
+
+export type videoEmitsType = 'loadstart' |
+'play' |
+'pause' |
+'playing' |
+'seeking' |
+'seeked' |
+'waiting' |
+'durationchange' |
+'progress' |
+'canplay' |
+'timeupdate' |
+'ended' |
+'error' |
+'stalled' |
+'mirrorChange' |
+'loopChange' |
+'lightOffChange'
+
 export const videoDefineProps = {
   width: { type: String, default: '800px' },
   height: { type: String, default: '450px' },
