@@ -4,11 +4,11 @@ import utils from '@/utils'
 import { setLocalStorage, getLocalStorage } from '@/hooks/useLocalStorage'
 
 // 是否时播放状态
-export const SET_PLAYS_TATUS = 'SET_PLAYS_TATUS'
+export const setPlayStatus = 'setPlayStatus'
 // 当前正在播放列表
-export const SET_PLAY_LIST = 'SET_PLAY_LIST'
+export const setPlaylist = 'setPlaylist'
 // 当前播放索引
-export const SET_PLAY_INDEX = 'SET_PLAY_INDEX'
+export const setPlayindex = 'setPlayindex'
 
 // 合并歌曲到播放列表查重
 const concatPlayList = (list: any, playList = []) => {
@@ -61,14 +61,14 @@ export default createStore({
     setPlayMode (state, mode = 0) {
       state.playMode = mode
     },
-    [SET_PLAYS_TATUS] (state, val = false) {
+    setPlayStatus (state, val = false) {
       state.isPlayed = val
     },
-    [SET_PLAY_LIST] (state, val = null) {
+    setPlaylist (state, val = null) {
       state.playList = val
       setLocalStorage('playList', JSON.stringify(val))
     },
-    [SET_PLAY_INDEX] (state, val = 0) {
+    setPlayindex (state, val = 0) {
       state.playIndex = val
       setLocalStorage('playIndex', val)
     }
@@ -76,25 +76,25 @@ export default createStore({
   actions: {
     // 播放歌曲列表里全部歌曲（清空当前播放列表）
     playAll ({ commit }, { list }) {
-      commit(SET_PLAY_LIST, concatPlayList(list))
-      commit(SET_PLAYS_TATUS, true)
-      commit(SET_PLAY_INDEX, 0)
+      commit(setPlaylist, concatPlayList(list))
+      commit(setPlayStatus, true)
+      commit(setPlayindex, 0)
     },
     // 播放当前选中的歌曲
     selectPlay ({ commit, state }, { list }) {
       const listState: any = state.playList
       const playList = concatPlayList(list, listState)
 
-      commit(SET_PLAY_LIST, playList)
-      commit(SET_PLAYS_TATUS, true)
-      commit(SET_PLAY_INDEX, findIndex(list[0], playList))
+      commit(setPlaylist, playList)
+      commit(setPlayStatus, true)
+      commit(setPlayindex, findIndex(list[0], playList))
     },
     // 添加歌曲到当前播放列表
     addList ({ commit, state }, { list }) {
       const listState: any = state.playList
       const playList = concatPlayList(list, listState.value)
 
-      commit(SET_PLAY_LIST, playList)
+      commit(setPlaylist, playList)
     }
   },
   modules: {}

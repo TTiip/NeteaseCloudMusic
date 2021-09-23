@@ -192,7 +192,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, nextTick } from 'vue'
-import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
+import store from '@/store'
 import ProgressLine from '@/components/progress/progress.vue'
 import utils from '@/utils'
 import SongList from '@/components/song-list/song-list.vue'
@@ -260,8 +260,8 @@ const lyricClick = (lrcItem: any) => {
 // 音频播放/暂停/上一首/下一首事件
 const audioHandler = (type: string) => {
   if (type === 'play') {
-    store.commit(SET_PLAYS_TATUS, !isPlayed.value)
-    store.commit(SET_PLAY_INDEX, playIndex.value)
+    store.commit('setPlayStatus', !isPlayed.value)
+    store.commit('setPlayIndex', playIndex.value)
   } else {
     changeSong(type)
   }
@@ -280,7 +280,7 @@ const canplaySong = () => {
 // 音频播放时候 初始化状态，获取音频总时长
 const playSong = (e: any) => {
   initAudioReady.value = true
-  store.commit(SET_PLAYS_TATUS, true)
+  store.commit('setPlayStatus', true)
   totalTime.value = e.target.duration
 }
 // 音频播放结束 自动播放下一首
@@ -294,7 +294,7 @@ const endedSong = () => {
 // 音频加载失败
 const errorSong = () => {
   initAudioReady.value = false
-  store.commit(SET_PLAYS_TATUS, false)
+  store.commit('setPlayStatus', false)
 }
 // 音量禁音及取消操作
 const volumeHandler = () => {
@@ -339,9 +339,9 @@ const changePlayMode = () => {
 // 清空播放列表
 const clearSonglist = () => {
   // window.localStorage.removeItem('playList')
-  store.commit(SET_PLAY_LIST, [])
-  store.commit(SET_PLAYS_TATUS, false)
-  store.commit(SET_PLAY_INDEX, 0)
+  store.commit('setPlayList', [])
+  store.commit('setPlayStatus', false)
+  store.commit('setPlayIndex', 0)
 }
 // 手动切换歌曲
 // type: prev/next  上一首/下一首
@@ -364,8 +364,8 @@ const changeSong = (type: string) => {
     }
 
     initAudioReady.value = false
-    store.commit(SET_PLAYS_TATUS, false)
-    store.commit(SET_PLAY_INDEX, index)
+    store.commit('setPlayStatus', false)
+    store.commit('setPlayIndex', index)
   } else {
     loopSong()
   }
@@ -374,7 +374,7 @@ const changeSong = (type: string) => {
 const loopSong = () => {
   audio.value.currentTime = 0
   audio.value.play()
-  store.commit(SET_PLAYS_TATUS, true)
+  store.commit('setPlayStatus', true)
 }
 const enterBar = () => {
   clearTimeout(timer.value)

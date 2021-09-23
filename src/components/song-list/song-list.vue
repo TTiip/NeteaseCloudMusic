@@ -161,7 +161,7 @@
 </template>
 
 <script lang='ts' setup>
-import store, { SET_PLAYS_TATUS, SET_PLAY_LIST, SET_PLAY_INDEX } from '@/store'
+import store from '@/store'
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import { getLocalStorage, setLocalStorage } from '@/hooks/useLocalStorage'
 import useMessage from '@/hooks/useMessage'
@@ -221,7 +221,7 @@ const currentSong = (item: any) => {
   if (!curSongInfo.value || item?.id !== curSongInfo.value?.id) {
     store.dispatch('selectPlay', { list: [item] })
   } else {
-    store.commit(SET_PLAYS_TATUS, !isPlayed.value)
+    store.commit('setPlayStatus', !isPlayed.value)
   }
 }
 // 表格列表序号格式化
@@ -247,10 +247,10 @@ const delList = (index: any) => {
   // 在删除当前音乐之前的音乐时重新设置一下playIndex来解决。
   if (index < playIndex) {
     setLocalStorage('playIndex', playIndex - 1)
-    store.commit(SET_PLAY_INDEX, playIndex - 1)
+    store.commit('setPlayIndex', playIndex - 1)
   }
   playList.value.splice(index, 1)
-  store.commit(SET_PLAY_LIST, playList.value)
+  store.commit('setPlayList', playList.value)
 }
 // 喜欢该歌曲
 const likeSong = async (item: any) => {
