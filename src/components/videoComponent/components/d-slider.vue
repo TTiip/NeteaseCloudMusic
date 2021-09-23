@@ -163,6 +163,15 @@ const onDragEnd = (ev: Event) => {
   }
 }
 
+const bgColor = `
+linear-gradient(
+  to right,
+  #52a0fd 0%,
+  #00e2fa 80%,
+  #00e2fa 100%
+)
+`
+
 </script>
 <style lang='less' scoped>
 .d-slider {
@@ -212,12 +221,7 @@ const onDragEnd = (ev: Event) => {
             background: #717171;
         }
         .d-slider__bar {
-            background: linear-gradient(
-                to right,
-                #52a0fd 0%,
-                #00e2fa 80%,
-                #00e2fa 100%
-            );
+            background: v-bind(bgColor);
             &::before {
                 display: block;
                 content: "";
