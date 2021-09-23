@@ -90,7 +90,13 @@ const apiList = {
   // 调用此接口,可获取歌手分类列表
   getArtistList: '/artist/list',
   // 调用此接口,可获取歌手分类列表
-  getMvAll: '/mv/all'
+  getMvAll: '/mv/all',
+  // 调用此接口 , 传入 mvid ( 在搜索音乐的时候传 type=1004 获得 ) , 可获取对应 MV 数据 , 数据包含 mv 名字 , 歌手 , 发布时间 , mv 视频地址等数据 , 其中 mv 视频 网易做了防盗链处理 , 可能不能直接播放 , 需要播放的话需要调用 ' mv 地址' 接口
+  getMvDetail: '/mv/detail',
+  // 调用此接口 , 传入 mv id,可获取 mv 播放地址
+  getMvUrl: '/mv/url',
+  // 调用此接口 , 传入 mvid 可获取相似 mv
+  getSimiMv: '/simi/mv'
 }
 
 export interface apiKeyDataType {
@@ -147,6 +153,9 @@ export interface apiKeyDataType {
   getPlaylistCatlist: Promise<any>,
   getArtistList: Promise<any>,
   getMvAll: Promise<any>,
+  getMvDetail: Promise<any>,
+  getMvUrl: Promise<any>,
+  getSimiMv: Promise<any>,
 }
 
 export type apiKeyType = keyof typeof apiList

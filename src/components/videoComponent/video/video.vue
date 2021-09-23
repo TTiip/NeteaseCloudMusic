@@ -114,10 +114,7 @@
         />
       </div>
 
-      <div
-        class="d-control-tool"
-        @click="inputFocusHandle"
-      >
+      <div class="d-control-tool">
         <div class="d-tool-bar">
           <div
             class="d-tool-item"
@@ -514,11 +511,6 @@ const keypress = (ev: any) => {
     }
   }
 }
-// 聚焦到播放器
-const inputFocusHandle = () => {
-  if (isMobile) return
-  refInput.value.focus()
-}
 // 播放方法
 const playHandle = () => {
   state.loadStateType = 'play'
@@ -649,7 +641,6 @@ watch(() => props.src, () => {
 }, { immediate: true })
 onMounted(() => {
   state.dVideo = refdVideo
-  inputFocusHandle()
 })
 defineExpose({
   play: playHandle, // 播放
