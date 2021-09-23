@@ -388,12 +388,7 @@ const state: any = reactive({
 })
 const compose =
   (...args: any) =>
-    (value: any) => {
-      console.log(value, 'value')
-      console.log(args.reverse(), 'args.reverse()')
-      console.log(...args, '...args')
-      return args.reverse().reduce((acc: any, fn: any) => fn(acc), value)
-    }
+    (value: any) => args.reverse().reduce((acc: any, fn: any) => fn(acc), value)
 // 收集video事件
 const videoEvents: any = videoEmits.reduce((events, emit: any) => {
   const name = `on${firstUpperCase(emit)}`
