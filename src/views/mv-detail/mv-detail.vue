@@ -138,7 +138,6 @@ const isNight = ref(false)
 /* mountd */
 onMounted(() => {
   getMvDetail()
-  getSimiMv()
   store.commit('setPlayStatus', false)
 })
 
@@ -159,6 +158,7 @@ const getMvDetail = async () => {
     name: mvDetail.value.name
   }
   getMvUrl()
+  getSimiMv()
 }
 const getMvUrl = async (Resolution = 1080) => {
   const getMvUrlData = await axios({
@@ -185,24 +185,19 @@ const getSimiMv = async () => {
   simiMv.value = getSimiMvData.mvs
 }
 const changeResolution = (data: any) => {
-  // console.log(data.functions, 'data')
+  // 切换清晰度时候的后续操作
   getMvUrl(data.functions)
-  // // 切换清晰度时候的后续操作
-  // // 暂停MV播放
-  // this.onPause(play)
-  // // 记录当前播放时长
-  // this.currentTime = play.currentTime()
-  // // 重新设置视频url
-  // this.getMvUrl(play.quality.val)
 }
 const toggleLight = () => {
   isNight.value = !isNight.value
 }
 
 /* watch */
-watch(() => route, (newVal) => {
-  console.log(newVal, 'newVal')
+watch(() => route.query.id, (newVal) => {
+  mvId.value = String(newVal)
+  getMvDetail()
 })
+
 </script>
 
 <style scoped lang="less">
