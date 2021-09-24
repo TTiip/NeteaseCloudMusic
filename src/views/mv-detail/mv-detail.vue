@@ -6,7 +6,25 @@
     >
       <div class="w1200">
         <div class="video-main">
-          <VideoPlay v-bind="videoOptions" />
+          <VideoPlay
+            v-if="videoOptions.sources.src"
+            :options="videoOptions"
+            @ready="onReady"
+            @play="onPlay"
+            @pause="onPause"
+            @seeking="onSeeking"
+            @qualityChange="onQualityChange"
+          />
+          <div
+            class="mv-light"
+            :class="[isNight ? 'active' : '']"
+            @click="toggleLight"
+          >
+            <i
+              class="iconfont"
+              :class="[isNight ? 'icon-night' : 'icon-day']"
+            />
+          </div>
         </div>
         <div class="mv-info">
           <div class="mv-info-hd">
@@ -102,7 +120,7 @@ import { useRoute } from 'vue-router'
 import utils from '@/utils'
 import store from '@/store'
 import axios from '@/axios'
-import VideoPlay from '@/components/videoComponent/video/video.vue'
+import VideoPlay from '@/components/video/video.vue'
 import Comments from '@/components/comments/comments.vue'
 
 const route = useRoute()
@@ -111,37 +129,15 @@ const route = useRoute()
 const mvId = ref(String(route.query.id))
 const mvDetail: any = ref({})
 const type = ref(1) // 0: 歌曲 1: mv 2: 歌单 3: 专辑  4: 电台 5: 视频 6: 动态
-const videoOptions = ref({
-  width: '100%',
-  height: '100%',
-  color: '#ff641e',
-  muted: false, // 静音
-  webFullScreen: false,
-  autoPlay: false, // 自动播放
-  currentTime: 0,
-  loop: false, // 循环播放
-  mirror: false, // 镜像画面
-  lightOff: false, // 关灯模式
-  volume: 1, // 默认音量大小
-  control: true, // 是否显示控制器
-  title: '', // 视频名称
-  src: '', // 视频源
-  qualityList: [], // 视频分辨率
-  quality: [], // 当前分辨率信息
-  poster: 'https://i.loli.net/2019/06/06/5cf8c5d9c57b510947.png', // 封面
-  controlBtns: [
-    'audioTrack',
-    'quality',
-    'speedRate',
-    'volume',
-    'setting',
-    'pip',
-    'pageFullScreen',
-    'fullScreen'
-  ]
+const videoOptions: any = ref({
+  sources: {},
+  qualityList: [],
+  quality: {}
 })
-const simiMv: any = []
-const isNight = false
+// 当前视频播放的时长
+const currentTime = ref(0)
+const simiMv: any = ref([])
+const isNight = ref(false)
 
 /* mountd */
 onMounted(() => {
@@ -174,8 +170,10 @@ const getMvUrl = async (Resolution = 1080) => {
       r: Resolution
     }
   })
-  videoOptions.value.src = getMvUrlData.data.url
-  console.log(getMvUrlData.data.url, 'getMvUrlData.data.url')
+  videoOptions.value.sources = {
+    type: 'video/mp4',
+    src: getMvUrlData.data.url
+  }
 }
 const getSimiMv = async () => {
   const getSimiMvData = await axios({
@@ -186,6 +184,32 @@ const getSimiMv = async () => {
     }
   })
   simiMv.value = getSimiMvData.mvs
+}
+const onReady = (play: any) => {
+  play.pause()
+}
+
+const onPlay = (play: any) => {
+  play.currentTime(currentTime.value)
+}
+const onSeeking = (play: any) => {
+  currentTime.value = play.currentTime()
+}
+const onPause = (play: any) => {
+  currentTime.value = play.currentTime()
+  play.pause()
+}
+const onQualityChange = (play: any) => {
+  // 切换清晰度时候的后续操作
+  // 暂停MV播放
+  onPause(play)
+  // 记录当前播放时长
+  currentTime.value = play.currentTime()
+  // 重新设置视频url
+  getMvUrl(play.quality.val)
+}
+const toggleLight = () => {
+  isNight.value = !isNight.value
 }
 
 /* watch */
