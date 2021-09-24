@@ -28,8 +28,6 @@ const player: any = ref(null)
 
 /* computed */
 const src = computed(() => props.options.sources.src)
-console.log(props.options.sources, 'props.options.sources')
-console.log(src.value, 'srcsrcsrcsrc')
 
 /* watch */
 watch(() => src.value, (newVal) => {
@@ -51,7 +49,7 @@ onMounted(() => {
     // 视频title
     title: '标题',
     // 视频播放的资源地址
-    src: 'http://vodkgeyttp8.vod.126.net/cloudmusic/ICAiMDAwIGAwICAgISIiJA==/mv/375130/fab51440788fca8cdfcf2726b7328947.mp4?wsSecret=92ce5675f915b169eee1a340094d48a0&wsTime=1632461521',
+    src: src.value,
     // 初始化是否网页全屏播放
     initFullFixed: false,
     // 是否循环播放
