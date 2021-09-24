@@ -9,11 +9,7 @@
           <VideoPlay
             v-if="videoOptions.sources.src"
             :options="videoOptions"
-            @ready="onReady"
-            @play="onPlay"
-            @pause="onPause"
-            @seeking="onSeeking"
-            @qualityChange="onQualityChange"
+            @changeResolution="changeResolution"
           />
           <div
             class="mv-light"
@@ -69,7 +65,7 @@
                 class="item"
               >
                 <router-link
-                  :to="{ path: '/mv', query: { id: item.id }}"
+                  :to="{ path: '/mvdetail', query: { id: item.id }}"
                   class="faceImg"
                 >
                   <i class="iconfont icon-play" />
@@ -83,7 +79,7 @@
                 </router-link>
                 <div class="info">
                   <router-link
-                    :to="{ path: '/mv', query: { id: item.id }}"
+                    :to="{ path: '/mvdetail', query: { id: item.id }}"
                     class="mv-name"
                   >
                     {{ item.name }}
@@ -135,8 +131,7 @@ const videoOptions: any = ref({
   qualityList: [],
   quality: {}
 })
-// 当前视频播放的时长
-const currentTime = ref(0)
+
 const simiMv: any = ref([])
 const isNight = ref(false)
 
@@ -159,7 +154,10 @@ const getMvDetail = async () => {
 
   mvDetail.value = getMvDetailData.data
   videoOptions.value.qualityList = getMvDetailData.data.brs
-  videoOptions.value.quality = getMvDetailData.mp
+  videoOptions.value.quality = {
+    ...getMvDetailData.mp,
+    name: mvDetail.value.name
+  }
   getMvUrl()
 }
 const getMvUrl = async (Resolution = 1080) => {
@@ -186,28 +184,16 @@ const getSimiMv = async () => {
   })
   simiMv.value = getSimiMvData.mvs
 }
-const onReady = (play: any) => {
-  play.pause()
-}
-
-const onPlay = (play: any) => {
-  play.currentTime(currentTime.value)
-}
-const onSeeking = (play: any) => {
-  currentTime.value = play.currentTime()
-}
-const onPause = (play: any) => {
-  currentTime.value = play.currentTime()
-  play.pause()
-}
-const onQualityChange = (play: any) => {
-  // 切换清晰度时候的后续操作
-  // 暂停MV播放
-  onPause(play)
-  // 记录当前播放时长
-  currentTime.value = play.currentTime()
-  // 重新设置视频url
-  getMvUrl(play.quality.val)
+const changeResolution = (data: any) => {
+  // console.log(data.functions, 'data')
+  getMvUrl(data.functions)
+  // // 切换清晰度时候的后续操作
+  // // 暂停MV播放
+  // this.onPause(play)
+  // // 记录当前播放时长
+  // this.currentTime = play.currentTime()
+  // // 重新设置视频url
+  // this.getMvUrl(play.quality.val)
 }
 const toggleLight = () => {
   isNight.value = !isNight.value
