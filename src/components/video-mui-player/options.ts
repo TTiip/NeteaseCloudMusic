@@ -11,7 +11,8 @@ const customSetting = [
       { functions: '高清', selected: true },
       { functions: '标清' }
     ],
-    onToggle: function (data, selected, back) {
+    onToggle: function (data: any, selected: any, back: any) {
+      console.log(data, selected, back)
       // Action
     }
   }
@@ -23,7 +24,8 @@ const contextmenu = [
     context: '复制视频链接',
     zIndex: 0,
     show: true,
-    click: function (close) {
+    click: function (close: any) {
+      console.log(close)
       // Action...
     }
   }
