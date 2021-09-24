@@ -9,20 +9,15 @@
   },
   "dependencies": {
     "axios": "^0.21.3",
-    "crypto-js": "^4.1.1",
     "element-plus": "^1.1.0-beta.11",
-    "hls.js": "^1.0.10",
-    "qrcode": "^1.4.4",
     "swiper": "6.8.4",
-    "throttle-debounce": "^3.0.1",
+    "video.js": "^7.15.4",
     "vue": "^3.2.13",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@types/crypto-js": "^4.0.2",
-    "@types/qrcode": "^1.4.1",
-    "@types/throttle-debounce": "^2.1.0",
+    "@types/video.js": "^7.3.27",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
