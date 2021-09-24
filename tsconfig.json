@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    // 允许使用倒入json文件。
+    "resolveJsonModule": true,
     // 可以使用any
     "suppressImplicitAnyIndexErrors": true,
     // 允许不是数组类型或字符串类型使用迭代器进行迭代。
