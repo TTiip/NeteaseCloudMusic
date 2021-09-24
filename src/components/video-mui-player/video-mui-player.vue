@@ -100,7 +100,7 @@ const _init = () => {
     // 初始化播放器宽度
     width: 'auto',
     // 初始化播放器高度
-    height: '680px',
+    height: 'auto',
     // 播放器容器是否自适应视频高度
     autoFit: true,
     // 视频title
@@ -123,7 +123,7 @@ const _init = () => {
     // 将记录的时间重新赋值。
     myPlayerInstance.value.video().currentTime = currentTime.value
     // 切换清晰度以后自动播放
-    myPlayerInstance.value.video() && myPlayerInstance.value.video().play()
+    currentTime.value && myPlayerInstance.value.video() && myPlayerInstance.value.video().play()
   })
 
   // 当视频时长已更改时触发，只有当时长大于1时发生，单位为秒（s）
@@ -161,4 +161,14 @@ onMounted(() => {
 
 <style scoped lang="less">
 @import './index.less';
+</style>
+
+<style lang="less">
+#mplayer-media-wrapper {
+  .video-wrapper {
+    video {
+      max-height: 675px;
+    }
+  }
+}
 </style>
