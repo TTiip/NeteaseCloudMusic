@@ -120,8 +120,7 @@ import { useRoute } from 'vue-router'
 import utils from '@/utils'
 import store from '@/store'
 import axios from '@/axios'
-// import VideoPlay from '@/components/video/video.vue'
-import VideoPlay from '@/components/video-mui-player/video-mui-player.vue'
+import VideoPlay from '@/components/video/video.vue'
 import Comments from '@/components/comments/comments.vue'
 
 const route = useRoute()
