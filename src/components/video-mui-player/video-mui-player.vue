@@ -21,7 +21,7 @@ const emits = defineEmits(['changeResolution'])
 
 /* data */
 // video实例
-let myPlayerInstance: any = ref(null)
+const myPlayerInstance: any = ref(null)
 const currentTime = ref(null)
 // 配置选项
 const customSetting = [
@@ -39,6 +39,8 @@ const customSetting = [
     ],
     onToggle: (data: any, selected: any, back: any) => {
       emits('changeResolution', data)
+      // 切换清晰度的时候记录当前播放时间
+      currentTime.value = myPlayerInstance.value.video().currentTime
       // 选中当前点击的
       selected()
       // 返回上一级设置项，接受一个数字在xxx毫秒以后返回
@@ -81,82 +83,78 @@ customSetting.map(item => {
 watch(() => src.value, (newVal) => {
   // 重新加载url
   myPlayerInstance.value.reloadUrl(newVal)
-  currentTime.value = myPlayerInstance.value.video().currentTime
-  console.log(currentTime.value, 'currentTime.value')
 })
 
 /* methods */
 const _init = () => {
-  return new Promise(resolve => {
-    // 更多配置 https://muiplayer.gitee.io/zh/
-    myPlayerInstance = new MuiPlayer({
-      plugins: [
-        new MuiPlayerDesktopPlugin({
-          customSetting, // 设置组配置
-          contextmenu // 右键菜单组配置
-        })
-      ],
-      // 指定播放器容器
-      container: '#mui-player',
-      // 初始化播放器宽度
-      width: 'auto',
-      // 初始化播放器高度
-      height: '680px',
-      // 播放器容器是否自适应视频高度
-      autoFit: true,
-      // 视频title
-      title: props.options.quality.name,
-      // 视频播放的资源地址
-      src: src.value,
-      // 初始化是否网页全屏播放
-      initFullFixed: false,
-      // 是否循环播放
-      autoplay: false,
-      // 设置进度条拖动点的形状，可选 circula | square
-      dragSpotShape: 'circula',
-      // 视频大小与 video 容器的表现形式。可选 contain | cover
-      objectFit: 'contain',
-      // 主题颜色
-      themeColor: '#ff641e'
-    })
-    resolve(myPlayerInstance)
+  // 更多配置 https://muiplayer.gitee.io/zh/
+  myPlayerInstance.value = new MuiPlayer({
+    plugins: [
+      new MuiPlayerDesktopPlugin({
+        customSetting, // 设置组配置
+        contextmenu // 右键菜单组配置
+      })
+    ],
+    // 指定播放器容器
+    container: '#mui-player',
+    // 初始化播放器宽度
+    width: 'auto',
+    // 初始化播放器高度
+    height: '680px',
+    // 播放器容器是否自适应视频高度
+    autoFit: true,
+    // 视频title
+    title: props.options.quality.name,
+    // 视频播放的资源地址
+    src: src.value,
+    // 初始化是否网页全屏播放
+    initFullFixed: false,
+    // 是否循环播放
+    autoplay: false,
+    // 设置进度条拖动点的形状，可选 circula | square
+    dragSpotShape: 'circula',
+    // 视频大小与 video 容器的表现形式。可选 contain | cover
+    objectFit: 'contain',
+    // 主题颜色
+    themeColor: '#ff641e'
+  })
+  // 监听播放器已创建完成
+  myPlayerInstance.value.on('ready', () => {
+    // 将记录的时间重新赋值。
+    myPlayerInstance.value.video().currentTime = currentTime.value
+    // 切换清晰度以后自动播放
+    myPlayerInstance.value.video() && myPlayerInstance.value.video().play()
+  })
+
+  // 当视频时长已更改时触发，只有当时长大于1时发生，单位为秒（s）
+  myPlayerInstance.value.on('duration-change', ({ duration }: any) => {
+    console.log(`总时长是：${duration} 秒`)
+  })
+
+  // 返回按钮点击时触发， Tag：仅在非全屏模式下触发
+  myPlayerInstance.value.on('back', (event: any) => {
+    console.log(event, 'back')
+  })
+
+  // 播放发生错误
+  myPlayerInstance.value.on('error', (event: any) => {
+    console.log('播放出错啦~ 错误信息：', event)
+  })
+
+  // 当用户在视频寻址时触发 (进度条修改时触发)
+  myPlayerInstance.value.on('seek-progress', ({ percentage }: any) => {
+    console.log(`当前播放百分比为：${percentage} %`)
+  })
+
+  // 视频销毁事件
+  myPlayerInstance.value.on('destory', (event: any) => {
+    console.log(event, 'destory')
   })
 }
 
 /* mounted */
 onMounted(() => {
-  _init().then(instance => {
-    myPlayerInstance.value = instance
-    // 监听播放器已创建完成
-    myPlayerInstance.value.on('ready', () => {
-      console.log('video ready')
-    })
-
-    // 当视频时长已更改时触发，只有当时长大于1时发生，单位为秒（s）
-    myPlayerInstance.value.on('duration-change', (event: any) => {
-      console.log(event, 'duration-change')
-    })
-
-    // 返回按钮点击时触发， Tag：仅在非全屏模式下触发
-    myPlayerInstance.value.on('back', (event: any) => {
-      console.log(event, 'back')
-    })
-
-    // 播放发生错误
-    myPlayerInstance.value.on('error', (event: any) => {
-      console.log(event, 'error')
-    })
-
-    // 当用户在视频寻址时触发 (进度条修改时触发)
-    myPlayerInstance.value.on('seek-progress', (event: any) => {
-      console.log(event, 'seek-progress')
-    })
-
-    // 视频销毁事件
-    myPlayerInstance.value.on('destory', (event: any) => {
-      console.log(event, 'destory')
-    })
-  })
+  _init()
 })
 
 </script>
