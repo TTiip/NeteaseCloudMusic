@@ -96,7 +96,17 @@ const apiList = {
   // 调用此接口 , 传入 mv id,可获取 mv 播放地址
   getMvUrl: '/mv/url',
   // 调用此接口 , 传入 mvid 可获取相似 mv
-  getSimiMv: '/simi/mv'
+  getSimiMv: '/simi/mv',
+  // 调用此接口 , 传入歌手 id, 可获得歌手描述
+  getArtistDesc: '/artist/desc',
+  // 调用此接口 , 传入歌手 id, 可获得歌手部分信息和热门歌曲
+  getArtists: '/artists',
+  // 说明 : 调用此接口,可收藏歌手
+  getArtistsSub: '/artist/sub',
+  // 调用此接口 , 传入歌手 id, 可获得歌手专辑内容
+  getArtistsAlbum: '/artist/album',
+  // 调用此接口 , 传入歌手 id, 可获得歌手 mv 信息 , 具体 mv 播放地址可调 用/mv传入此接口获得的 mvid 来拿到
+  getArtistsMv: '/artist/mv'
 }
 
 export interface apiKeyDataType {
@@ -156,6 +166,11 @@ export interface apiKeyDataType {
   getMvDetail: Promise<any>,
   getMvUrl: Promise<any>,
   getSimiMv: Promise<any>,
+  getArtistDesc: Promise<any>,
+  getArtists: Promise<any>,
+  getArtistsSub: Promise<any>,
+  getArtistsAlbum: Promise<any>,
+  getArtistsMv: Promise<any>,
 }
 
 export type apiKeyType = keyof typeof apiList
