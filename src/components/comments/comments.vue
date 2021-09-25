@@ -3,7 +3,7 @@
     <div class="comment_hd">
       <h2>评论<em>共{{ total }}条评论</em></h2>
       <div
-        v-if="userInfo"
+        v-if="userInfo.nickname"
         class="userInfo"
       >
         <span>{{ userInfo.nickname }}</span>

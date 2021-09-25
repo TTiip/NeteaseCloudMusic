@@ -2,9 +2,6 @@
   <div class="reply-comment">
     <h3>我回复 @{{ params.user.nickname }}:</h3>
     <div class="comment_textarea">
-      <!-- <div class="pre">
-        {{ msg }}
-      </div> -->
       <textarea
         id="leave_msg"
         v-model="msg"
