@@ -1,0 +1,53 @@
+
+.addList {
+  // position: fixed;
+  // width: 300px;
+  // background: #FFF;
+  // border: 1px solid #EBEEF5;
+  // padding: 12px;
+  // color: #606266;
+  // text-align: justify;
+  // font-size: 14px;
+  // box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  // word-break: break-all;
+}
+.addListNew {
+  border-radius: 4px;
+  line-height: 40px;
+  background: #f2f2f2;
+  cursor: pointer;
+
+  .icon-add-new {
+    padding: 0 20px 0 10px;
+  }
+}
+.list-item {
+  display: flex;
+  padding: 10px 0;
+  line-height: 40px;
+  font-size: 0;
+  border-bottom: 1px solid #f2f2f2;
+  cursor: pointer;
+
+  .cover-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    vertical-align: top;
+  }
+
+  .list-name {
+    flex: 1;
+    width: 250px;
+    padding-left: 10px;
+    line-height: 40px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
+
+  &:last-child {
+    border: none;
+  }
+}
