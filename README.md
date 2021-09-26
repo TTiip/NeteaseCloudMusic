@@ -124,14 +124,14 @@ watch(() => comVal.value, () => {}) 或者 watch(comVal, () => {})
 ## watch 大总结
 ```
 ######使用getter形式######：
-1. 路由参数监听(() => route.query.xxx)
-2. props监听(() => props.xxx)
-3. ref监听(() => options.value)
-4. reactive监听(() => nameOptions.xxx)
-5. computed监听(() => options.value)
+1. 路由参数监听(() => route.query.变量名)
+2. props监听(() => props.变量名)
+3. ref监听(() => 变量名.value)
+4. reactive监听(() => 变量名.reactive中的属性)
+5. computed监听(() => 变量名.value)
 
 ######使用响应式对象######：
-1. props监听(porps 或者 props.options)
+1. props监听(porps 或者 props.变量名)
 2. ref监听(变量名称)
 3. computed监听(变量名称)
 
