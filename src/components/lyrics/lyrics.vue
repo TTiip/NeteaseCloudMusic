@@ -138,9 +138,7 @@ const formartLyric = (lrc: { version: number, lyric: string }) => {
   })
 
   // 根据时间轴重排顺序(避免排序错乱)
-  lyricObj.value.sort((a: any, b: any) => {
-    return a.time - b.ttime
-  })
+  lyricObj.value.sort((a: any, b: any) => a.time - b.time)
 }
 // 通过转化以后的时间比较 查找出当前高亮的歌词index
 const findCurIndex = (time: any) => {

@@ -160,7 +160,7 @@
         </div>
         <div class="song-lyric">
           <Lyrics
-            :s-id="sId"
+            :lyrics-id="sId"
             local="page"
           />
         </div>
