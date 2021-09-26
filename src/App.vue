@@ -3,21 +3,27 @@
     v-if="isRouterAlive"
     id="container"
   >
-    <Header />
-    <div class="layout">
-      <router-view />
-      <div
-        ref="showBackTop"
-        class="back-top"
-        @click="backTop"
-      >
-        <img
-          src="./assets/goTop.png"
-          alt=""
-        >
-      </div>
-    </div>
-    <PlayBar />
+    <el-container>
+      <el-header height="80px">
+        <Header />
+      </el-header>
+      <el-main>
+        <div class="layout">
+          <router-view />
+          <div
+            ref="showBackTop"
+            class="back-top"
+            @click="backTop"
+          >
+            <img
+              src="./assets/goTop.png"
+              alt=""
+            >
+          </div>
+        </div>
+      </el-main>
+      <PlayBar />
+    </el-container>
   </div>
   <teleport to="#loading">
     <Loading v-if="isLoading" />

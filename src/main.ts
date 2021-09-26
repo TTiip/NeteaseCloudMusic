@@ -32,7 +32,10 @@ import {
   ElSwitch,
   // 插件
   ElInfiniteScroll,
-  ElLoading
+  ElLoading,
+  ElHeader,
+  ElMain,
+  ElContainer
 } from 'element-plus'
 
 // 创建实例
@@ -58,7 +61,10 @@ useDirective(app)
   ElCarouselItem,
   ElCarousel,
   ElPagination,
-  ElSwitch
+  ElSwitch,
+  ElHeader,
+  ElMain,
+  ElContainer
 ].map(item => app.component(item.name, item))
 
 ;[
