@@ -6,7 +6,7 @@
       class="item"
     >
       <router-link
-        :to="{ path: item.type ? '/video' : '/mv', query: { id: item.vid }}"
+        :to="{ path: item.type ? '/videodetail' : '/mvdetail', query: { id: item.vid }}"
         class="faceImg"
       >
         <i class="iconfont icon-play" />
@@ -17,14 +17,14 @@
             </div>
           </template>
         </el-image>
-        <span class="playCount"><i class="iconfont icon-video" /><em>{{ $utils.formartNum(item.playTime) }}</em></span>
+        <span class="playCount"><i class="iconfont icon-video" /><em>{{ utils.formartNum(item.playTime) }}</em></span>
         <div class="v-time">
           {{ utils.formatSongTime(item.durationms) }}
         </div>
       </router-link>
       <div class="info">
         <router-link
-          :to="{ path: '/video', query: { id: item.vid }}"
+          :to="{ path: '/videodetail', query: { id: item.vid }}"
           class="v-name"
         >
           {{ item.title }}

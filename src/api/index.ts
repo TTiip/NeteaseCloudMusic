@@ -112,7 +112,15 @@ const apiList = {
   // 调用此接口 , 可以添加歌曲到歌单或者从歌单删除某首歌曲 ( 需要登录 )
   getPlaylistTracks: '/playlist/tracks',
   // 调用此接口 , 传入歌曲 id, 可获得相似歌曲
-  getSimiSong: '/simi/song'
+  getSimiSong: '/simi/song',
+  // 调用此接口 , 传入搜索关键词可以搜索该音乐 / 专辑 / 歌手 / 歌单 / 用户 , 关键词可以多个 , 以空格隔开 , 如 " 周杰伦 搁浅 "( 不需要登录 ), 搜索获取的 mp3url 不能直接用 , 可通过 /song/url 接口传入歌曲 id 获取具体的播放链接
+  getCloudsearch: '/cloudsearch',
+  // 调用此接口 , 可获取视频详情
+  getVideoDetail: '/video/detail',
+  // 调用此接口 , 传入视频 id,可获取视频播放地址
+  getVideoUrl: '/video/url',
+  // 调用此接口 , 可获取相关视频
+  getRelatedAllvideo: '/related/allvideo'
 }
 
 export interface apiKeyDataType {
@@ -180,6 +188,10 @@ export interface apiKeyDataType {
   getUserPlaylist: Promise<any>,
   getPlaylistTracks: Promise<any>,
   getSimiSong: Promise<any>,
+  getCloudsearch: Promise<any>,
+  getVideoDetail: Promise<any>,
+  getVideoUrl: Promise<any>,
+  getRelatedAllvideo: Promise<any>,
 }
 
 export type apiKeyType = keyof typeof apiList
