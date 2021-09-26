@@ -302,10 +302,10 @@ const currentChange = (page: any) => {
 }
 
 /* watch */
-watch(route, () => {
-  keyVal.value = route.query.key
-  type.value = route.query.type || '1'
-  getSerachMatch()
+watch([() => route.query.key, () => route.query.type], ([newKey, newType]) => {
+  keyVal.value = newKey ?? ''
+  type.value = newType ?? '1'
+  keyVal.value && type.value && getSerachMatch()
 }, { immediate: true })
 </script>
 
