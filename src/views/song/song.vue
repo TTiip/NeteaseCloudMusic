@@ -312,7 +312,8 @@ const showAddList = () => {
 }
 
 /* watch */
-watch(() => route.query.id, () => {
+watch(route, () => {
+  console.log(111122222)
   sId.value = String(route.query.id)
   init()
 })

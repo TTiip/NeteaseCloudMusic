@@ -216,7 +216,7 @@ const getSerachMatch = async () => {
   })
 
   if (type.value === '1') {
-    list.value = getCloudsearchData.result.songs.map((item: any) => {
+    list.value = getCloudsearchData?.result?.songs.map((item: any) => {
       return {
         id: String(item.id),
         name: item.name,
@@ -231,22 +231,22 @@ const getSerachMatch = async () => {
         publishTime: utils.formatMsgTime(item.publishTime)
       }
     })
-    total.value = getCloudsearchData.result.songCount
+    total.value = getCloudsearchData?.result?.songCount
   } else if (type.value === '10') {
-    list.value = getCloudsearchData.result.albums
-    total.value = getCloudsearchData.result.albumCount
+    list.value = getCloudsearchData?.result?.albums
+    total.value = getCloudsearchData?.result?.albumCount
   } else if (type.value === '100') {
-    list.value = getCloudsearchData.result.artists
-    total.value = getCloudsearchData.result.artistCount
+    list.value = getCloudsearchData?.result?.artists
+    total.value = getCloudsearchData?.result?.artistCount
   } else if (type.value === '1000') {
-    list.value = getCloudsearchData.result.playlists
-    total.value = getCloudsearchData.result.playlistCount
+    list.value = getCloudsearchData?.result?.playlists
+    total.value = getCloudsearchData?.result?.playlistCount
   } else if (type.value === '1004') {
-    list.value = getCloudsearchData.result.mvs
-    total.value = getCloudsearchData.result.mvCount
+    list.value = getCloudsearchData?.result?.mvs
+    total.value = getCloudsearchData?.result?.mvCount
   } else if (type.value === '1014') {
-    list.value = getCloudsearchData.result.videos
-    total.value = getCloudsearchData.result.videoCount
+    list.value = getCloudsearchData?.result?.videos
+    total.value = getCloudsearchData?.result?.videoCount
   }
 }
 const jumpSearch = (k: any) => {

@@ -193,8 +193,8 @@ const toggleLight = () => {
 }
 
 /* watch */
-watch(() => route.query.id, (newVal) => {
-  mvId.value = String(newVal)
+watch(route, () => {
+  mvId.value = String(route.query.id)
   getMvDetail()
 })
 
