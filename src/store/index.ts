@@ -68,7 +68,7 @@ export default createStore({
       state.playList = val
       setLocalStorage('playList', JSON.stringify(val))
     },
-    setPlayindex (state, val = 0) {
+    setPlayIndex (state, val = 0) {
       state.playIndex = val
       setLocalStorage('playIndex', val)
     }
