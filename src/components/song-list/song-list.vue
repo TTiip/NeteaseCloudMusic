@@ -30,14 +30,17 @@
         :style="curSongSty"
       >
         <div
-          v-for="(item, index) in list"
+          v-for="(item, index) in showSongList"
           :key="index"
           :class="isCurSong(item, index)"
           @click.stop="tips($event, item)"
         >
           <div class="columnIndex">
             <span class="songlist-index">{{ indexMethod(index) }}</span>
-            <div class="audio-icon">
+            <div
+              v-if="item.showCurrSong && isPlayed"
+              class="audio-icon"
+            >
               <div
                 class="column"
                 style="animation-delay: -1.2s;"
@@ -297,7 +300,7 @@ const scrollCurSong = (cur: any) => {
       curScroll.value = 0
     }
     // 控制每次滑动50px
-    curSongRef.value.addEventListener('wheel', (event: any) => {
+    curSongRef.value && curSongRef.value.addEventListener('wheel', (event: any) => {
       if (event.wheelDelta > 0 || event.detail < 0) {
         curScroll.value = Math.abs(curScroll.value) > 0 ? curScroll.value + 50 : 0
       } else {
@@ -340,6 +343,15 @@ const isCurSong = computed(() => {
     ]
   }
 })
+
+const showSongList = computed(() => {
+  const a = list.value.map((item: any) => {
+    item.showCurrSong = String(item.id) === curSongInfo.value.id
+    return item
+  })
+  return a
+})
+
 const isShowPagination = computed(() => {
   return (props.songList.length > pageSize.value) && !props.isScroll
 })
