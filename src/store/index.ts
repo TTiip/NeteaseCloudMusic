@@ -8,7 +8,7 @@ export const setPlayStatus = 'setPlayStatus'
 // 当前正在播放列表
 export const setPlaylist = 'setPlaylist'
 // 当前播放索引
-export const setPlayindex = 'setPlayindex'
+export const setPlayIndex = 'setPlayIndex'
 
 // 合并歌曲到播放列表查重
 const concatPlayList = (list: any, playList = []) => {
@@ -78,7 +78,7 @@ export default createStore({
     playAll ({ commit }, { list }) {
       commit(setPlaylist, concatPlayList(list))
       commit(setPlayStatus, true)
-      commit(setPlayindex, 0)
+      commit(setPlayIndex, 0)
     },
     // 播放当前选中的歌曲
     selectPlay ({ commit, state }, { list }) {
@@ -87,7 +87,7 @@ export default createStore({
 
       commit(setPlaylist, playList)
       commit(setPlayStatus, true)
-      commit(setPlayindex, findIndex(list[0], playList))
+      commit(setPlayIndex, findIndex(list[0], playList))
     },
     // 添加歌曲到当前播放列表
     addList ({ commit, state }, { list }) {
